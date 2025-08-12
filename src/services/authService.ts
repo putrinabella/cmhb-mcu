@@ -14,4 +14,5 @@ export const register = (data: {
   name: string;
   email: string;
   password: string;
+  password_confirmation: string;
 }) => apiRequest("post", "/register", data);

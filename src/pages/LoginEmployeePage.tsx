@@ -1,102 +1,42 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
 import AuthLayout from "@/layout/AuthLayout";
 import { FormWrapper } from "@/components/FormWrapper";
-import { FormInput } from "@/components/FormInput";
-import { LockIcon, Eye, EyeOff, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { login } from "@/services/authService";
-import { showSwal } from "@/components/SwalHelper";
+import { Link } from "react-router-dom";
+import { PhoneField } from "@/components/form/PhoneField";
+import { PasswordField } from "@/components/form/PasswordField";
+import { useLoginEmployee } from "@/hooks/use-login-employee";
+
 interface LoginFormValues {
   phone: string;
   password: string;
 }
 
-export default function LoginEmployeePage() {
-  const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
+export default function LoginPage() {
+  const { loginEmployee } = useLoginEmployee();
 
-  // Initialize react-hook-form here
-  const { control, handleSubmit } = useForm<LoginFormValues>({
-    defaultValues: {
-      phone: "",
-      password: "",
-    },
-  });
-
-  // Handle form submit
-  const handleLoginSubmit = async (data: LoginFormValues) => {
-    try {
-      const result = await login(data.phone, data.password);
-      console.log("Login API result:", result);
-
-      // Simpan ke localStorage dengan key 'user' dalam bentuk object
-      if (result.access_token) {
-        localStorage.setItem("user", JSON.stringify(result));
-      }
-
-      showSwal({
-        title: "Login Berhasil",
-        text: "Selamat datang kembali!",
-        icon: "success",
-        timer: 1500,
-        showConfirmButton: false,
-        onClose: () => navigate("/"),
-      });
-    } catch (error: any) {
-      let message =
-        error?.meta?.message || error?.message || "Terjadi kesalahan";
-      message = message.replace(/^Login Gagal\s*/, "");
-      showSwal({
-        title: "Login Gagal",
-        text: message,
-        icon: "error",
-      });
-    }
-  };
+  const handleLoginSubmit: SubmitHandler<LoginFormValues> = (data) =>
+    loginEmployee(data.phone, data.password);
 
   return (
     <AuthLayout
       title="Login"
       subtitle="Masukkan nomor telpon dan kata sandi untuk masuk."
     >
-      <FormWrapper<LoginFormValues> onSubmit={handleSubmit(handleLoginSubmit)}>
-        {() => (
+      <FormWrapper<LoginFormValues>
+        defaultValues={{
+          phone: "",
+          password: "",
+        }}
+        onSubmit={handleLoginSubmit}
+      >
+        {({ control }) => (
           <div className="space-y-4">
-            <FormInput
-              control={control}
-              name="phone"
-              label="Nomor telpon"
-              placeholder="Masukkan nomor telpon"
-              type="tel"
-              rules={{ required: "Nomor telpon wajib diisi" }}
-              leftIcon={<Phone className="w-5 h-5" />}
-            />
-
-            <FormInput
-              control={control}
-              name="password"
-              label="Password"
-              placeholder="Masukkan password"
-              type={showPassword ? "text" : "password"}
-              rules={{ required: "Password wajib diisi" }}
-              showToggle
-              showValue={showPassword}
-              onToggle={() => setShowPassword((prev) => !prev)}
-              icon={
-                showPassword ? (
-                  <EyeOff className="w-5 h-5" />
-                ) : (
-                  <Eye className="w-5 h-5" />
-                )
-              }
-              leftIcon={<LockIcon className="w-5 h-5" />}
-            />
-
+            <PhoneField control={control} />
+            <PasswordField control={control} />
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 transition-colors text-white py-2 px-4 rounded"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
             >
               Masuk
             </Button>
