@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import GuestRoute from "./GuestRoute";
 
-import MainLayout from "../layout/MainLayout";
+import ResponsiveLayout from "@/layout/ResponsiveLayout";
 
 import WelcomePage from "@/pages/WelcomePage";
 import LoginPage from "@/pages/LoginPage";
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/dashboard",
-        element: <MainLayout />,
+        element: <ResponsiveLayout />,
         children: [{ path: "", element: <DashboardPage /> }],
       },
     ],

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { type SubmitHandler } from "react-hook-form";
 import AuthLayout from "@/layout/AuthLayout";
 import { useAuth } from "@/routes/AuthContext";
 import { FormWrapper } from "@/components/FormWrapper";
@@ -19,21 +19,10 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const { setToken } = useAuth();
 
-  // Initialize react-hook-form here
-  const { control, handleSubmit } = useForm<LoginFormValues>({
-    defaultValues: {
-      email: "putrinabellaaa@gmail.com",
-      password: "Putri@12",
-    },
-  });
-
-  // Handle form submit
-  const handleLoginSubmit = async (data: LoginFormValues) => {
+  const handleLoginSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     try {
       const result = await login(data.email, data.password);
-      console.log("Login API result:", result);
 
-      // Simpan ke localStorage dengan key 'user' dalam bentuk object
       if (result.access_token) {
         localStorage.setItem("user", JSON.stringify(result));
         setToken(result.access_token);
@@ -43,7 +32,7 @@ export default function LoginPage() {
         title: "Login Berhasil",
         text: "Selamat datang kembali!",
         icon: "success",
-        timer: 1500,
+        timer: 1000,
         showConfirmButton: false,
         onClose: () => navigate("/"),
       });
@@ -64,8 +53,14 @@ export default function LoginPage() {
       title="Login"
       subtitle="Masukkan email dan kata sandi untuk masuk."
     >
-      <FormWrapper<LoginFormValues> onSubmit={handleSubmit(handleLoginSubmit)}>
-        {() => (
+      <FormWrapper<LoginFormValues>
+        defaultValues={{
+          email: "putrinabellaaa@gmail.com",
+          password: "Putri@12",
+        }}
+        onSubmit={handleLoginSubmit}
+      >
+        {({ control }) => (
           <div className="space-y-4">
             <FormInput
               control={control}
@@ -99,7 +94,7 @@ export default function LoginPage() {
 
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 transition-colors text-white py-2 px-4 rounded"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
             >
               Masuk
             </Button>
@@ -109,10 +104,7 @@ export default function LoginPage() {
 
       <p className="text-sm text-center mt-4 text-gray-600">
         Belum punya akun?{" "}
-        <Link
-          to="/register"
-          className="text-blue-600 hover:underline hover:text-blue-700 transition-colors"
-        >
+        <Link to="/register" className="text-blue-600 hover:underline">
           Daftar di sini
         </Link>
       </p>

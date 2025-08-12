@@ -4,12 +4,12 @@ import { useForm } from "react-hook-form";
 import AuthLayout from "@/layout/AuthLayout";
 import { FormWrapper } from "@/components/FormWrapper";
 import { FormInput } from "@/components/FormInput";
-import { MailIcon, LockIcon, Eye, EyeOff } from "lucide-react";
+import { LockIcon, Eye, EyeOff, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { login } from "@/services/authService";
 import { showSwal } from "@/components/SwalHelper";
 interface LoginFormValues {
-  email: string;
+  phone: string;
   password: string;
 }
 
@@ -20,15 +20,15 @@ export default function LoginEmployeePage() {
   // Initialize react-hook-form here
   const { control, handleSubmit } = useForm<LoginFormValues>({
     defaultValues: {
-      email: "putrinabellaaa@gmail.com",
-      password: "Putri@12",
+      phone: "",
+      password: "",
     },
   });
 
   // Handle form submit
   const handleLoginSubmit = async (data: LoginFormValues) => {
     try {
-      const result = await login(data.email, data.password);
+      const result = await login(data.phone, data.password);
       console.log("Login API result:", result);
 
       // Simpan ke localStorage dengan key 'user' dalam bentuk object
@@ -59,19 +59,19 @@ export default function LoginEmployeePage() {
   return (
     <AuthLayout
       title="Login"
-      subtitle="Masukkan email dan kata sandi untuk masuk."
+      subtitle="Masukkan nomor telpon dan kata sandi untuk masuk."
     >
       <FormWrapper<LoginFormValues> onSubmit={handleSubmit(handleLoginSubmit)}>
         {() => (
           <div className="space-y-4">
             <FormInput
               control={control}
-              name="email"
-              label="Email"
-              placeholder="Masukkan email"
-              type="email"
-              rules={{ required: "Email wajib diisi" }}
-              leftIcon={<MailIcon className="w-5 h-5" />}
+              name="phone"
+              label="Nomor telpon"
+              placeholder="Masukkan nomor telpon"
+              type="tel"
+              rules={{ required: "Nomor telpon wajib diisi" }}
+              leftIcon={<Phone className="w-5 h-5" />}
             />
 
             <FormInput
@@ -103,16 +103,6 @@ export default function LoginEmployeePage() {
           </div>
         )}
       </FormWrapper>
-
-      <p className="text-sm text-center mt-4 text-gray-600">
-        Belum punya akun?{" "}
-        <Link
-          to="/register"
-          className="text-blue-600 hover:underline hover:text-blue-700 transition-colors"
-        >
-          Daftar di sini
-        </Link>
-      </p>
     </AuthLayout>
   );
 }
