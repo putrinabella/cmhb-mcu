@@ -1,7 +1,7 @@
 import DashboardLayout from "@/layout/DashboardLayout";
 import PhoneLayout from "@/layout/PhoneLayout";
 
-export default function Dashboard() {
+export default function DashboardPage() {
   return (
     <>
       <div className="hidden lg:block">

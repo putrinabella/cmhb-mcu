@@ -1,13 +1,13 @@
 import { Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
+import LoginPage from "./pages/LoginPage";
+import Dashboard from "./pages/DashboardPage";
 import Register from "./pages/old/Register";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<LoginPage />} />
       <Route path="/register" element={<Register />} />
       <Route
         path="/dashboard"

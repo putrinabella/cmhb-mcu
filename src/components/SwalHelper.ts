@@ -33,6 +33,7 @@ export interface SwalOptions {
   draggable?: boolean;
   reverseButtons?: boolean;
   redirectUrl?: string;
+  onClose?: () => void;
 }
 
 export function showSwal(options: SwalOptions) {
@@ -55,6 +56,9 @@ export function showSwal(options: SwalOptions) {
     didClose: () => {
       if (options.redirectUrl) {
         window.location.href = options.redirectUrl;
+      }
+      if (options.onClose) {
+        options.onClose();
       }
     },
   });

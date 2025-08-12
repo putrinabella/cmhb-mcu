@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useForm } from "react-hook-form"; // import useForm
+import { useForm } from "react-hook-form";
 import AuthLayout from "@/layout/AuthLayout";
 import { FormWrapper } from "@/components/FormWrapper";
 import { FormInput } from "@/components/FormInput";
@@ -13,15 +13,15 @@ interface LoginFormValues {
   password: string;
 }
 
-export default function Login() {
+export default function LoginEmployeePage() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   // Initialize react-hook-form here
   const { control, handleSubmit } = useForm<LoginFormValues>({
     defaultValues: {
-      email: "",
-      password: "",
+      email: "putrinabellaaa@gmail.com",
+      password: "Putri@12",
     },
   });
 
@@ -29,10 +29,11 @@ export default function Login() {
   const handleLoginSubmit = async (data: LoginFormValues) => {
     try {
       const result = await login(data.email, data.password);
+      console.log("Login API result:", result);
 
-      // Simpan token kalau pakai API token
+      // Simpan ke localStorage dengan key 'user' dalam bentuk object
       if (result.access_token) {
-        localStorage.setItem("token", result.access_token);
+        localStorage.setItem("user", JSON.stringify(result));
       }
 
       showSwal({
@@ -41,12 +42,11 @@ export default function Login() {
         icon: "success",
         timer: 1500,
         showConfirmButton: false,
+        onClose: () => navigate("/"),
       });
-      router.visit("/dashboard");
     } catch (error: any) {
       let message =
         error?.meta?.message || error?.message || "Terjadi kesalahan";
-
       message = message.replace(/^Login Gagal\s*/, "");
       showSwal({
         title: "Login Gagal",

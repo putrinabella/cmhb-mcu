@@ -13,7 +13,7 @@ type RegisterFormValues = {
   password_confirmation: string;
 };
 
-export default function Register() {
+export default function RegisterPage() {
   const inertiaForm = useInertiaForm<RegisterFormValues>({
     name: "",
     email: "",

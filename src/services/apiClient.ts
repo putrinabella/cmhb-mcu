@@ -7,26 +7,27 @@ const api = axios.create({
   },
 });
 
-// Interceptor untuk menyisipkan token jika ada
+// Interceptor untuk menyisipkan token dari localStorage.user
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`;
+    const storedUser = localStorage.getItem("user");
+    if (storedUser && config.headers) {
+      const parsedUser = JSON.parse(storedUser);
+      if (parsedUser?.access_token) {
+        config.headers.Authorization = `Bearer ${parsedUser.access_token}`;
+      }
     }
     return config;
   },
   (error) => Promise.reject(error)
 );
 
-// Optional: interceptor response buat global error handling atau refresh token
+// Optional: interceptor response buat global error handling
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Contoh: handle 401 unauthorized, bisa trigger logout atau refresh token
     if (error.response?.status === 401) {
-      // misal: localStorage.removeItem("token");
-      // redirect ke login page, dll
+      // bisa tambahkan logout otomatis di sini
     }
     return Promise.reject(error);
   }
