@@ -1,11 +1,17 @@
 import { apiRequest } from "./apiClient.js";
 
 export const login = async (email: string, password: string) => {
-  const res = await apiRequest<{ token: string; user: any }>("post", "/login", {
+  const res = await apiRequest("post", "/login", {
     email,
     password,
   });
-  return { access_token: res.token, user: res.user };
+  return {
+    token: res.data.token,
+    user: {
+      id: res.data.id,
+      email: res.data.email,
+    },
+  };
 };
 
 export const logout = () => apiRequest("post", "/logout");

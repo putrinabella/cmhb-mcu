@@ -26,7 +26,6 @@ export interface SwalOptions {
   cancelButtonColor?: string;
   timer?: number;
   timerProgressBar?: boolean;
-  draggable?: boolean;
   reverseButtons?: boolean;
   redirectUrl?: string;
   onClose?: () => void;
@@ -47,7 +46,7 @@ export function showSwal(options: SwalOptions) {
     cancelButtonColor: options.cancelButtonColor,
     timer: options.timer,
     timerProgressBar: options.timerProgressBar ?? false,
-    draggable: options.draggable ?? false,
+
     reverseButtons: options.reverseButtons ?? false,
     didClose: () => {
       if (options.redirectUrl) {

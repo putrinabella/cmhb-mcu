@@ -9,7 +9,7 @@ export function useLoginEmployee() {
     try {
       const result = await login(phone, password);
 
-      if (result.access_token) {
+      if (result.token) {
         localStorage.setItem("user", JSON.stringify(result));
       }
 

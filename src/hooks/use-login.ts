@@ -1,19 +1,21 @@
 import { useNavigate } from "react-router-dom";
-import { login } from "@/services/authService";
+import { login as loginService } from "@/services/authService";
 import { useAuth } from "@/routes/AuthContext";
 import { showSwal } from "@/components/SwalHelper";
 
 export function useLogin() {
   const navigate = useNavigate();
-  const { setToken } = useAuth();
+  const { login, setToken } = useAuth();
 
   const loginUser = async (email: string, password: string) => {
     try {
-      const result = await login(email, password);
+      const result = await loginService(email, password);
 
-      if (result.access_token) {
-        localStorage.setItem("user", JSON.stringify(result));
-        setToken(result.access_token);
+      if (result.token) {
+        login(result.token, result.user); // simpan localStorage
+        setToken(result.token); // update state token
+      } else {
+        console.warn("Token tidak ditemukan");
       }
 
       showSwal({

@@ -9,12 +9,12 @@ import LoginPage from "@/pages/LoginPage";
 import LoginEmployeePage from "@/pages/LoginEmployeePage";
 import RegisterPage from "@/pages/RegisterPage";
 import DashboardPage from "@/pages/DashboardPage";
-// import NotFoundPage from "@/pages/error/NotFoundPage";
+import NotFoundPage from "@/pages/error/NotFoundPage";
 
 const router = createBrowserRouter([
   {
+    errorElement: <NotFoundPage />,
     element: <GuestRoute />,
-    // errorElement: <NotFoundPage />,
     children: [
       { path: "/", element: <WelcomePage /> },
       { path: "/login", element: <LoginPage /> },
@@ -24,7 +24,6 @@ const router = createBrowserRouter([
   },
   {
     element: <ProtectedRoute />,
-    // errorElement: <NotFoundPage />,
     children: [
       {
         path: "/dashboard",

@@ -13,8 +13,8 @@ api.interceptors.request.use(
     const storedUser = localStorage.getItem("user");
     if (storedUser && config.headers) {
       const parsedUser = JSON.parse(storedUser);
-      if (parsedUser?.access_token) {
-        config.headers.Authorization = `Bearer ${parsedUser.access_token}`;
+      if (parsedUser?.token) {
+        config.headers.Authorization = `Bearer ${parsedUser.token}`;
       }
     }
     return config;
