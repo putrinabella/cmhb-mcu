@@ -12,15 +12,15 @@ export default function PhoneLayout() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Halaman */}
-      <div className="flex-grow p-4 pb-20">
+    <div className="h-screen flex flex-col bg-gray-50">
+      {/* Konten scrollable */}
+      <div className="flex-1 overflow-y-auto p-4">
         <Outlet />
       </div>
 
-      {/* Dock Navigation */}
-      <div className="lg:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[90%]">
-        <div className="backdrop-blur-xl bg-white/80 border border-white/40 shadow-lg rounded-2xl px-4 py-2 flex justify-around items-center">
+      {/* Dock Navigation (tidak fixed, tapi tetap ada jarak dari bawah) */}
+      <div className="lg:hidden w-full pb-4">
+        <div className="mx-auto w-[90%] backdrop-blur-xl bg-white/80 border border-white/40 shadow-lg rounded-2xl px-4 py-2 flex justify-around items-center">
           {navItems.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.path);
@@ -47,9 +47,6 @@ export default function PhoneLayout() {
                 >
                   {item.label}
                 </span>
-
-                {/* Indicator */}
-                {active && <span></span>}
               </Link>
             );
           })}
