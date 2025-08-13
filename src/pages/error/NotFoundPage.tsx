@@ -1,10 +1,17 @@
-// NotFoundPage.tsx
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 export default function NotFoundPage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 px-4">
+    <div
+      className="
+        p-8 mx-auto
+        h-full overflow-y-auto
+        lg:h-auto
+        min-h-screen
+        flex flex-col justify-center items-center
+      "
+    >
       <motion.img
         src="/images/404.svg"
         alt="404 Not Found"
@@ -29,18 +36,18 @@ export default function NotFoundPage() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.3 }}
       >
-        Ups... Halaman yang kamu cari tidak tersedia. Mungkin sudah dipindahkan
-        atau dihapus.
+        Maaf, halaman yang Anda tuju tidak tersedia.
       </motion.p>
 
       <motion.div
+        className="flex justify-center"
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.4 }}
       >
         <Link
           to="/dashboard"
-          className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-300"
+          className="px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transform transition-all duration-300 "
         >
           Kembali ke Beranda
         </Link>
