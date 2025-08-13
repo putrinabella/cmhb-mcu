@@ -43,7 +43,7 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <ResponsiveLayout />,
-        children: [{ index: true, element: <DashboardPage /> }],
+        children: [{ index: true, element: <NotFoundPage /> }],
       },
     ],
   },

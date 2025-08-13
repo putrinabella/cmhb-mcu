@@ -49,9 +49,7 @@ export default function PhoneLayout() {
                 </span>
 
                 {/* Indicator */}
-                {active && (
-                  <span className="absolute -bottom-2 w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
-                )}
+                {active && <span></span>}
               </Link>
             );
           })}
