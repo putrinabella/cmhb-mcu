@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useTabData from "@/hooks/use-tab-data";
 
 interface TabItem {
@@ -61,47 +61,6 @@ function TabPanel({ isActive, id, labelledBy, children }: TabPanelProps) {
 export default function Tabs({ tabs }: TabsProps) {
   const [activeTab, setActiveTab] = useState<number>(0);
 
-  // Cache untuk data tiap tab
-  const [tabCache, setTabCache] = useState<
-    { data: any; loading: boolean; error: any }[]
-  >(() =>
-    tabs.map(() => ({
-      data: null,
-      loading: false,
-      error: null,
-    }))
-  );
-
-  // Fetch data hanya untuk tab aktif yang belum ada datanya
-  useEffect(() => {
-    const currentTab = tabs[activeTab];
-
-    if (!tabCache[activeTab].data && !tabCache[activeTab].loading) {
-      setTabCache((prev) =>
-        prev.map((item, index) =>
-          index === activeTab ? { ...item, loading: true } : item
-        )
-      );
-
-      fetch(currentTab.apiUrl)
-        .then((res) => res.json())
-        .then((data) =>
-          setTabCache((prev) =>
-            prev.map((item, index) =>
-              index === activeTab ? { data, loading: false, error: null } : item
-            )
-          )
-        )
-        .catch((error) =>
-          setTabCache((prev) =>
-            prev.map((item, index) =>
-              index === activeTab ? { data: null, loading: false, error } : item
-            )
-          )
-        );
-    }
-  }, [activeTab, tabs, tabCache]);
-
   return (
     <div>
       <div role="tablist" className="flex gap-2 mb-4">
@@ -119,7 +78,10 @@ export default function Tabs({ tabs }: TabsProps) {
       </div>
 
       {tabs.map((tab, index) => {
-        const { data, loading, error } = tabCache[index];
+        // Gunakan hook useTabData, aktifkan hanya untuk tab saat ini
+        const { data, loading, error } = useTabData(
+          activeTab === index ? tab.apiUrl : null
+        );
 
         return (
           <TabPanel
