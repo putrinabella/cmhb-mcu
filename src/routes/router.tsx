@@ -10,10 +10,10 @@ import LoginEmployeePage from "@/pages/LoginEmployeePage";
 import RegisterPage from "@/pages/RegisterPage";
 import DashboardPage from "@/pages/DashboardPage";
 import NotFoundPage from "@/pages/error/NotFoundPage";
+import EmployeeRegisterPage from "@/pages/EmployeeRegisterPage";
 
 const router = createBrowserRouter([
   {
-    errorElement: <NotFoundPage />,
     element: <GuestRoute />,
     children: [
       { path: "/", element: <WelcomePage /> },
@@ -28,10 +28,26 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <ResponsiveLayout />,
-        children: [{ path: "", element: <DashboardPage /> }],
+        children: [{ index: true, element: <DashboardPage /> }],
+      },
+      {
+        path: "/registrasi-karyawan",
+        element: <ResponsiveLayout />,
+        children: [{ index: true, element: <EmployeeRegisterPage /> }],
+      },
+      {
+        path: "/hasil-mcu",
+        element: <ResponsiveLayout />,
+        children: [{ index: true, element: <DashboardPage /> }],
+      },
+      {
+        path: "/profile",
+        element: <ResponsiveLayout />,
+        children: [{ index: true, element: <DashboardPage /> }],
       },
     ],
   },
+  { path: "*", element: <NotFoundPage /> },
 ]);
 
 export default router;

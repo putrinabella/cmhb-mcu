@@ -6,7 +6,7 @@ export default function DashboardLayout() {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* Navbar desktop */}
-      <div className="navbar bg-white shadow-sm hidden lg:flex">
+      <div className="navbar bg-white shadow-sm hidden lg:flex sticky top-0 z-50">
         <div className="navbar-start">
           <Link to="/dashboard" className="btn btn-ghost p-0">
             <img
