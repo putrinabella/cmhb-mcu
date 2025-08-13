@@ -1,5 +1,3 @@
-import React from "react";
-
 interface ExcelTableProps {
   data: (string | number)[][];
   headers: string[];
