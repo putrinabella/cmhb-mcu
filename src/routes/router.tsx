@@ -11,6 +11,7 @@ import RegisterPage from "@/pages/RegisterPage";
 import DashboardPage from "@/pages/DashboardPage";
 import NotFoundPage from "@/pages/error/NotFoundPage";
 import EmployeeRegisterPage from "@/pages/EmployeeRegisterPage";
+import ProfilePage from "@/pages/ProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile",
+        element: <ResponsiveLayout />,
+        children: [{ index: true, element: <ProfilePage /> }],
+      },
+      {
+        path: "/404",
         element: <ResponsiveLayout />,
         children: [{ index: true, element: <NotFoundPage /> }],
       },

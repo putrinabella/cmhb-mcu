@@ -1,4 +1,4 @@
-import { HeartPulse, User, UserPlus } from "lucide-react";
+import { CloudAlert, HeartPulse, User, UserPlus } from "lucide-react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useViewportHeight } from "@/hooks/use-viewport-height";
 
@@ -11,12 +11,13 @@ export default function PhoneLayout() {
     { path: "/registrasi-karyawan", icon: UserPlus, label: "Register" },
     { path: "/hasil-mcu", icon: HeartPulse, label: "MCU" },
     { path: "/profile", icon: User, label: "Profile" },
+    { path: "/404", icon: CloudAlert, label: "404" },
   ];
 
   return (
     <div className="h-screen flex flex-col bg-gray-50">
       {/* Konten scrollable */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto ">
         <Outlet />
       </div>
 

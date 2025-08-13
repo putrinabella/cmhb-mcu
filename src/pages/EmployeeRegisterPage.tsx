@@ -9,7 +9,7 @@ export default function EmployeeRegisterPage() {
     useExcelData(templateHeader);
 
   return (
-    <div className="w-full bg-white rounded-lg shadow-lg p-8 max-w-4xl mx-auto">
+    <div className="w-full bg-white rounded-lg shadow-lg p-8 max-w-4xl mx-auto ">
       <h3 className="text-3xl font-bold mb-6 text-center">
         Input Data Pegawai
       </h3>
