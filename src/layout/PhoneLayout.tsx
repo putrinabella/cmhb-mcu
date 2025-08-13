@@ -1,7 +1,9 @@
 import { FileUser, HeartPulse, User } from "lucide-react";
 import { Outlet, Link, useLocation } from "react-router-dom";
+import { useViewportHeight } from "@/hooks/use-viewport-height";
 
 export default function PhoneLayout() {
+  useViewportHeight();
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
 
