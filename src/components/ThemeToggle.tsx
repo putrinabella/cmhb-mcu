@@ -2,8 +2,7 @@
 import { useTheme } from "./ThemeProvider";
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-  const themes = ["light", "dark", "system", "valentine"] as const;
+  const { theme, setTheme, themes } = useTheme();
 
   return (
     <div className="inline-flex items-center gap-2 rounded-2xl p-2 shadow-sm border bg-base-100 dark:bg-base-200">
