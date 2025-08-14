@@ -1,21 +1,57 @@
-// ThemeToggle.tsx
 import { useTheme } from "./ThemeProvider";
+import {
+  Sun,
+  Moon,
+  Heart,
+  Cake,
+  TreePine,
+  Monitor,
+  Bug,
+  Cpu,
+  Briefcase,
+  Headphones,
+} from "lucide-react"; // import icon yang dibutuhkan
+
+const themeIcons: Record<string, React.ElementType> = {
+  light: Sun,
+  dark: Moon,
+  corporate: Briefcase,
+  lofi: Headphones,
+  valentine: Heart,
+  cupcake: Cake,
+  forest: TreePine,
+  retro: Monitor,
+  bumblebee: Bug,
+  synthwave: Cpu,
+};
 
 export default function ThemeToggle() {
   const { theme, setTheme, themes } = useTheme();
 
   return (
-    <div className="inline-flex items-center gap-2 rounded-2xl p-2 shadow-sm border bg-base-100 dark:bg-base-200">
-      {themes.map((t) => (
-        <button
-          key={t}
-          onClick={() => setTheme(t)}
-          className={`btn btn-sm ${theme === t ? "btn-primary" : "btn-ghost"}`}
-          aria-pressed={theme === t}
-        >
-          {t.charAt(0).toUpperCase() + t.slice(1)}
-        </button>
-      ))}
+    <div className="bg-base-100 text-base-content">
+      <div className="grid gap-4 grid-cols-3 md:grid-cols-8">
+        {themes.map((t) => {
+          const Icon = themeIcons[t];
+
+          return (
+            <button
+              key={t}
+              onClick={() => setTheme(t)}
+              className={`w-full aspect-square flex flex-col items-center justify-center rounded-xl shadow-lg transition-transform duration-300 hover:scale-105 ${
+                theme === t
+                  ? "bg-gradient-to-tr from-primary to-secondary text-primary-content"
+                  : "bg-base-200 text-base-content/80 hover:bg-base-300"
+              }`}
+            >
+              {Icon && <Icon className="w-6 h-6 mb-2" />}
+              <span className="font-medium">
+                {t.charAt(0).toUpperCase() + t.slice(1)}
+              </span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

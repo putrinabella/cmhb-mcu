@@ -6,10 +6,7 @@ import { AuthProvider } from "./routes/AuthContext";
 import { ThemeProvider } from "./components/ThemeProvider";
 
 createRoot(document.getElementById("root")!).render(
-  <ThemeProvider
-    themes={["light", "dark", "system", "valentine"]}
-    defaultTheme="system"
-  >
+  <ThemeProvider defaultTheme="system">
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>

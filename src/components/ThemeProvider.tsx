@@ -16,14 +16,10 @@ const ThemeContext = createContext<Ctx | null>(null);
 
 export function ThemeProvider({
   children,
-  themes,
-  defaultTheme,
-  storageKey,
+  ...options
 }: React.PropsWithChildren<UseThemeManagerOptions>) {
-  const value = {
-    ...useThemeManager({ themes, defaultTheme, storageKey }),
-    themes,
-  };
+  const { theme, setTheme, availableThemes } = useThemeManager(options);
+  const value = { theme, setTheme, themes: availableThemes };
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );

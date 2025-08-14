@@ -23,7 +23,8 @@ export default function PhoneLayout() {
 
       {/* Dock Navigation */}
       <div className="lg:hidden w-full pb-4">
-        <div className="mx-auto w-[90%] backdrop-blur-xl bg-base-200/80 border border-base-300 shadow-lg rounded-2xl p-2 flex justify-around items-center">
+        <div className="mx-auto w-[90%] backdrop-blur-xl bg-base-200/80  shadow-lg rounded-2xl p-2 flex justify-around items-center">
+          {/* <div className="mx-auto w-[90%] backdrop-blur-xl bg-base-200/80 border border-base-300 shadow-lg rounded-2xl p-2 flex justify-around items-center"> */}
           {navItems.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.path);
@@ -37,7 +38,7 @@ export default function PhoneLayout() {
                 <div
                   className={`flex items-center justify-center transition-all duration-300 ${
                     active
-                      ? "w-12 h-12 bg-gradient-to-tr from-primary to-secondary text-primary-content rounded-full scale-110 ring-4 ring-base-100 -mt-4"
+                      ? "w-12 h-12 bg-gradient-to-tr from-primary to-secondary text-primary-content rounded-full scale-110 ring-4 ring-base-100 -mt-4 "
                       : "text-base-content/60 hover:text-primary"
                   }`}
                 >

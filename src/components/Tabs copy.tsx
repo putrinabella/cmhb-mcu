@@ -3,8 +3,7 @@ import useTabData from "@/hooks/use-tab-data";
 
 interface TabItem {
   label: string;
-  apiUrl?: string;
-  content?: React.ReactNode; // bisa string, komponen, atau apapun
+  apiUrl: string;
 }
 
 interface TabsProps {
@@ -52,7 +51,7 @@ function TabPanel({ isActive, id, labelledBy, children }: TabPanelProps) {
       id={id}
       aria-labelledby={labelledBy}
       hidden={!isActive}
-      className=" bg-base-100 dark:bg-base-800 dark:border-base-700 text-base-content dark:text-base-200"
+      className="p-4 border rounded-lg bg-base-100 dark:bg-base-800 dark:border-base-700 text-base-content dark:text-base-200"
     >
       {children}
     </div>
@@ -79,9 +78,8 @@ export default function Tabs({ tabs }: TabsProps) {
       </div>
 
       {tabs.map((tab, index) => {
-        // Hanya fetch data kalau apiUrl ada
         const { data, loading, error } = useTabData(
-          activeTab === index && tab.apiUrl ? tab.apiUrl : null
+          activeTab === index ? tab.apiUrl : null
         );
 
         return (
@@ -91,18 +89,12 @@ export default function Tabs({ tabs }: TabsProps) {
             id={`tabpanel-${index}`}
             labelledBy={`tab-${index}`}
           >
-            {tab.apiUrl ? (
-              <>
-                {loading && <p>Loading...</p>}
-                {error && <p className="text-error">Error: {error.message}</p>}
-                {data && (
-                  <pre className="overflow-x-auto">
-                    {JSON.stringify(data, null, 2)}
-                  </pre>
-                )}
-              </>
-            ) : (
-              tab.content || <p>Konten kosong</p>
+            {loading && <p>Loading...</p>}
+            {error && <p className="text-error">Error: {error.message}</p>}
+            {data && (
+              <pre className="overflow-x-auto">
+                {JSON.stringify(data, null, 2)}
+              </pre>
             )}
           </TabPanel>
         );

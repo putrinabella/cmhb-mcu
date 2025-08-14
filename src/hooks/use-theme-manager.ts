@@ -1,23 +1,37 @@
 // use-theme-manager.ts
 import { useEffect, useState } from "react";
 
-export type Theme = string; // Bisa string apapun
+export type Theme = string;
 
 export interface UseThemeManagerOptions {
-  themes: Theme[];
   defaultTheme?: Theme;
   storageKey?: string;
+  availableThemes?: Theme[]; // optional, kalau tidak diisi pakai default DaisyUI
 }
 
+// Default DaisyUI themes
+const DEFAULT_THEMES = [
+  "light",
+  "dark",
+  "corporate",
+  "lofi",
+  "valentine",
+  "cupcake",
+  "forest",
+  "retro",
+  "bumblebee",
+  "synthwave",
+];
+
 export function useThemeManager({
-  themes,
   defaultTheme = "system",
   storageKey = "theme",
+  availableThemes = DEFAULT_THEMES,
 }: UseThemeManagerOptions) {
   const getInitialTheme = (): Theme => {
     try {
       const saved = localStorage.getItem(storageKey);
-      if (saved && themes.includes(saved)) return saved;
+      if (saved && availableThemes.includes(saved)) return saved;
       return defaultTheme;
     } catch {
       return defaultTheme;
@@ -45,17 +59,15 @@ export function useThemeManager({
 
   useEffect(() => {
     if (theme !== "system") return;
-
     const handler = (e: MediaQueryListEvent) => {
       const root = document.documentElement;
       root.classList.toggle("dark", e.matches);
       root.setAttribute("data-theme", e.matches ? "dark" : "light");
     };
-
     const mql = window.matchMedia("(prefers-color-scheme: dark)");
     mql.addEventListener("change", handler);
     return () => mql.removeEventListener("change", handler);
   }, [theme]);
 
-  return { theme, setTheme };
+  return { theme, setTheme, availableThemes };
 }

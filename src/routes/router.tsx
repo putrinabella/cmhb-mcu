@@ -15,7 +15,7 @@ import ProfilePage from "@/pages/ProfilePage";
 
 const router = createBrowserRouter([
   {
-    // element: <GuestRoute />,
+    element: <GuestRoute />,
     children: [
       { path: "/", element: <WelcomePage /> },
       { path: "/login", element: <LoginPage /> },
