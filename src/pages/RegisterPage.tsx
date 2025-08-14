@@ -57,7 +57,7 @@ export default function RegisterPage() {
 
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+              className="w-full bg-primary text-primary-content hover:bg-primary-focus"
             >
               Daftar
             </Button>
@@ -65,9 +65,9 @@ export default function RegisterPage() {
         )}
       </FormWrapper>
 
-      <p className="text-sm text-center mt-4 text-gray-600">
+      <p className="text-sm text-center mt-4 text-base-content/70">
         Sudah punya akun?{" "}
-        <Link to="/login" className="text-blue-600 hover:underline">
+        <Link to="/login" className="text-primary hover:underline">
           Masuk di sini
         </Link>
       </p>

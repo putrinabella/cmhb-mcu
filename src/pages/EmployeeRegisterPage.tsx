@@ -9,7 +9,7 @@ export default function EmployeeRegisterPage() {
     useExcelData(templateHeader);
 
   return (
-    <div className="w-full bg-white rounded-lg shadow-lg p-8 max-w-4xl mx-auto ">
+    <div className="w-full bg-base-100 text-base-content rounded-lg shadow-lg p-8 max-w-4xl mx-auto">
       <h3 className="text-3xl font-bold mb-6 text-center">
         Input Data Pegawai
       </h3>
@@ -18,7 +18,7 @@ export default function EmployeeRegisterPage() {
       <div className="mb-6 flex justify-center">
         <Button
           type="button"
-          className="bg-blue-600 hover:bg-blue-700 text-white"
+          className="bg-primary text-primary-content hover:bg-primary-focus"
           onClick={downloadTemplate}
         >
           Download Template Excel

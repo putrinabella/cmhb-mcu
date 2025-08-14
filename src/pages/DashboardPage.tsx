@@ -1,13 +1,13 @@
+import ThemeToggle from "@/components/ThemeToggle";
+
 export default function DashboardPage() {
   return (
-    <div
-      className="w-full bg-white rounded-lg shadow-lg p-8  mx-auto
-        h-full overflow-y-auto
-        lg:h-auto
-      "
-    >
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repudiandae,
-      ipsa.
+    <div className="p-8 mx-auto min-h-screen bg-base-100 text-base-content">
+      <ThemeToggle />
+      <p className="mt-4">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repudiandae,
+        ipsa.
+      </p>
     </div>
   );
 }

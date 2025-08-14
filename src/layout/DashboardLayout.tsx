@@ -3,10 +3,11 @@ import { useLogout } from "@/hooks/use-logout";
 
 export default function DashboardLayout() {
   const { handleLogout } = useLogout();
+
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="min-h-screen flex flex-col bg-base-100 text-base-content">
       {/* Navbar desktop */}
-      <div className="navbar bg-white shadow-sm hidden lg:flex sticky top-0 z-50">
+      <div className="navbar bg-base-100 border-b border-base-300 shadow-sm hidden lg:flex sticky top-0 z-50">
         <div className="navbar-start">
           <Link to="/dashboard" className="btn btn-ghost p-0">
             <img
@@ -16,6 +17,7 @@ export default function DashboardLayout() {
             />
           </Link>
         </div>
+
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
@@ -26,7 +28,10 @@ export default function DashboardLayout() {
             </li>
           </ul>
         </div>
-        <div className="navbar-end"></div>
+
+        <div className="navbar-end" />
+
+        {/* Dropdown User */}
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
@@ -39,11 +44,11 @@ export default function DashboardLayout() {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-base-100 text-base-content rounded-box z-10 mt-3 w-52 p-2 shadow border border-base-300"
           >
             <li>
               <a className="justify-between">
-                Profile<span className="badge">New</span>
+                Profile<span className="badge badge-primary">New</span>
               </a>
             </li>
             <li>
@@ -52,7 +57,7 @@ export default function DashboardLayout() {
             <li>
               <button
                 onClick={handleLogout}
-                className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded"
+                className="w-full text-left px-4 py-2 hover:bg-base-200 rounded"
               >
                 Logout
               </button>

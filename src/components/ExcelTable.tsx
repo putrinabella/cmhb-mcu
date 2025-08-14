@@ -5,17 +5,19 @@ interface ExcelTableProps {
 
 export function ExcelTable({ data, headers }: ExcelTableProps) {
   if (!data.length)
-    return <p className="text-center text-gray-400">No data loaded yet.</p>;
+    return (
+      <p className="text-center text-base-content/50">No data loaded yet.</p>
+    );
 
   return (
-    <div className="overflow-x-auto max-h-[60vh] border border-gray-300 rounded-md">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-100 sticky top-0">
+    <div className="overflow-x-auto max-h-[60vh] border rounded-md border-base-content/20">
+      <table className="min-w-full divide-y divide-base-content/20">
+        <thead className="bg-base-200 sticky top-0">
           <tr>
             {headers.map((col, i) => (
               <th
                 key={i}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-300"
+                className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider border border-base-content/20"
               >
                 {col}
               </th>
@@ -26,12 +28,12 @@ export function ExcelTable({ data, headers }: ExcelTableProps) {
           {data.map((row, rowIndex) => (
             <tr
               key={rowIndex}
-              className={rowIndex % 2 === 0 ? "bg-white" : "bg-gray-50"}
+              className={rowIndex % 2 === 0 ? "bg-base-100" : "bg-base-200"}
             >
               {row.map((cell, cellIndex) => (
                 <td
                   key={cellIndex}
-                  className="px-6 py-3 border border-gray-300 text-sm text-gray-700 whitespace-nowrap"
+                  className="px-6 py-3 border border-base-content/20 text-sm"
                 >
                   {cell}
                 </td>

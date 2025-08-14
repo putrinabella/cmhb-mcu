@@ -35,7 +35,7 @@ export default function LoginPage() {
             <PasswordField control={control} />
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+              className="w-full bg-primary text-primary-content hover:bg-primary-focus"
             >
               Masuk
             </Button>

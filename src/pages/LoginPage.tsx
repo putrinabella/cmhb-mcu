@@ -36,7 +36,7 @@ export default function LoginPage() {
             <PasswordField control={control} />
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+              className="w-full bg-primary text-primary-content hover:bg-primary-focus"
             >
               Masuk
             </Button>
@@ -44,9 +44,9 @@ export default function LoginPage() {
         )}
       </FormWrapper>
 
-      <p className="text-sm text-center mt-4 text-gray-600">
+      <p className="text-sm text-center mt-4 text-base-content/70">
         Belum punya akun?{" "}
-        <Link to="/register" className="text-blue-600 hover:underline">
+        <Link to="/register" className="text-primary hover:underline">
           Daftar di sini
         </Link>
       </p>

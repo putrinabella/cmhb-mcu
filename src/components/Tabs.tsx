@@ -26,10 +26,10 @@ function Tab({ isActive, onClick, id, controls, children }: TabButtonProps) {
       aria-controls={controls}
       id={id}
       onClick={onClick}
-      className={`px-4 py-2 rounded-full text-sm transition ${
+      className={`px-4 py-2 rounded-full text-sm transition focus:outline-none ${
         isActive
-          ? "bg-gradient-to-r from-purple-300 to-blue-300 shadow-2xs"
-          : "text-gray-700 hover:bg-gray-300"
+          ? "bg-primary text-primary-content shadow-md"
+          : "bg-base-200 text-base-content hover:bg-base-300 dark:bg-base-700 dark:text-base-200 dark:hover:bg-base-600"
       }`}
     >
       {children}
@@ -51,7 +51,7 @@ function TabPanel({ isActive, id, labelledBy, children }: TabPanelProps) {
       id={id}
       aria-labelledby={labelledBy}
       hidden={!isActive}
-      className="p-4 border rounded-lg bg-gray-50"
+      className="p-4 border rounded-lg bg-base-100 dark:bg-base-800 dark:border-base-700 text-base-content dark:text-base-200"
     >
       {children}
     </div>
@@ -78,7 +78,6 @@ export default function Tabs({ tabs }: TabsProps) {
       </div>
 
       {tabs.map((tab, index) => {
-        // Gunakan hook useTabData, aktifkan hanya untuk tab saat ini
         const { data, loading, error } = useTabData(
           activeTab === index ? tab.apiUrl : null
         );
@@ -91,8 +90,12 @@ export default function Tabs({ tabs }: TabsProps) {
             labelledBy={`tab-${index}`}
           >
             {loading && <p>Loading...</p>}
-            {error && <p className="text-red-500">Error: {error.message}</p>}
-            {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+            {error && <p className="text-error">Error: {error.message}</p>}
+            {data && (
+              <pre className="overflow-x-auto">
+                {JSON.stringify(data, null, 2)}
+              </pre>
+            )}
           </TabPanel>
         );
       })}
