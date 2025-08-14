@@ -1,10 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+// use-theme-manager.ts
+import { useEffect, useState } from "react";
 
-export type Theme = "light" | "dark" | "system";
-export type ResolvedTheme = "light" | "dark";
+export type Theme = "light" | "dark" | "system" | "valentine";
 
 const STORAGE_KEY = "theme";
-const DARK_CLASS = "dark";
 
 function getInitialTheme(): Theme {
   try {
@@ -15,43 +14,38 @@ function getInitialTheme(): Theme {
   }
 }
 
-function computeResolved(theme: Theme, mql: MediaQueryList): ResolvedTheme {
-  if (theme === "system") return mql.matches ? "dark" : "light";
-  return theme;
-}
-
-function applyThemeToDOM(resolved: ResolvedTheme) {
-  const d = document.documentElement;
-  const isDark = resolved === "dark";
-  d.classList.toggle(DARK_CLASS, isDark);
-  d.setAttribute("data-theme", isDark ? "dark" : "light");
-}
-
 export function useThemeManager() {
   const [theme, setTheme] = useState<Theme>(() => getInitialTheme());
-  const mql = useMemo(
-    () => window.matchMedia("(prefers-color-scheme: dark)"),
-    []
-  );
-
-  const resolvedTheme = useMemo(
-    () => computeResolved(theme, mql),
-    [theme, mql]
-  );
 
   useEffect(() => {
-    applyThemeToDOM(resolvedTheme);
+    const root = document.documentElement;
+
+    if (theme === "system") {
+      const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      root.classList.toggle("dark", isDark);
+      root.setAttribute("data-theme", isDark ? "dark" : "light");
+    } else {
+      root.classList.toggle("dark", theme === "dark");
+      // Untuk valentine, DaisyUI hanya pakai data-theme, tidak perlu dark class
+      root.setAttribute("data-theme", theme);
+    }
+
     try {
       localStorage.setItem(STORAGE_KEY, theme);
     } catch {}
-  }, [resolvedTheme, theme]);
+  }, [theme]);
 
   useEffect(() => {
     if (theme !== "system") return;
-    const handler = () => applyThemeToDOM(computeResolved("system", mql));
-    mql.addEventListener?.("change", handler);
-    return () => mql.removeEventListener?.("change", handler);
-  }, [theme, mql]);
+    const handler = (e: MediaQueryListEvent) => {
+      const root = document.documentElement;
+      root.classList.toggle("dark", e.matches);
+      root.setAttribute("data-theme", e.matches ? "dark" : "light");
+    };
+    const mql = window.matchMedia("(prefers-color-scheme: dark)");
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, [theme]);
 
-  return { theme, resolvedTheme, setTheme };
+  return { theme, setTheme };
 }

@@ -1,9 +1,13 @@
-// ThemeProvider.tsx
 import React, { createContext, useContext } from "react";
-import { useThemeManager, type Theme } from "@/hooks/use-theme-manager";
+import {
+  useThemeManager,
+  type Theme,
+  type ResolvedTheme,
+} from "@/hooks/use-theme-manager";
 
 type Ctx = {
   theme: Theme;
+  resolvedTheme: ResolvedTheme;
   setTheme: (t: Theme) => void;
 };
 

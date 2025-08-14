@@ -1,9 +1,9 @@
-// ThemeToggle.tsx
 import { useTheme } from "./ThemeProvider";
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-  const themes = ["light", "dark", "system", "valentine"] as const;
+  const { theme, resolvedTheme, setTheme } = useTheme();
+
+  const themes = ["light", "dark", "system"] as const;
 
   return (
     <div className="inline-flex items-center gap-2 rounded-2xl p-2 shadow-sm border bg-base-100 dark:bg-base-200">
@@ -17,6 +17,10 @@ export default function ThemeToggle() {
           {t.charAt(0).toUpperCase() + t.slice(1)}
         </button>
       ))}
+
+      <span className="ml-2 text-xs text-gray-600 dark:text-gray-300">
+        Active: <strong>{resolvedTheme}</strong>
+      </span>
     </div>
   );
 }
