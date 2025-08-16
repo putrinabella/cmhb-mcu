@@ -27,7 +27,7 @@ export default function EmployeeRegisterPage() {
 
       {/* Input File */}
       <FileInput
-        label="Upload Excel File"
+        label="Upload File"
         infoText="Max size 2MB, format .xlsx/.xls"
         accept=".xlsx,.xls"
         onChange={handleFileUpload}

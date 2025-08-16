@@ -1,4 +1,4 @@
-import { CloudAlert, HeartPulse, User, UserPlus } from "lucide-react";
+import { Building2, HeartPulse, User, UserPlus } from "lucide-react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useViewportHeight } from "@/hooks/use-viewport-height";
 
@@ -8,10 +8,11 @@ export default function PhoneLayout() {
   const isActive = (path: string) => location.pathname === path;
 
   const navItems = [
+    { path: "/company-profile", icon: Building2, label: "Perusahaan" },
     { path: "/registrasi-karyawan", icon: UserPlus, label: "Register" },
     { path: "/hasil-mcu", icon: HeartPulse, label: "MCU" },
     { path: "/profile", icon: User, label: "Profile" },
-    { path: "/404", icon: CloudAlert, label: "404" },
+    // { path: "/404", icon: CloudAlert, label: "404" },
   ];
 
   return (
@@ -38,7 +39,7 @@ export default function PhoneLayout() {
                 <div
                   className={`flex items-center justify-center transition-all duration-300 ${
                     active
-                      ? "w-12 h-12 bg-gradient-to-tr from-primary to-secondary text-primary-content rounded-full scale-110 ring-4 ring-base-100 -mt-4 "
+                      ? "w-12 h-12 bg-gradient-to-tr from-primary to-secondary text-primary-content rounded-full scale-110 ring-4 ring-base-100 -mt-6 "
                       : "text-base-content/60 hover:text-primary"
                   }`}
                 >

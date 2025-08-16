@@ -1,1 +1,0 @@
-import{j as e}from"./index-BJuo4wp5.js";import{T as s}from"./ThemeToggle-DdIvVwJg.js";function i(){return e.jsxs("div",{className:"p-8 mx-auto min-h-screen bg-base-100 text-base-content",children:[e.jsx(s,{}),e.jsx("p",{className:"mt-4",children:"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repudiandae, ipsa."})]})}export{i as default};

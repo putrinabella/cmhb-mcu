@@ -1,62 +1,3 @@
-// import { createBrowserRouter } from "react-router-dom";
-// import ProtectedRoute from "./ProtectedRoute";
-// import GuestRoute from "./GuestRoute";
-
-// import ResponsiveLayout from "@/layout/ResponsiveLayout";
-
-// import WelcomePage from "@/pages/WelcomePage";
-// import LoginPage from "@/pages/LoginPage";
-// import LoginEmployeePage from "@/pages/LoginEmployeePage";
-// import RegisterPage from "@/pages/RegisterPage";
-// import DashboardPage from "@/pages/DashboardPage";
-// import NotFoundPage from "@/pages/error/NotFoundPage";
-// import EmployeeRegisterPage from "@/pages/EmployeeRegisterPage";
-// import ProfilePage from "@/pages/ProfilePage";
-
-// const router = createBrowserRouter([
-//   {
-//     element: <GuestRoute />,
-//     children: [
-//       { path: "/", element: <WelcomePage /> },
-//       { path: "/login", element: <LoginPage /> },
-//       { path: "/login-employee", element: <LoginEmployeePage /> },
-//       { path: "/register", element: <RegisterPage /> },
-//     ],
-//   },
-//   {
-//     element: <ProtectedRoute />,
-//     children: [
-//       {
-//         path: "/dashboard",
-//         element: <ResponsiveLayout />,
-//         children: [{ index: true, element: <DashboardPage /> }],
-//       },
-//       {
-//         path: "/registrasi-karyawan",
-//         element: <ResponsiveLayout />,
-//         children: [{ index: true, element: <EmployeeRegisterPage /> }],
-//       },
-//       {
-//         path: "/hasil-mcu",
-//         element: <ResponsiveLayout />,
-//         children: [{ index: true, element: <DashboardPage /> }],
-//       },
-//       {
-//         path: "/profile",
-//         element: <ResponsiveLayout />,
-//         children: [{ index: true, element: <ProfilePage /> }],
-//       },
-//       {
-//         path: "/404",
-//         element: <ResponsiveLayout />,
-//         children: [{ index: true, element: <NotFoundPage /> }],
-//       },
-//     ],
-//   },
-//   { path: "*", element: <NotFoundPage /> },
-// ]);
-
-// export default router;
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -71,8 +12,10 @@ const LoginEmployeePage = lazy(() => import("@/pages/LoginEmployeePage"));
 const RegisterPage = lazy(() => import("@/pages/RegisterPage"));
 const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
 const EmployeeRegisterPage = lazy(() => import("@/pages/EmployeeRegisterPage"));
-const ProfilePage = lazy(() => import("@/pages/ProfilePage"));
+const ProfileMobilePage = lazy(() => import("@/pages/ProfileMobilePage"));
 const NotFoundPage = lazy(() => import("@/pages/error/NotFoundPage"));
+const CompaniesPage = lazy(() => import("@/pages/CompaniesPage"));
+const ProfileLayout = lazy(() => import("@/layout/ProfileLayout"));
 
 // Helper untuk membungkus lazy component dengan Suspense
 const Loadable = (Component: React.LazyExoticComponent<any>) => (
@@ -95,6 +38,11 @@ const router = createBrowserRouter([
     element: <ProtectedRoute />,
     children: [
       {
+        path: "/company-profile",
+        element: <ResponsiveLayout />,
+        children: [{ index: true, element: Loadable(CompaniesPage) }],
+      },
+      {
         path: "/dashboard",
         element: <ResponsiveLayout />,
         children: [{ index: true, element: Loadable(DashboardPage) }],
@@ -112,7 +60,7 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <ResponsiveLayout />,
-        children: [{ index: true, element: Loadable(ProfilePage) }],
+        children: [{ index: true, element: Loadable(ProfileLayout) }],
       },
       {
         path: "/404",

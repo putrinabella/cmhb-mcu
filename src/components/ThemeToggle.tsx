@@ -2,7 +2,6 @@ import { useTheme } from "./ThemeProvider";
 import {
   Sun,
   Moon,
-  Heart,
   Cake,
   TreePine,
   Monitor,
@@ -17,7 +16,6 @@ const themeIcons: Record<string, React.ElementType> = {
   dark: Moon,
   corporate: Briefcase,
   lofi: Headphones,
-  valentine: Heart,
   cupcake: Cake,
   forest: TreePine,
   retro: Monitor,

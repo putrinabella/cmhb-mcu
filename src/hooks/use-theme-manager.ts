@@ -15,7 +15,6 @@ const DEFAULT_THEMES = [
   "dark",
   "corporate",
   "lofi",
-  "valentine",
   "cupcake",
   "forest",
   "retro",

@@ -6,7 +6,7 @@ interface ExcelTableProps {
 export function ExcelTable({ data, headers }: ExcelTableProps) {
   if (!data.length)
     return (
-      <p className="text-center text-base-content/50">No data loaded yet.</p>
+      <p className="text-center text-base-content/50">Data belum diinput</p>
     );
 
   return (

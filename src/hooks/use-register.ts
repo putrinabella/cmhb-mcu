@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { register } from "@/services/authService";
-import { showSwal } from "@/components/SwalHelper";
+import { showSwal } from "@/lib/SwalHelper";
 
 type RegisterFormValues = {
   name: string;

@@ -63,7 +63,10 @@ export default function WelcomePage() {
               Login
             </Link>
             <p className="text-base-content/70 text-base">
-              <Link to="/login" className="hover:underline text-primary">
+              <Link
+                to="/login"
+                className="text-primary hover:no-underline hover:text-primary/80"
+              >
                 Login sebagai{" "}
                 <span className="font-medium text-base-content">PIC</span>
               </Link>
@@ -105,9 +108,14 @@ export default function WelcomePage() {
           </Link>
 
           <p className="text-base-content/70 text-base">
-            <Link to="/login" className="hover:underline text-primary">
+            <Link
+              to="/login"
+              className="text-primary hover:scale-105 hover:font-bold transition-transform duration-200"
+            >
               Login sebagai{" "}
-              <span className="font-medium text-base-content">PIC</span>
+              <span className="text-base-content hover:scale-105 hover:font-bold transition-transform duration-200">
+                PIC
+              </span>
             </Link>
           </p>
         </div>

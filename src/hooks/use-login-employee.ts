@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { login } from "@/services/authService";
-import { showSwal } from "@/components/SwalHelper";
+import { showSwal } from "@/lib/SwalHelper";
 
 export function useLoginEmployee() {
   const navigate = useNavigate();

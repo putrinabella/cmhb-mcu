@@ -30,7 +30,7 @@ function Tab({ isActive, onClick, id, controls, children }: TabButtonProps) {
       className={`px-4 py-2 rounded-full text-sm transition focus:outline-none ${
         isActive
           ? "bg-primary text-primary-content shadow-md"
-          : "bg-base-200 text-base-content hover:bg-base-300 dark:bg-base-700 dark:text-base-200 dark:hover:bg-base-600"
+          : "text-base-content hover:bg-base-300 dark:bg-base-700 dark:text-base-200 dark:hover:bg-base-600"
       }`}
     >
       {children}
