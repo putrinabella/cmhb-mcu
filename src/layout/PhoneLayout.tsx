@@ -1,4 +1,4 @@
-import { Building2, HeartPulse, User, UserPlus } from "lucide-react";
+import { HeartPulse, House, User, UserPlus } from "lucide-react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useViewportHeight } from "@/hooks/use-viewport-height";
 
@@ -8,8 +8,9 @@ export default function PhoneLayout() {
   const isActive = (path: string) => location.pathname === path;
 
   const navItems = [
-    { path: "/company-profile", icon: Building2, label: "Perusahaan" },
+    // { path: "/company-profile", icon: Building2, label: "Perusahaan" },
     { path: "/registrasi-karyawan", icon: UserPlus, label: "Register" },
+    { path: "/dashboard", icon: House, label: "Dashboard" },
     { path: "/hasil-mcu", icon: HeartPulse, label: "MCU" },
     { path: "/profile", icon: User, label: "Profile" },
     // { path: "/404", icon: CloudAlert, label: "404" },

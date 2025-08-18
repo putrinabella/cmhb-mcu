@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import GuestRoute from "./GuestRoute";
 import ResponsiveLayout from "@/layout/ResponsiveLayout";
+import { LoadingIndicator } from "@/components/LoadingIndicator";
 
 // Lazy load halaman
 const WelcomePage = lazy(() => import("@/pages/WelcomePage"));
@@ -11,14 +12,16 @@ const LoginPage = lazy(() => import("@/pages/LoginPage"));
 const LoginEmployeePage = lazy(() => import("@/pages/LoginEmployeePage"));
 const RegisterPage = lazy(() => import("@/pages/RegisterPage"));
 const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
+const McuPage = lazy(() => import("@/pages/McuPage"));
 const EmployeeRegisterPage = lazy(() => import("@/pages/EmployeeRegisterPage"));
 const NotFoundPage = lazy(() => import("@/pages/error/NotFoundPage"));
 const CompaniesPage = lazy(() => import("@/pages/CompaniesPage"));
 const ProfileLayout = lazy(() => import("@/layout/ProfileLayout"));
+const CompanyDetailPage = lazy(() => import("@/pages/CompanyDetailPage"));
 
 // Helper untuk membungkus lazy component dengan Suspense
 const Loadable = (Component: React.LazyExoticComponent<any>) => (
-  <Suspense fallback={<div>Loading...</div>}>
+  <Suspense fallback={<LoadingIndicator />}>
     <Component />
   </Suspense>
 );
@@ -39,7 +42,10 @@ const router = createBrowserRouter([
       {
         path: "/company-profile",
         element: <ResponsiveLayout />,
-        children: [{ index: true, element: Loadable(CompaniesPage) }],
+        children: [
+          { index: true, element: Loadable(CompaniesPage) },
+          { path: ":id", element: Loadable(CompanyDetailPage) },
+        ],
       },
       {
         path: "/dashboard",
@@ -54,7 +60,7 @@ const router = createBrowserRouter([
       {
         path: "/hasil-mcu",
         element: <ResponsiveLayout />,
-        children: [{ index: true, element: Loadable(DashboardPage) }],
+        children: [{ index: true, element: Loadable(McuPage) }],
       },
       {
         path: "/profile",

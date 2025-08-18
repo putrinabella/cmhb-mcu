@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useTabData from "@/hooks/use-tab-data";
+import { LoadingIndicator } from "./LoadingIndicator";
 
 interface TabItem {
   label: string;
@@ -93,7 +94,7 @@ export default function Tabs({ tabs }: TabsProps) {
           >
             {tab.apiUrl ? (
               <>
-                {loading && <p>Loading...</p>}
+                {loading && <LoadingIndicator />}
                 {error && <p className="text-error">Error: {error.message}</p>}
                 {data && (
                   <pre className="overflow-x-auto">
