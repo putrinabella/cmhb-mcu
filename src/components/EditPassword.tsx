@@ -81,19 +81,19 @@ export default function EditPassword() {
               >
                 <PasswordField
                   name="currentPassword"
-                  label="Current Password"
+                  label="Password Lama"
                   placeholder="Masukkan password lama"
                   control={undefined}
                 />
                 <PasswordField
                   name="newPassword"
-                  label="New Password"
+                  label="Password Baru"
                   placeholder="Masukkan password baru"
                   control={undefined}
                 />
                 <PasswordField
                   name="confirmPassword"
-                  label="Confirm Password"
+                  label="Konfirmasi Password Baru"
                   placeholder="Ulangi password baru"
                   control={undefined}
                 />

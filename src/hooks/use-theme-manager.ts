@@ -15,11 +15,11 @@ const DEFAULT_THEMES = [
   "dark",
   "corporate",
   "lofi",
-  "cupcake",
+  "garden",
   "forest",
-  "retro",
-  "bumblebee",
-  "synthwave",
+  "cmyk",
+  "dim",
+  "silk",
 ];
 
 export function useThemeManager({

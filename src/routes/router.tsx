@@ -12,7 +12,6 @@ const LoginEmployeePage = lazy(() => import("@/pages/LoginEmployeePage"));
 const RegisterPage = lazy(() => import("@/pages/RegisterPage"));
 const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
 const EmployeeRegisterPage = lazy(() => import("@/pages/EmployeeRegisterPage"));
-const ProfileMobilePage = lazy(() => import("@/pages/ProfileMobilePage"));
 const NotFoundPage = lazy(() => import("@/pages/error/NotFoundPage"));
 const CompaniesPage = lazy(() => import("@/pages/CompaniesPage"));
 const ProfileLayout = lazy(() => import("@/layout/ProfileLayout"));

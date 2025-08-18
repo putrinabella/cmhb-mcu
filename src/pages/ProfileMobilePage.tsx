@@ -49,13 +49,13 @@ export default function ProfileMobilePage() {
       ),
     },
     {
-      label: "Riwayat MCU",
-      apiUrl: "https://www.ciputramitrahospital.id/api/v1/client/promotions",
-    },
-    {
       label: "Tema",
       content: <ThemeToggle />,
     },
+    // {
+    //   label: "Riwayat MCU",
+    //   apiUrl: "https://www.ciputramitrahospital.id/api/v1/client/promotions",
+    // },
   ];
 
   return (

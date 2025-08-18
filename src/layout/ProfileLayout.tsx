@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import CompaniesPage from "@/pages/CompaniesPage";
+import ProfileDekstopPage from "@/pages/ProfileDekstopPage";
 import ProfileMobilePage from "@/pages/ProfileMobilePage";
 export default function ProfileLayout() {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
@@ -10,5 +10,5 @@ export default function ProfileLayout() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  return isDesktop ? <CompaniesPage /> : <ProfileMobilePage />;
+  return isDesktop ? <ProfileDekstopPage /> : <ProfileMobilePage />;
 }

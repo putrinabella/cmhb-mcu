@@ -2,25 +2,25 @@ import { useTheme } from "./ThemeProvider";
 import {
   Sun,
   Moon,
-  Cake,
   TreePine,
-  Monitor,
-  Bug,
-  Cpu,
   Briefcase,
   Headphones,
-} from "lucide-react"; // import icon yang dibutuhkan
+  Flower,
+  Blend,
+  Contrast,
+  Feather,
+} from "lucide-react";
 
 const themeIcons: Record<string, React.ElementType> = {
   light: Sun,
   dark: Moon,
   corporate: Briefcase,
   lofi: Headphones,
-  cupcake: Cake,
+  garden: Flower,
   forest: TreePine,
-  retro: Monitor,
-  bumblebee: Bug,
-  synthwave: Cpu,
+  cmyk: Blend,
+  dim: Contrast,
+  silk: Feather,
 };
 
 export default function ThemeToggle() {
@@ -28,7 +28,8 @@ export default function ThemeToggle() {
 
   return (
     <div className="bg-base-100 text-base-content">
-      <div className="grid gap-4 grid-cols-3 md:grid-cols-8">
+      {/* <div className="grid gap-4 grid-cols-3 md:grid-cols-9"> */}
+      <div className="grid gap-4 grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9">
         {themes.map((t) => {
           const Icon = themeIcons[t];
 
