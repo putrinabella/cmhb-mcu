@@ -4,7 +4,7 @@ import { FormWrapper } from "@/components/FormWrapper";
 import { Button } from "@/components/ui/button";
 import { PhoneField } from "@/components/form/PhoneField";
 import { PasswordField } from "@/components/form/PasswordField";
-import { useLoginEmployee } from "@/hooks/use-login-employee";
+import { useLoginEmployee } from "@/hooks/auth/use-login-employee";
 
 interface LoginFormValues {
   phone: string;

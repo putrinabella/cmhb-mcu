@@ -18,7 +18,7 @@ const NotFoundPage = lazy(() => import("@/pages/error/NotFoundPage"));
 const CompaniesPage = lazy(() => import("@/pages/CompaniesPage"));
 const ProfileLayout = lazy(() => import("@/layout/ProfileLayout"));
 const CompanyDetailPage = lazy(() => import("@/pages/CompanyDetailPage"));
-
+const InputPage = lazy(() => import("@/pages/employee/InputPage"));
 // Helper untuk membungkus lazy component dengan Suspense
 const Loadable = (Component: React.LazyExoticComponent<any>) => (
   <Suspense fallback={<LoadingIndicator />}>
@@ -55,7 +55,10 @@ const router = createBrowserRouter([
       {
         path: "/registrasi-karyawan",
         element: <ResponsiveLayout />,
-        children: [{ index: true, element: Loadable(EmployeeRegisterPage) }],
+        children: [
+          { index: true, element: Loadable(EmployeeRegisterPage) },
+          { path: "input", element: Loadable(InputPage) },
+        ],
       },
       {
         path: "/hasil-mcu",

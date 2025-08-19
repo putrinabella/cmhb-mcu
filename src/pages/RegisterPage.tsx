@@ -3,7 +3,7 @@ import AuthLayout from "@/layout/AuthLayout";
 import { FormWrapper } from "@/components/FormWrapper";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { useRegister } from "@/hooks/use-register";
+import { useRegister } from "@/hooks/auth/use-register";
 import { EmailField } from "@/components/form/EmailField";
 import { PasswordField } from "@/components/form/PasswordField";
 import { ConfirmPasswordField } from "@/components/form/ConfirmPasswordField";
