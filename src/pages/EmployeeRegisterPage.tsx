@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FileInput } from "@/components/form/FileInput";
 import { ExcelTable } from "@/components/ExcelTable";
 import { Button } from "@/components/ui/button";
-import { Download, Plus, Upload, UploadCloud, X } from "lucide-react";
+import { Download, Plus, Search, Upload, UploadCloud, X } from "lucide-react";
 import { useImportEmployees } from "@/hooks/use-import-employees";
 import { useExcelData, templateHeader } from "@/hooks/use-excel";
 import { useFileDownload } from "@/hooks/use-file-download";
@@ -92,14 +92,22 @@ export default function EmployeeRegisterPage() {
       <h3 className="text-3xl mb-6">Data Pegawai</h3>
       <div className="flex justify-between items-stretch">
         {/* Teks di kiri */}
-        <div className="flex-1 flex items-center overflow-hidden bg-base-200/40 rounded-t-4xl">
-          <p className="break-words p-4">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit
+        <div className="flex-1 flex items-center overflow-hidden bg-base-200/40 rounded-t-4xl p-2 justify-center">
+          <p className="break-words p-4 just">
+            PT Ciputra Mitra Hospital Banjarmasin
           </p>
         </div>
 
         {/* Tombol di kanan */}
         <div className="flex-shrink-0 flex gap-2 items-center px-2">
+          <div className="flex items-center rounded-full border-1 ms-2 px-3">
+            <Search className="w-5 h-5 text-gray-500" />
+            <input
+              type="text"
+              placeholder="Search..."
+              className="input input-ghost ml-2 w-full max-w-xs"
+            />
+          </div>
           <div className="tooltip" data-tip="Download template Excel">
             <Button
               type="button"
@@ -114,7 +122,7 @@ export default function EmployeeRegisterPage() {
           <div className="tooltip" data-tip="Upload File Excel">
             <Button
               type="button"
-              className="bg-accent text-accent-content hover:bg-accent-focus rounded-full gap-2"
+              className="bg-secondary text-accent-content hover:bg-accent-focus rounded-full gap-2"
               onClick={() => setOpenModal(true)}
             >
               <Upload className="size-5" />
@@ -199,7 +207,7 @@ export default function EmployeeRegisterPage() {
                 </thead>
                 <tbody>
                   {employees.map((emp, idx) => (
-                    <tr key={emp.id}>
+                    <tr className="hover:bg-secondary-content" key={emp.id}>
                       <td>{(page - 1) * 10 + idx + 1}</td>
                       <td>{emp.employee_number}</td>
                       <td>{emp.name}</td>

@@ -8,8 +8,7 @@ export function useImportEmployees() {
   const importData = async (file: File) => {
     try {
       setLoading(true);
-      const companyId =
-        localStorage.getItem("company_id") || "rYmqlRZhqwawA7IWRWvk1TLvnyZy";
+      const companyId = localStorage.getItem("company_id") || "";
 
       if (!companyId) {
         showSwal({

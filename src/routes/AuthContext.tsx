@@ -1,3 +1,82 @@
+// import {
+//   createContext,
+//   useContext,
+//   useState,
+//   useEffect,
+//   type ReactNode,
+// } from "react";
+
+// interface UserData {
+//   id: string;
+//   email: string;
+//   token: string;
+//   company?: {
+//     id: string;
+//     name?: string;
+//   } | null;
+// }
+
+// interface AuthContextType {
+//   token: string | null;
+//   user: UserData | null; // simpan user lengkap
+//   setToken: (token: string | null) => void;
+//   logout: () => void;
+//   login: (token: string, userData: any) => void;
+//   loading: boolean;
+// }
+
+// const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+// export function AuthProvider({ children }: { children: ReactNode }) {
+//   const [token, setToken] = useState<string | null>(null);
+//   const [user, setUser] = useState<UserData | null>(null);
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     const stored = localStorage.getItem("user");
+//     if (stored) {
+//       const parsed: UserData = JSON.parse(stored);
+//       setUser(parsed);
+//       setToken(parsed.token);
+//     }
+//     setLoading(false);
+//   }, []);
+
+//   const logout = () => {
+//     localStorage.removeItem("user");
+//     setToken(null);
+//     setUser(null);
+//   };
+
+//   const login = (newToken: string, userData: any) => {
+//     const newUser: UserData = {
+//       id: userData.id,
+//       email: userData.email,
+//       token: newToken,
+//       company: userData.company
+//         ? { id: userData.company.id, name: userData.company.name }
+//         : null,
+//     };
+
+//     localStorage.setItem("user", JSON.stringify(newUser)); // ✅ ini akan tercipta
+//     setToken(newToken);
+//     setUser(newUser);
+//   };
+
+//   return (
+//     <AuthContext.Provider
+//       value={{ token, user, setToken, logout, login, loading }}
+//     >
+//       {children}
+//     </AuthContext.Provider>
+//   );
+// }
+
+// export function useAuth() {
+//   const context = useContext(AuthContext);
+//   if (!context) throw new Error("useAuth must be used within AuthProvider");
+//   return context;
+// }
 import {
   createContext,
   useContext,
@@ -6,43 +85,73 @@ import {
   type ReactNode,
 } from "react";
 
+interface CompanyData {
+  id: string;
+  name?: string;
+}
+
+export interface UserData {
+  id: string;
+  email: string;
+  token: string;
+  company?: CompanyData | null;
+}
+
 interface AuthContextType {
   token: string | null;
+  user: UserData | null;
   setToken: (token: string | null) => void;
   logout: () => void;
-  login: (token: string, userData?: any) => void;
-  loading: boolean; // tambah loading flag
+  login: (token: string, userData: UserData) => void; // 2 argumen
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      const parsedUser = JSON.parse(userData);
-      setToken(parsedUser?.token || parsedUser?.user?.token || null);
+    const stored = localStorage.getItem("user");
+    if (stored) {
+      try {
+        const parsed: UserData = JSON.parse(stored);
+        setUser(parsed);
+        setToken(parsed.token);
+      } catch (e) {
+        console.error("Gagal parsing localStorage user:", e);
+        localStorage.removeItem("user");
+      }
     }
-    setLoading(false); // selesai load token
+    setLoading(false);
   }, []);
 
   const logout = () => {
     localStorage.removeItem("user");
     setToken(null);
+    setUser(null);
   };
 
-  const login = (newToken: string, userData?: any) => {
-    const user = userData
-      ? { token: newToken, user: userData }
-      : { token: newToken };
-    localStorage.setItem("user", JSON.stringify(user));
+  const login = (newToken: string, userData: UserData) => {
+    const newUser: UserData = {
+      ...userData,
+      token: newToken,
+      company: userData.company
+        ? { id: userData.company.id, name: userData.company.name }
+        : null,
+    };
+
+    localStorage.setItem("user", JSON.stringify(newUser));
+    setToken(newToken);
+    setUser(newUser);
   };
 
   return (
-    <AuthContext.Provider value={{ token, setToken, logout, login, loading }}>
+    <AuthContext.Provider
+      value={{ token, user, setToken, logout, login, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );
