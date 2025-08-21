@@ -23,7 +23,7 @@ export default function DashboardLayout() {
             {[
               { to: "/dashboard", label: "Dashboard" },
               { to: "/company-profile", label: "Perusahaan" },
-              { to: "/registrasi-karyawan", label: "Registrasi Karyawan" },
+              { to: "/registrasi-karyawan", label: "Pegawai" },
               { to: "/hasil-mcu", label: "Hasil MCU" },
             ].map((item) => (
               <NavLink
