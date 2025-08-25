@@ -15,6 +15,9 @@ import { showSwal } from "@/lib/SwalHelper";
 import { usePaginatedResource } from "@/hooks/use-paginated-resource";
 import Pagination from "@/components/Pagination";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
+import { getDobIndonesianFormat } from "@/utils/dateUtils";
+import { formatWhatsappLink } from "@/utils/whatsappUtils";
+import { useAuth } from "@/routes/AuthContext";
 
 export default function EmployeeRegisterPage() {
   const { downloadBlob } = useFileDownload();
@@ -23,7 +26,7 @@ export default function EmployeeRegisterPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [openModal, setOpenModal] = useState(false);
   const [searchKey, setSearchKey] = useState("");
-
+  const { user } = useAuth();
   const {
     data: employees,
     loading,
@@ -97,64 +100,71 @@ export default function EmployeeRegisterPage() {
     }
   };
 
+  if (!user) {
+    return (
+      <div className="h-full flex items-center justify-center text-base-content">
+        <p className="text-lg">Memuat profil...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-base-100 text-base-content p-2">
       <h3 className="text-3xl mb-6">Data Pegawai</h3>
       <div className="flex justify-between items-stretch">
         {/* Teks di kiri */}
         <div className="flex-1 flex items-center overflow-hidden bg-base-200/40 rounded-t-4xl p-2 justify-center">
-          <p className="break-words p-4 just">
-            PT Ciputra Mitra Hospital Banjarmasin
-          </p>
+          <p className="break-words p-4 just">{user.company?.name || "-"}</p>
         </div>
 
         {/* Tombol di kanan */}
         <div className="flex-shrink-0 flex gap-2 items-center px-2">
-          <div className="flex gap-0 items-center">
+          <div className="flex gap-2 items-center">
             {/* Input + X */}
-            <div className="relative w-64">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="input input-ghost rounded-l-full w-full border border-gray-300 h-10 pr-10"
-                value={searchKey}
-                onChange={(e) => setSearchKey(e.target.value)}
-              />
+            <div className="flex items-center">
+              {/* Input + Reset X */}
+              <div className="relative flex-1">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="input input-ghost rounded-l-full w-full border border-gray-300 h-10 pr-10"
+                  value={searchKey}
+                  onChange={(e) => setSearchKey(e.target.value)}
+                />
+                {searchKey && (
+                  <button
+                    type="button"
+                    onClick={handleResetSearch}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-red-500"
+                    title="Reset"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
 
-              {searchKey && (
-                <button
-                  type="button"
-                  onClick={handleResetSearch}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-red-500"
-                  title="Reset"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
+              {/* Tombol Search */}
+              <Button
+                type="button"
+                className="bg-accent text-accent-content hover:bg-accent-focus rounded-r-full h-10 flex items-center gap-2"
+                onClick={handleSearchButton}
+              >
+                <Search className="size-5" />
+                Search
+              </Button>
             </div>
 
-            {/* Tombol Search */}
-            <Button
-              type="button"
-              className="bg-accent text-accent-content hover:bg-accent-focus rounded-r-full gap-2 h-10 flex items-center"
-              onClick={handleSearchButton}
-            >
-              <Search className="size-5" />
-              Search
-            </Button>
-          </div>
-
-          {/* Tombol Reset */}
-
-          <div className="tooltip" data-tip="Download template Excel">
-            <Button
-              type="button"
-              className="bg-primary text-primary-content hover:bg-primary-focus rounded-full"
-              onClick={handleDownloadTemplate}
-            >
-              <Download className="size-5" />
-              Download Template
-            </Button>
+            {/* Tombol Download */}
+            <div className="tooltip" data-tip="Download template Excel">
+              <Button
+                type="button"
+                className="bg-primary text-primary-content hover:bg-primary-focus rounded-full h-10 flex items-center gap-2"
+                onClick={handleDownloadTemplate}
+              >
+                <Download className="size-5" />
+                Download Template
+              </Button>
+            </div>
           </div>
 
           <div className="tooltip" data-tip="Upload File Excel">
@@ -226,6 +236,7 @@ export default function EmployeeRegisterPage() {
                   <tr>
                     <th>No</th>
                     <th>Nomor Pegawai</th>
+                    <th>NIK</th>
                     <th>Nama</th>
                     <th>No. HP</th>
                     <th>Tanggal Lahir</th>
@@ -237,9 +248,23 @@ export default function EmployeeRegisterPage() {
                     <tr className="hover:bg-secondary-content" key={emp.id}>
                       <td>{(page - 1) * 10 + idx + 1}</td>
                       <td>{emp.employee_number}</td>
+                      <td>{emp.nik}</td>
                       <td>{emp.name}</td>
-                      <td>{emp.phone_number}</td>
-                      <td>{emp.dob}</td>
+                      <td>
+                        {emp.phone_number ? (
+                          <a
+                            href={formatWhatsappLink(emp.phone_number)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 hover:underline"
+                          >
+                            {emp.phone_number}
+                          </a>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                      <td>{emp.dob ? getDobIndonesianFormat(emp.dob) : "-"}</td>
                       <td>{emp.age_detail}</td>
                     </tr>
                   ))}

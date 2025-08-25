@@ -11,6 +11,7 @@ export interface EmployeeItem {
   company_id: string;
   company_name: string;
   employee_number: string;
+  nik: string;
   name: string;
   phone_number: string;
   dob: string;
