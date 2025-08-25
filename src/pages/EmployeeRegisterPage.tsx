@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-
+import { useState } from "react";
+import { useLazySearch } from "@/hooks/use-lazy-search";
 import { FileInput } from "@/components/form/FileInput";
 import { ExcelTable } from "@/components/ExcelTable";
 import { Button } from "@/components/ui/button";
@@ -34,8 +34,8 @@ export default function EmployeeRegisterPage() {
     refetch,
     invalidateCache,
     handlePageChange,
-    handleSearch, // ⬅ handler search baru
-    search, // ⬅ current search state dari URL
+    handleSearch,
+    search,
   } = usePaginatedResource<EmployeeItem>({
     queryFn: getEmployees,
     defaultParams: {
@@ -44,18 +44,50 @@ export default function EmployeeRegisterPage() {
       sort_order: "asc",
     },
   });
-  const [searchKey, setSearchKey] = useState(search);
+  // const [searchKey, setSearchKey] = useState(search);
+  // const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(
+  //   null
+  // );
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      handleSearch(searchKey);
-      invalidateCache(); // hapus cache lama
-      refetch(); // fetch ulang data
-    }, 500);
+  // const doLazySearch = (keyword: string) => {
+  //   if (typingTimeout) clearTimeout(typingTimeout);
 
-    return () => clearTimeout(timeout);
-  }, [searchKey]);
+  //   const timeout = setTimeout(async () => {
+  //     console.log("🔍 Searching:", keyword);
 
+  //     // Update URL params
+  //     handleSearch(keyword);
+
+  //     // Kosongkan cache agar fetch benar-benar fresh
+  //     invalidateCache();
+
+  //     // Refetch pakai force = true agar tidak membaca cache
+  //     await refetch(true);
+  //   }, 300);
+
+  //   setTypingTimeout(timeout);
+  // };
+
+  // const resetSearch = async () => {
+  //   setSearchKey("");
+  //   handleSearch("");
+  //   invalidateCache();
+  //   await refetch();
+  // };
+
+  const {
+    searchKey,
+    handleChange: handleSearchInput,
+    resetSearch: resetSearchInput,
+  } = useLazySearch({
+    initialValue: search,
+    delay: 300,
+    onSearch: async (keyword) => {
+      handleSearch(keyword); // update search di usePaginatedResource
+      invalidateCache(); // kosongkan cache
+      await refetch(true); // refetch pakai force
+    },
+  });
   const handleDownloadTemplate = async () => {
     try {
       const blob = await downloadEmployeeTemplate();
@@ -119,15 +151,11 @@ export default function EmployeeRegisterPage() {
               placeholder="Search..."
               className="input input-ghost ml-2 w-full max-w-xs"
               value={searchKey}
-              onChange={(e) => setSearchKey(e.target.value)}
+              onChange={handleSearchInput}
             />
-
             {searchKey && (
               <button
-                onClick={() => {
-                  setSearchKey("");
-                  handleSearch(""); // reset search di URL
-                }}
+                onClick={resetSearchInput}
                 className="ml-2 text-gray-500 hover:text-red-500"
                 title="Reset"
               >
@@ -135,6 +163,7 @@ export default function EmployeeRegisterPage() {
               </button>
             )}
           </div>
+
           <div className="tooltip" data-tip="Download template Excel">
             <Button
               type="button"
