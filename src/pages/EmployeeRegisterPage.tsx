@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import { FileInput } from "@/components/form/FileInput";
 import { ExcelTable } from "@/components/ExcelTable";
 import { Button } from "@/components/ui/button";
@@ -33,6 +34,8 @@ export default function EmployeeRegisterPage() {
     refetch,
     invalidateCache,
     handlePageChange,
+    handleSearch, // ⬅ handler search baru
+    search, // ⬅ current search state dari URL
   } = usePaginatedResource<EmployeeItem>({
     queryFn: getEmployees,
     defaultParams: {
@@ -41,6 +44,17 @@ export default function EmployeeRegisterPage() {
       sort_order: "asc",
     },
   });
+  const [searchKey, setSearchKey] = useState(search);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      handleSearch(searchKey);
+      invalidateCache(); // hapus cache lama
+      refetch(); // fetch ulang data
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [searchKey]);
 
   const handleDownloadTemplate = async () => {
     try {
@@ -104,7 +118,22 @@ export default function EmployeeRegisterPage() {
               type="text"
               placeholder="Search..."
               className="input input-ghost ml-2 w-full max-w-xs"
+              value={searchKey}
+              onChange={(e) => setSearchKey(e.target.value)}
             />
+
+            {searchKey && (
+              <button
+                onClick={() => {
+                  setSearchKey("");
+                  handleSearch(""); // reset search di URL
+                }}
+                className="ml-2 text-gray-500 hover:text-red-500"
+                title="Reset"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
           </div>
           <div className="tooltip" data-tip="Download template Excel">
             <Button
