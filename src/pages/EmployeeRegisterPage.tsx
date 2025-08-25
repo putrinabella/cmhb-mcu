@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useLazySearch } from "@/hooks/use-lazy-search";
 import { FileInput } from "@/components/form/FileInput";
 import { ExcelTable } from "@/components/ExcelTable";
 import { Button } from "@/components/ui/button";
@@ -23,6 +22,7 @@ export default function EmployeeRegisterPage() {
   const { importData, loading: loadingImport } = useImportEmployees();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [openModal, setOpenModal] = useState(false);
+  const [searchKey, setSearchKey] = useState("");
 
   const {
     data: employees,
@@ -31,11 +31,10 @@ export default function EmployeeRegisterPage() {
     page,
     lastPage,
     total,
-    refetch,
-    invalidateCache,
     handlePageChange,
     handleSearch,
-    search,
+    resetSearch,
+    invalidateCache,
   } = usePaginatedResource<EmployeeItem>({
     queryFn: getEmployees,
     defaultParams: {
@@ -44,50 +43,18 @@ export default function EmployeeRegisterPage() {
       sort_order: "asc",
     },
   });
-  // const [searchKey, setSearchKey] = useState(search);
-  // const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(
-  //   null
-  // );
 
-  // const doLazySearch = (keyword: string) => {
-  //   if (typingTimeout) clearTimeout(typingTimeout);
+  const handleSearchButton = () => {
+    handleSearch(searchKey);
+    invalidateCache();
+  };
 
-  //   const timeout = setTimeout(async () => {
-  //     console.log("🔍 Searching:", keyword);
+  const handleResetSearch = () => {
+    setSearchKey("");
+    resetSearch();
+    invalidateCache();
+  };
 
-  //     // Update URL params
-  //     handleSearch(keyword);
-
-  //     // Kosongkan cache agar fetch benar-benar fresh
-  //     invalidateCache();
-
-  //     // Refetch pakai force = true agar tidak membaca cache
-  //     await refetch(true);
-  //   }, 300);
-
-  //   setTypingTimeout(timeout);
-  // };
-
-  // const resetSearch = async () => {
-  //   setSearchKey("");
-  //   handleSearch("");
-  //   invalidateCache();
-  //   await refetch();
-  // };
-
-  const {
-    searchKey,
-    handleChange: handleSearchInput,
-    resetSearch: resetSearchInput,
-  } = useLazySearch({
-    initialValue: search,
-    delay: 300,
-    onSearch: async (keyword) => {
-      handleSearch(keyword); // update search di usePaginatedResource
-      invalidateCache(); // kosongkan cache
-      await refetch(true); // refetch pakai force
-    },
-  });
   const handleDownloadTemplate = async () => {
     try {
       const blob = await downloadEmployeeTemplate();
@@ -126,11 +93,10 @@ export default function EmployeeRegisterPage() {
       setOpenModal(false);
       setSelectedFile(null);
       resetData();
-      // pastikan cache dihapus dan data diambil ulang
       invalidateCache();
-      refetch();
     }
   };
+
   return (
     <div className="bg-base-100 text-base-content p-2">
       <h3 className="text-3xl mb-6">Data Pegawai</h3>
@@ -144,25 +110,41 @@ export default function EmployeeRegisterPage() {
 
         {/* Tombol di kanan */}
         <div className="flex-shrink-0 flex gap-2 items-center px-2">
-          <div className="flex items-center rounded-full border-1 ms-2 px-3">
-            <Search className="w-5 h-5 text-gray-500" />
-            <input
-              type="text"
-              placeholder="Search..."
-              className="input input-ghost ml-2 w-full max-w-xs"
-              value={searchKey}
-              onChange={handleSearchInput}
-            />
-            {searchKey && (
-              <button
-                onClick={resetSearchInput}
-                className="ml-2 text-gray-500 hover:text-red-500"
-                title="Reset"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
+          <div className="flex gap-0 items-center">
+            {/* Input + X */}
+            <div className="relative w-64">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="input input-ghost rounded-l-full w-full border border-gray-300 h-10 pr-10"
+                value={searchKey}
+                onChange={(e) => setSearchKey(e.target.value)}
+              />
+
+              {searchKey && (
+                <button
+                  type="button"
+                  onClick={handleResetSearch}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-red-500"
+                  title="Reset"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+
+            {/* Tombol Search */}
+            <Button
+              type="button"
+              className="bg-accent text-accent-content hover:bg-accent-focus rounded-r-full gap-2 h-10 flex items-center"
+              onClick={handleSearchButton}
+            >
+              <Search className="size-5" />
+              Search
+            </Button>
           </div>
+
+          {/* Tombol Reset */}
 
           <div className="tooltip" data-tip="Download template Excel">
             <Button

@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useState } from "react";
 import { usePaginatedQuery } from "./use-paginated-query";
 import type {
   RequiredPaginatedParams,
@@ -14,38 +14,45 @@ export function usePaginatedResource<
   TItem,
   TParams extends RequiredPaginatedParams = RequiredPaginatedParams
 >({ queryFn, defaultParams }: UsePaginatedResourceProps<TParams>) {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const page = Number(searchParams.get("page") || 1);
-  const search = searchParams.get("search") || "";
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+
+  const params: TParams = { ...defaultParams, page, search } as TParams;
 
   const {
     data: response,
     loading,
     error,
-    refetch,
+    refetch: refetchQuery,
     invalidateCache,
   } = usePaginatedQuery<PaginatedResponse<TItem>, TParams>({
     queryFn,
-    params: { ...defaultParams, page, search } as TParams,
+    params,
   });
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= (response?.last_page ?? 1)) {
-      setSearchParams((prev) => {
-        const params = new URLSearchParams(prev);
-        params.set("page", String(newPage));
-        return params;
-      });
+      setPage(newPage);
+      // refetch dengan page baru
+      refetchQuery(true);
     }
   };
 
   const handleSearch = (keyword: string) => {
-    setSearchParams((prev) => {
-      const params = new URLSearchParams(prev);
-      params.set("page", "1");
-      params.set("search", keyword);
-      return params;
-    });
+    setPage(1);
+    setSearch(keyword);
+    // gunakan params baru langsung agar refetch memakai keyword baru
+    refetchQuery(true, {
+      ...defaultParams,
+      page: 1,
+      search: keyword,
+    } as TParams);
+  };
+
+  const resetSearch = () => {
+    setPage(1);
+    setSearch("");
+    refetchQuery(true, { ...defaultParams, page: 1, search: "" } as TParams);
   };
 
   return {
@@ -58,60 +65,8 @@ export function usePaginatedResource<
     search,
     handlePageChange,
     handleSearch,
-    refetch,
+    resetSearch,
+    refetch: refetchQuery,
     invalidateCache,
   };
 }
-
-// export function usePaginatedResource<
-//   TItem,
-//   TParams extends RequiredPaginatedParams = RequiredPaginatedParams
-// >({ queryFn, defaultParams }: UsePaginatedResourceProps<TParams>) {
-//   const [searchParams, setSearchParams] = useSearchParams();
-//   const page = Number(searchParams.get("page") || 1);
-//   const search = searchParams.get("search") || "";
-
-//   const {
-//     data: response,
-//     loading,
-//     error,
-//     refetch,
-//     invalidateCache,
-//   } = usePaginatedQuery<PaginatedResponse<TItem>, TParams>({
-//     queryFn,
-//     params: { ...defaultParams, page, search } as TParams, // ⬅ search ikut dikirim
-//   });
-
-//   const handlePageChange = (newPage: number) => {
-//     if (newPage >= 1 && newPage <= (response?.last_page ?? 1)) {
-//       setSearchParams((prev) => {
-//         const params = new URLSearchParams(prev);
-//         params.set("page", String(newPage));
-//         return params;
-//       });
-//     }
-//   };
-
-//   const handleSearch = (keyword: string) => {
-//     setSearchParams((prev) => {
-//       const params = new URLSearchParams(prev);
-//       params.set("page", "1");
-//       params.set("search", keyword);
-//       return params;
-//     });
-//   };
-
-//   return {
-//     data: response?.data ?? [],
-//     total: response?.total ?? 0,
-//     loading,
-//     error,
-//     lastPage: response?.last_page ?? 1,
-//     page,
-//     search,
-//     handlePageChange,
-//     handleSearch, // ⬅ expose handler untuk search
-//     refetch,
-//     invalidateCache,
-//   };
-// }
