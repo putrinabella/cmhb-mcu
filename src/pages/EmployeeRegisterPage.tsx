@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { FileInput } from "@/components/form/FileInput";
 import { ExcelTable } from "@/components/ExcelTable";
 import { Button } from "@/components/ui/button";
-import { Download, Plus, Search, Upload, UploadCloud, X } from "lucide-react";
+import { Download, Search, Upload, UploadCloud, X } from "lucide-react";
 import { useImportEmployees } from "@/hooks/use-import-employees";
 import { useExcelData, templateHeader } from "@/hooks/use-excel";
 import { useFileDownload } from "@/hooks/use-file-download";
@@ -18,7 +17,6 @@ import Pagination from "@/components/Pagination";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 
 export default function EmployeeRegisterPage() {
-  const navigate = useNavigate();
   const { downloadBlob } = useFileDownload();
   const { data: excelData, handleFileUpload, resetData } = useExcelData();
   const { importData, loading: loadingImport } = useImportEmployees();
@@ -127,17 +125,6 @@ export default function EmployeeRegisterPage() {
             >
               <Upload className="size-5" />
               Import
-            </Button>
-          </div>
-
-          <div className="tooltip" data-tip="Input Data">
-            <Button
-              type="button"
-              size="icon"
-              className="bg-primary text-primary-content hover:bg-primary-focus rounded-full"
-              onClick={() => navigate("/registrasi-karyawan/input")}
-            >
-              <Plus className="size-5" />
             </Button>
           </div>
 

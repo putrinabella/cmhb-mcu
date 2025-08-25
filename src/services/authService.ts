@@ -35,8 +35,13 @@ export const login = async (email: string, password: string) => {
     user: {
       id: res.data.id,
       email: res.data.email,
+      name: res.data.name,
+      position: res.data.position,
+      department: res.data.department,
+      phone_number: res.data.phone_number,
+      company_id: res.data.company_id,
+      company_name: res.data.company_name,
     },
-    company: res.data.company || null, // langsung ambil objek company dari API
   };
 };
 

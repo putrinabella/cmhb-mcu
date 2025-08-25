@@ -8,7 +8,19 @@ export function useImportEmployees() {
   const importData = async (file: File) => {
     try {
       setLoading(true);
-      const companyId = localStorage.getItem("company_id") || "";
+      const userData = localStorage.getItem("user");
+      let companyId = "";
+
+      if (userData) {
+        try {
+          const user = JSON.parse(userData); // ubah string ke object
+          companyId = user.company?.id || ""; // ambil company.id jika ada
+        } catch (error) {
+          console.error("Gagal parse user data:", error);
+        }
+      }
+
+      console.log("Company ID:", companyId);
 
       if (!companyId) {
         showSwal({

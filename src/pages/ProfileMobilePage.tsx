@@ -3,9 +3,28 @@ import { InfoItem } from "@/components/InfoItem";
 import LogoutButton from "@/components/LogoutButton";
 import Tabs from "@/components/Tabs";
 import ThemeToggle from "@/components/ThemeToggle";
-import { CalendarDays, Home, Mail, Phone, User } from "lucide-react";
+import { useAuth } from "@/routes/AuthContext";
+import {
+  Briefcase,
+  Building2,
+  Component,
+  Mail,
+  Phone,
+  User,
+} from "lucide-react";
 
 export default function ProfileMobilePage() {
+  const { user } = useAuth();
+
+  // Tampilkan loading jika user belum siap
+  if (!user) {
+    return (
+      <div className="h-full flex items-center justify-center text-base-content">
+        <p className="text-lg">Memuat profil...</p>
+      </div>
+    );
+  }
+
   const tabData = [
     {
       label: "Profil",
@@ -14,32 +33,37 @@ export default function ProfileMobilePage() {
           <div className="divider"></div>
 
           <InfoItem
-            icon={<CalendarDays size={18} className="text-primary" />}
-            label="Tanggal Lahir"
-            value="01 Januari 2000"
-          />
-          <InfoItem
             icon={<User size={18} className="text-primary" />}
-            label="Jenis Kelamin"
-            value="Perempuan"
+            label="Nama"
+            value={user.name || "-"}
           />
           <InfoItem
-            icon={<Home size={18} className="text-primary" />}
-            label="Alamat"
-            value="Banjarmasin"
+            icon={<Building2 size={18} className="text-primary" />}
+            label="Perusahaan"
+            value={user.company?.name || "-"}
           />
 
+          <InfoItem
+            icon={<Component size={18} className="text-primary" />}
+            label="Posisi"
+            value={user.position || "-"}
+          />
+          <InfoItem
+            icon={<Briefcase size={18} className="text-primary" />}
+            label="Departemen"
+            value={user.department || "-"}
+          />
           <div className="divider"></div>
 
           <InfoItem
             icon={<Phone size={18} className="text-primary" />}
             label="Nomor Telepon"
-            value="+62 812-3456-7890"
+            value={user.phone_number || "-"}
           />
           <InfoItem
             icon={<Mail size={18} className="text-primary" />}
             label="Email"
-            value="testing@example.com"
+            value={user.email || "-"}
           />
 
           <div className="divider"></div>
@@ -66,9 +90,9 @@ export default function ProfileMobilePage() {
             <User className="w-full h-full" />
           </div>
         </div>
-        <h1 className="text-xl font-semibold">Putri Nabella</h1>
+        <h1 className="text-xl font-semibold">{user.name || "Pengguna"}</h1>
         <p className="text-sm text-base-content/70 mt-2 mb-4">
-          Ciputra Mitra Hospital Banjarmasin
+          {user.company?.name || "Tidak ada perusahaan"}
         </p>
       </div>
       <Tabs tabs={tabData} />

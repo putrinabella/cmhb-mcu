@@ -1,82 +1,3 @@
-// import {
-//   createContext,
-//   useContext,
-//   useState,
-//   useEffect,
-//   type ReactNode,
-// } from "react";
-
-// interface UserData {
-//   id: string;
-//   email: string;
-//   token: string;
-//   company?: {
-//     id: string;
-//     name?: string;
-//   } | null;
-// }
-
-// interface AuthContextType {
-//   token: string | null;
-//   user: UserData | null; // simpan user lengkap
-//   setToken: (token: string | null) => void;
-//   logout: () => void;
-//   login: (token: string, userData: any) => void;
-//   loading: boolean;
-// }
-
-// const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-// export function AuthProvider({ children }: { children: ReactNode }) {
-//   const [token, setToken] = useState<string | null>(null);
-//   const [user, setUser] = useState<UserData | null>(null);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     const stored = localStorage.getItem("user");
-//     if (stored) {
-//       const parsed: UserData = JSON.parse(stored);
-//       setUser(parsed);
-//       setToken(parsed.token);
-//     }
-//     setLoading(false);
-//   }, []);
-
-//   const logout = () => {
-//     localStorage.removeItem("user");
-//     setToken(null);
-//     setUser(null);
-//   };
-
-//   const login = (newToken: string, userData: any) => {
-//     const newUser: UserData = {
-//       id: userData.id,
-//       email: userData.email,
-//       token: newToken,
-//       company: userData.company
-//         ? { id: userData.company.id, name: userData.company.name }
-//         : null,
-//     };
-
-//     localStorage.setItem("user", JSON.stringify(newUser)); // ✅ ini akan tercipta
-//     setToken(newToken);
-//     setUser(newUser);
-//   };
-
-//   return (
-//     <AuthContext.Provider
-//       value={{ token, user, setToken, logout, login, loading }}
-//     >
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// }
-
-// export function useAuth() {
-//   const context = useContext(AuthContext);
-//   if (!context) throw new Error("useAuth must be used within AuthProvider");
-//   return context;
-// }
 import {
   createContext,
   useContext,
@@ -94,6 +15,10 @@ export interface UserData {
   id: string;
   email: string;
   token: string;
+  name: string;
+  position: string;
+  department: string;
+  phone_number: string;
   company?: CompanyData | null;
 }
 

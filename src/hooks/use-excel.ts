@@ -7,6 +7,7 @@ type ExcelData = (string | number)[][];
 // Definisikan di sini supaya jadi single source of truth
 export const templateHeader = [
   "employee_number",
+  "nik",
   "name",
   "phone_number",
   "gender",

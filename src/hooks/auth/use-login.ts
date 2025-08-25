@@ -55,12 +55,22 @@ export function useLogin() {
 
       if (result.token) {
         const userData = {
-          ...result.user,
-          company: result.company || null,
-          token: result.token, // ✅ tambahkan token
+          id: result.user.id,
+          email: result.user.email,
+          token: result.token,
+          name: result.user.name,
+          position: result.user.position,
+          department: result.user.department,
+          phone_number: result.user.phone_number,
+          company: result.user.company_id
+            ? {
+                id: result.user.company_id,
+                name: result.user.company_name,
+              }
+            : null,
         };
 
-        login(result.token, userData);
+        login(result.token, userData); // simpan ke localStorage & context
         setToken(result.token);
 
         showSwal({
