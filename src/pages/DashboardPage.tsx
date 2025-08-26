@@ -6,6 +6,9 @@ import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { useNavigate } from "react-router-dom";
 import { getDateIndonesianFormat } from "@/utils/dateUtils";
 import { List } from "@/components/List";
+import MyPdfViewer from "@/components/MyPdfViewer";
+import { Viewer } from "@react-pdf-viewer/core";
+
 export default function DashboardPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -43,6 +46,10 @@ export default function DashboardPage() {
 
   return (
     <div className="bg-base-100 text-base-content p-6 space-y-6">
+      <div className="p-4">
+        <h1 className="text-xl font-bold mb-4">PDF Viewer</h1>
+        <MyPdfViewer fileUrl="/docs/testing.pdf" />
+      </div>
       {/* Greeting Card */}
       <div className="relative bg-primary/20 rounded-2xl p-6 flex items-center shadow-md">
         <div className="flex-1 flex flex-col">

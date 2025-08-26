@@ -1,14 +1,36 @@
+// import { createRoot } from "react-dom/client";
+// import { RouterProvider } from "react-router-dom";
+// import router from "./routes/router";
+// import "./index.css";
+// import { AuthProvider } from "./routes/AuthContext";
+// import { ThemeProvider } from "./components/ThemeProvider";
+
+// createRoot(document.getElementById("root")!).render(
+//   <ThemeProvider defaultTheme="system">
+//     <AuthProvider>
+//       <RouterProvider router={router} />
+//     </AuthProvider>
+//   </ThemeProvider>
+// );
+
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import router from "./routes/router";
 import "./index.css";
 import { AuthProvider } from "./routes/AuthContext";
 import { ThemeProvider } from "./components/ThemeProvider";
+import pdfWorker from "pdfjs-dist/build/pdf.worker.min.js?url";
+
+// Import Worker
+import { Worker } from "@react-pdf-viewer/core";
+import "@react-pdf-viewer/core/lib/styles/index.css";
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider defaultTheme="system">
     <AuthProvider>
-      <RouterProvider router={router} />
+      <Worker workerUrl={pdfWorker}>
+        <RouterProvider router={router} />
+      </Worker>
     </AuthProvider>
   </ThemeProvider>
 );
