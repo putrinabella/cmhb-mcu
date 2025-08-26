@@ -1,76 +1,108 @@
+import { useAuth } from "@/routes/AuthContext";
+import { Activity, Folder, Pin } from "lucide-react";
+import { getBatch, type BatchItem } from "@/services/batchAPI";
+import { usePaginatedResource } from "@/hooks/use-paginated-resource";
+import { LoadingIndicator } from "@/components/LoadingIndicator";
+import { useNavigate } from "react-router-dom";
+import { getDateIndonesianFormat } from "@/utils/dateUtils";
+import { List } from "@/components/List";
 export default function DashboardPage() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const {
+    data: batches,
+    loading,
+    error,
+  } = usePaginatedResource<BatchItem>({
+    queryFn: getBatch,
+    defaultParams: {},
+  });
+
+  const historyData = Array.from({ length: 5 }, (_, i) => {
+    const id = i + 1;
+    const day = (i % 28) + 1;
+    const month = "Agustus";
+    const year = 2025;
+    const hour = String((8 + i) % 24).padStart(2, "0");
+    const minute = String((i * 7) % 60).padStart(2, "0");
+
+    return {
+      id,
+      title: `MCU Event ${id}`,
+      timestamp: `${day} ${month} ${year}, ${hour}:${minute}`,
+    };
+  });
+
+  if (!user) {
+    return (
+      <div className="h-full flex items-center justify-center text-base-content">
+        <p className="text-lg">Memuat profil...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-base-100 text-base-content p-6">
-      {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold">Hi Putri Nabella</h1>
-        <p className="text-gray-500">
-          How is your day? Below we show your sales report for this month
-        </p>
-      </div>
-
-      {/* Balances */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div className="card bg-primary text-primary-content p-4 rounded-xl">
-          <h2 className="font-semibold">Available Balance</h2>
-          <p className="text-2xl font-bold">$27,980.24</p>
+    <div className="bg-base-100 text-base-content p-6 space-y-6">
+      {/* Greeting Card */}
+      <div className="relative bg-primary/20 rounded-2xl p-6 flex items-center shadow-md">
+        <div className="flex-1 flex flex-col">
+          <h1 className="text-3xl font-bold text-base-content">
+            Hi {user.name}
+          </h1>
+          <p className="text-base-content/70 text-sm mt-1">
+            Selamat datang kembali! Lihat daftar batch MCU terbaru di bawah ini.
+          </p>
         </div>
-        <div className="card bg-secondary text-secondary-content p-4">
-          <h2 className="font-semibold">Pending Balance</h2>
-          <p className="text-2xl font-bold">$3,980.23</p>
+        <div className="absolute right-4 -top-6 w-20 h-20 sm:right-10 sm:-top-10 sm:w-32 sm:h-32 opacity-60">
+          <Activity className="w-full h-full text-primary" />
         </div>
       </div>
 
-      {/* Sales Target */}
-      <div className="card bg-base-200 p-4 mb-6">
-        <div className="flex justify-between items-center mb-2">
-          <span className="font-semibold">Sales Target</span>
-          <span className="text-xl font-bold text-error">%32</span>
-        </div>
-        <div className="flex justify-between mt-4 text-gray-500">
-          <span>Shopee</span>
-          <span>Tokopedia</span>
-          <span>Amazon</span>
-        </div>
-        <div className="h-2 bg-gray-300 rounded-full mt-2">
-          <div className="h-2 bg-primary rounded-full w-1/3"></div>
-        </div>
-      </div>
+      {/* Batch Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Batch MCU */}
+        <div className="bg-base-100 border-2 border-dashed border-primary/50 rounded-2xl p-6 shadow-md w-full">
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-base-content">
+            <Pin className="w-6 h-6 text-primary" />
+            Batch MCU
+          </h2>
 
-      {/* Product Analytics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="card bg-base-200 p-4">
-          <h3 className="font-semibold mb-2">Sales</h3>
-          <div className="h-24 flex items-end gap-2">
-            <div className="w-5 bg-gray-400 h-16"></div>
-            <div className="w-5 bg-gray-400 h-20"></div>
-            <div className="w-5 bg-accent h-24"></div>
-            <div className="w-5 bg-gray-400 h-18"></div>
-            <div className="w-5 bg-gray-400 h-14"></div>
-          </div>
-        </div>
-        <div className="card bg-base-200 p-4 flex flex-col items-center justify-center">
-          <h3 className="font-semibold mb-2">Growth</h3>
-          <div className="radial-progress text-primary">32%</div>
-        </div>
-        <div className="card bg-base-200 p-4 text-center">
-          <h3 className="font-semibold mb-2">Total Customer</h3>
-          <p className="text-3xl font-bold">2135</p>
-          <button className="btn btn-sm btn-primary mt-2">View Details</button>
-        </div>
-      </div>
+          {/* Loading / Error States */}
+          {loading && <LoadingIndicator />}
+          {error && <p className="text-error text-center">{error}</p>}
 
-      {/* Feedback */}
-      <div className="card bg-base-200 p-4">
-        <h3 className="font-semibold mb-2">
-          Does our dashboard help your business?
-        </h3>
-        <div className="flex gap-4 mt-2">
-          <button className="btn btn-circle btn-primary">😃</button>
-          <button className="btn btn-circle btn-secondary">🙂</button>
-          <button className="btn btn-circle btn-accent">😐</button>
-          <button className="btn btn-circle btn-info">🙁</button>
-          <button className="btn btn-circle btn-error">😢</button>
+          {/* Grid Data */}
+          {!loading && !error && (
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {batches.map((batch) => (
+                <div
+                  key={batch.id}
+                  className="group flex flex-col items-center justify-center p-4 rounded-xl cursor-pointer bg-base-100 hover:bg-primary hover:text-primary-content shadow-sm transition-all duration-200 tooltip tooltip-bottom"
+                  data-tip={`${getDateIndonesianFormat(
+                    batch.exam_date
+                  )} | Lokasi: ${batch.location}`}
+                  onClick={() => navigate(`/batch/${batch.id}`)}
+                >
+                  <Folder className="w-12 h-12 text-yellow-400 group-hover:text-yellow-100 transition-colors" />
+                  <span
+                    className="mt-2 text-sm text-center font-medium truncate w-full transition-colors"
+                    title={batch.batch_code}
+                  >
+                    {batch.batch_code}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* History List */}
+        <div className="bg-base-100 border-2 border-dashed border-primary/50 rounded-2xl p-6 shadow-md w-full">
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-base-content">
+            <Pin className="w-6 h-6 text-primary" />
+            Hasil Medical Check-Up
+          </h2>
+          <List items={historyData} />
         </div>
       </div>
     </div>
