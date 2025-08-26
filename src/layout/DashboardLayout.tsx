@@ -22,7 +22,8 @@ export default function DashboardLayout() {
           <div className="flex gap-6 bg-base-100 px-2 py-2 rounded-full shadow-md items-center">
             {[
               { to: "/dashboard", label: "Dashboard" },
-              { to: "/company-profile", label: "Perusahaan" },
+              // { to: "/company-profile", label: "Perusahaan" },
+              { to: "/batch", label: "Batch" },
               { to: "/registrasi-karyawan", label: "Pegawai" },
               { to: "/hasil-mcu", label: "Hasil MCU" },
             ].map((item) => (

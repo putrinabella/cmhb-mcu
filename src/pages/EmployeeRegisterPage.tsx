@@ -15,7 +15,7 @@ import { showSwal } from "@/lib/SwalHelper";
 import { usePaginatedResource } from "@/hooks/use-paginated-resource";
 import Pagination from "@/components/Pagination";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
-import { getDobIndonesianFormat } from "@/utils/dateUtils";
+import { getDateIndonesianFormat } from "@/utils/dateUtils";
 import { formatWhatsappLink } from "@/utils/whatsappUtils";
 import { useAuth } from "@/routes/AuthContext";
 
@@ -245,7 +245,7 @@ export default function EmployeeRegisterPage() {
                 </thead>
                 <tbody>
                   {employees.map((emp, idx) => (
-                    <tr className="hover:bg-secondary-content" key={emp.id}>
+                    <tr className="hover:bg-secondary" key={emp.id}>
                       <td>{(page - 1) * 10 + idx + 1}</td>
                       <td>{emp.employee_number}</td>
                       <td>{emp.nik}</td>
@@ -256,7 +256,7 @@ export default function EmployeeRegisterPage() {
                             href={formatWhatsappLink(emp.phone_number)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-500 hover:underline"
+                            className=" hover:underline"
                           >
                             {emp.phone_number}
                           </a>
@@ -264,7 +264,9 @@ export default function EmployeeRegisterPage() {
                           "-"
                         )}
                       </td>
-                      <td>{emp.dob ? getDobIndonesianFormat(emp.dob) : "-"}</td>
+                      <td>
+                        {emp.dob ? getDateIndonesianFormat(emp.dob) : "-"}
+                      </td>
                       <td>{emp.age_detail}</td>
                     </tr>
                   ))}

@@ -22,7 +22,7 @@ export function getAgeFromDob(dob: string | Date | null | undefined): string {
   return `${years} tahun ${months} bulan ${days} hari`;
 }
 
-export function getDobIndonesianFormat(date: string | Date): string {
+export function getDateIndonesianFormat(date: string | Date): string {
   const bulanIndo = [
     "Januari",
     "Februari",

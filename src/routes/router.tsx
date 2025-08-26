@@ -7,10 +7,10 @@ import ResponsiveLayout from "@/layout/ResponsiveLayout";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 
 // Lazy load halaman
-const WelcomePage = lazy(() => import("@/pages/WelcomePage"));
-const LoginPage = lazy(() => import("@/pages/LoginPage"));
-const LoginEmployeePage = lazy(() => import("@/pages/LoginEmployeePage"));
-const RegisterPage = lazy(() => import("@/pages/RegisterPage"));
+const WelcomePage = lazy(() => import("@/pages/auth/WelcomePage"));
+const LoginPage = lazy(() => import("@/pages/auth/LoginPage"));
+const LoginEmployeePage = lazy(() => import("@/pages/auth/LoginEmployeePage"));
+const RegisterPage = lazy(() => import("@/pages/auth/RegisterPage"));
 const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
 const McuPage = lazy(() => import("@/pages/McuPage"));
 const EmployeeRegisterPage = lazy(() => import("@/pages/EmployeeRegisterPage"));
@@ -18,6 +18,8 @@ const NotFoundPage = lazy(() => import("@/pages/error/NotFoundPage"));
 const CompaniesPage = lazy(() => import("@/pages/CompaniesPage"));
 const ProfileLayout = lazy(() => import("@/layout/ProfileLayout"));
 const CompanyDetailPage = lazy(() => import("@/pages/CompanyDetailPage"));
+const BatchPage = lazy(() => import("@/pages/BatchPage"));
+const BatchDetailPage = lazy(() => import("@/pages/BatchDetailPage"));
 const InputPage = lazy(() => import("@/pages/employee/InputPage"));
 // Helper untuk membungkus lazy component dengan Suspense
 const Loadable = (Component: React.LazyExoticComponent<any>) => (
@@ -51,6 +53,14 @@ const router = createBrowserRouter([
         path: "/dashboard",
         element: <ResponsiveLayout />,
         children: [{ index: true, element: Loadable(DashboardPage) }],
+      },
+      {
+        path: "/batch",
+        element: <ResponsiveLayout />,
+        children: [
+          { index: true, element: Loadable(BatchPage) },
+          { path: ":id", element: Loadable(BatchDetailPage) },
+        ],
       },
       {
         path: "/registrasi-karyawan",

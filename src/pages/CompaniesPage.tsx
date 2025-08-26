@@ -16,11 +16,7 @@ export default function CompaniesPage() {
     handlePageChange,
   } = usePaginatedResource<CompanyItem>({
     queryFn: getCompanies,
-    defaultParams: {
-      per_page: 10,
-      sort_by: "name",
-      sort_order: "asc",
-    },
+    defaultParams: {},
   });
   const navigate = useNavigate();
   return (
