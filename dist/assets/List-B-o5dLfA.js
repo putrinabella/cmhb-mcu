@@ -1,0 +1,6 @@
+import{c as r,j as e}from"./index-BfdL3V75.js";/**
+ * @license lucide-react v0.541.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const c=[["path",{d:"m14.479 19.374-.971.939a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5a5.2 5.2 0 0 1-.219 1.49",key:"wg5jx"}],["path",{d:"M15 15h6",key:"1u4692"}],["path",{d:"M18 12v6",key:"1houu1"}]],i=r("heart-plus",c);function l({items:t,className:a="",emptyMessage:n="Tidak ada riwayat"}){return t.length===0?e.jsx("div",{className:`text-base-content/60 text-center p-4 ${a}`,children:n}):e.jsx("ul",{className:`space-y-4 ${a}`,children:t.map(s=>e.jsxs("li",{className:"flex items-start gap-3 p-4 rounded-xl shadow-sm border border-base-300 bg-base-100 hover:bg-base-200 transition",children:[e.jsx("div",{className:"flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-primary text-primary-content",children:s.icon??e.jsx(i,{size:20})}),e.jsxs("div",{className:"flex-1",children:[e.jsx("p",{className:"font-semibold text-base-content",children:s.title}),s.description&&e.jsx("p",{className:"text-sm text-base-content/70",children:s.description}),e.jsx("p",{className:"text-xs text-base-content/50 mt-1",children:s.timestamp})]})]},s.id))})}export{l as L};

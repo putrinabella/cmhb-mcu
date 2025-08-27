@@ -1,0 +1,1 @@
+import{j as a}from"./index-BfdL3V75.js";import"./pdfjs-BzSgQdvw.js";function s(){return a.jsxs("div",{className:"p-6",children:[a.jsx("h1",{className:"text-2xl font-bold mb-4",children:"Input Data"}),a.jsx("p",{className:"text-gray-600",children:"Di sini nanti form input data karyawan atau perusahaan."})]})}export{s as default};

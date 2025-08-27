@@ -1,4 +1,4 @@
-import { HeartPulse, House, User, UserPlus } from "lucide-react";
+import { HeartPulse, House, User } from "lucide-react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useViewportHeight } from "@/hooks/use-viewport-height";
 

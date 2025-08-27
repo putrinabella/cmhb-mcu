@@ -12,12 +12,83 @@ import { usePaginatedResource } from "@/hooks/use-paginated-resource";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import Pagination from "@/components/Pagination";
 
+//
+import { Button } from "@/components/ui/button";
+import { Download, Search, Upload, UploadCloud, X } from "lucide-react";
+import { FileInput } from "@/components/form/FileInput";
+import { ExcelTable } from "@/components/ExcelTable";
+import { useExcelData, templateHeader } from "@/hooks/use-excel";
+import { useImportEmployees } from "@/hooks/use-import-employees";
+import { downloadEmployeeTemplate } from "@/services/employeeAPI";
+import { useFileDownload } from "@/hooks/use-file-download";
+import { showSwal } from "@/lib/SwalHelper";
+//
+
 export default function BatchDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [batch, setBatch] = useState<BatchItem | null>(null);
   const [batchLoading, setBatchLoading] = useState(true);
   const [batchError, setBatchError] = useState<string | null>(null);
 
+  // here
+  const [searchKey, setSearchKey] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const { data: excelData, handleFileUpload, resetData } = useExcelData();
+  const { importData, loading: loadingImport } = useImportEmployees();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const handleSearchButton = () => {
+    handleSearch(searchKey);
+    invalidateCache();
+  };
+  const handleDownloadTemplate = async () => {
+    try {
+      const blob = await downloadEmployeeTemplate();
+      downloadBlob(blob, "employee_template.xlsx");
+      showSwal({
+        icon: "success",
+        title: "Berhasil",
+        text: "Template berhasil diunduh!",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } catch (err) {
+      console.error(err);
+      showSwal({
+        icon: "error",
+        title: "Gagal",
+        text: "Download gagal!",
+        confirmButtonText: "Coba lagi",
+      });
+    }
+  };
+  const handleImport = async () => {
+    if (!selectedFile) {
+      showSwal({
+        icon: "warning",
+        title: "Tidak ada file",
+        text: "Silakan upload file Excel terlebih dahulu.",
+        confirmButtonText: "Mengerti",
+      });
+      return;
+    }
+
+    const success = await importData(selectedFile);
+    if (success) {
+      setOpenModal(false);
+      setSelectedFile(null);
+      resetData();
+      invalidateCache();
+    }
+  };
+
+  const handleResetSearch = () => {
+    setSearchKey("");
+    resetSearch();
+    invalidateCache();
+  };
+
+  const { downloadBlob } = useFileDownload();
+  // end here
   useEffect(() => {
     if (!id) return;
     setBatchLoading(true);
@@ -34,7 +105,10 @@ export default function BatchDetailPage() {
     page,
     lastPage,
     total,
+    handleSearch,
     handlePageChange,
+    resetSearch,
+    invalidateCache,
   } = usePaginatedResource<ExaminationItem>({
     queryFn: getExamination,
     defaultParams: {},
@@ -83,7 +157,129 @@ export default function BatchDetailPage() {
       </div>
 
       {/* Detail Table */}
-      <div className="overflow-x-auto bg-base-100 rounded-lg shadow-sm border border-base-200">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-stretch m-0 gap-2">
+        {/* Teks di kiri */}
+        {/* Teks di kiri */}
+        <div className="hidden md:flex flex-1 items-center overflow-hidden bg-primary/20 rounded-t-4xl justify-center border-t border-l border-r border-gray-300">
+          <p className="break-words p-4 font-bold text-center sm:text-left">
+            Daftar Karyawan
+          </p>
+        </div>
+
+        {/* Tombol dan search di kanan */}
+        <div className="flex-shrink-0 flex flex-col sm:flex-row gap-2 items-stretch sm:items-center px-2 mb-2 w-full sm:w-auto">
+          {/* Search bar */}
+          <div className="flex w-full sm:w-auto">
+            <div className="relative flex-1">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="input input-ghost rounded-l-full w-full border border-gray-300 h-10 pr-10"
+                value={searchKey}
+                onChange={(e) => setSearchKey(e.target.value)}
+              />
+              {searchKey && (
+                <button
+                  type="button"
+                  onClick={handleResetSearch}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-red-500"
+                  title="Reset"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+            <Button
+              type="button"
+              className="bg-accent text-accent-content hover:bg-accent-focus rounded-r-full h-10 flex items-center gap-2 px-4 w-auto"
+              onClick={handleSearchButton}
+            >
+              <Search className="size-5" />
+              Search
+            </Button>
+          </div>
+
+          {/* Baris kedua di mobile: download dan import sejajar */}
+          <div className="flex gap-2 w-full sm:w-auto">
+            {/* Tombol Download */}
+            <div
+              className="tooltip flex-1 sm:flex-none"
+              data-tip="Download template Excel"
+            >
+              <Button
+                type="button"
+                className="bg-primary text-primary-content hover:bg-primary-focus rounded-full h-10 flex items-center gap-2 w-full"
+                onClick={handleDownloadTemplate}
+              >
+                <Download className="size-5" />
+                Download Template
+              </Button>
+            </div>
+
+            {/* Tombol Import */}
+            <div
+              className="tooltip flex-1 sm:flex-none"
+              data-tip="Upload File Excel"
+            >
+              <Button
+                type="button"
+                className="bg-secondary text-accent-content hover:bg-accent-focus rounded-full h-10 flex items-center gap-2 w-full"
+                onClick={() => setOpenModal(true)}
+              >
+                <Upload className="size-5" />
+                Import
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Modal */}
+        {openModal && (
+          <div className="modal modal-open">
+            <div className="modal-box w-11/12 max-w-6xl">
+              <div className="py-4">
+                <FileInput
+                  label="Upload File"
+                  infoText="Max size 2MB, format .xlsx/.xls"
+                  accept=".xlsx,.xls"
+                  onChange={(e) => {
+                    handleFileUpload(e);
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setSelectedFile(file);
+                    }
+                  }}
+                />
+                <div className="overflow-x-auto mt-4">
+                  <ExcelTable data={excelData} headers={templateHeader} />
+                </div>
+              </div>
+              <div className="modal-action flex justify-end gap-2">
+                <Button
+                  variant="outline"
+                  className="gap-2 rounded-lg bg-error text-white hover:opacity-90"
+                  onClick={() => setOpenModal(false)}
+                >
+                  <X className="size-4" />
+                  Close
+                </Button>
+
+                <Button
+                  disabled={loadingImport}
+                  className="gap-2 rounded-lg bg-primary text-white hover:opacity-90"
+                  onClick={handleImport}
+                >
+                  {loadingImport ? <LoadingIndicator /> : null}
+                  <UploadCloud className="size-4" />
+                  Import Data
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="overflow-x-auto bg-base-100 rounded-bl-lg rounded-br-lg rounded-tr-lg border-l border-r border-b border-gray-300">
         {exmLoading ? (
           <LoadingIndicator />
         ) : exmError ? (

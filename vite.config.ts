@@ -11,6 +11,13 @@ export default defineConfig({
   },
   build: {
     outDir: "dist",
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          pdfjs: ["pdfjs-dist", "@react-pdf-viewer/core"],
+        },
+      },
+    },
   },
   base: "/",
   server: {
