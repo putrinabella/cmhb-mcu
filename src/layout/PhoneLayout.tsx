@@ -9,7 +9,6 @@ export default function PhoneLayout() {
 
   const navItems = [
     // { path: "/company-profile", icon: Building2, label: "Perusahaan" },
-    // { path: "/registrasi-karyawan", icon: UserPlus, label: "Register" },
     { path: "/hasil-mcu", icon: HeartPulse, label: "MCU" },
     { path: "/dashboard", icon: House, label: "Dashboard" },
     { path: "/profile", icon: User, label: "Profile" },
