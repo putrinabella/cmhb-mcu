@@ -123,7 +123,7 @@ export default function BatchDetailPage() {
     defaultParams: {},
   });
 
-  if (batchLoading) return <p>Memuat detail batch...</p>;
+  if (batchLoading) return <LoadingIndicator />;
   if (batchError) return <p className="text-error">{batchError}</p>;
   if (!batch) return <p>Batch tidak ditemukan.</p>;
 
@@ -203,7 +203,7 @@ export default function BatchDetailPage() {
               onClick={handleSearchButton}
             >
               <Search className="size-5" />
-              Search
+              <span className="hidden sm:inline">Search</span>
             </Button>
           </div>
 
@@ -220,8 +220,7 @@ export default function BatchDetailPage() {
                 onClick={handleDownloadTemplate}
               >
                 <Download className="size-5" />
-                {/* teks muncul di layar >=640px */}
-                <span className="hidden sm:inline">Download</span>
+                <span>Download</span>
               </Button>
             </div>
 
@@ -233,8 +232,7 @@ export default function BatchDetailPage() {
                 onClick={() => setOpenModal(true)}
               >
                 <Upload className="size-5" />
-                {/* teks muncul di layar >=640px */}
-                <span className="hidden sm:inline">Import</span>
+                <span>Import</span>
               </Button>
             </div>
           </div>
