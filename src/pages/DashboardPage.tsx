@@ -85,7 +85,7 @@ export default function DashboardPage() {
                   data-tip={`${getDateIndonesianFormat(
                     batch.exam_date
                   )} | Lokasi: ${batch.location}`}
-                  onClick={() => navigate(`/batch/${batch.id}`)}
+                  onClick={() => navigate(`/dashboard/batch/${batch.id}`)}
                 >
                   <Folder className="w-12 h-12 text-yellow-400 group-hover:text-yellow-100 transition-colors" />
                   <span

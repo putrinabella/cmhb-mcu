@@ -52,16 +52,31 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <ResponsiveLayout />,
-        children: [{ index: true, element: Loadable(DashboardPage) }],
-      },
-      {
-        path: "/batch",
-        element: <ResponsiveLayout />,
         children: [
-          { index: true, element: Loadable(BatchPage) },
-          { path: ":id", element: Loadable(BatchDetailPage) },
+          { index: true, element: Loadable(DashboardPage) },
+          {
+            path: "batch",
+            children: [
+              { index: true, element: Loadable(BatchPage) },
+              { path: ":id", element: Loadable(BatchDetailPage) },
+            ],
+          },
         ],
       },
+
+      // {
+      //   path: "/dashboard",
+      //   element: <ResponsiveLayout />,
+      //   children: [{ index: true, element: Loadable(DashboardPage) }],
+      // },
+      // {
+      //   path: "/batch",
+      //   element: <ResponsiveLayout />,
+      //   children: [
+      //     { index: true, element: Loadable(BatchPage) },
+      //     { path: ":id", element: Loadable(BatchDetailPage) },
+      //   ],
+      // },
       {
         path: "/registrasi-karyawan",
         element: <ResponsiveLayout />,

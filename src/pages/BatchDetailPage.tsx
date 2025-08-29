@@ -1,7 +1,16 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getBatchDetail, type BatchItem } from "@/services/batchAPI";
-import { FolderOpen, Calendar, MapPin, FileText } from "lucide-react";
+import {
+  FolderOpen,
+  Calendar,
+  MapPin,
+  FileText,
+  IdCard,
+  Phone,
+  HeartPulse,
+  Fingerprint,
+} from "lucide-react";
 import { getDateIndonesianFormat } from "@/utils/dateUtils";
 import { formatWhatsappLink } from "@/utils/whatsappUtils";
 import {
@@ -191,7 +200,7 @@ export default function BatchDetailPage() {
             </div>
             <Button
               type="button"
-              className="bg-accent text-accent-content hover:bg-accent-focus rounded-r-full h-10 flex items-center gap-2 px-4 w-auto"
+              className="bg-primary text-primary-content hover:bg-primary-focus rounded-r-full h-10 flex items-center gap-2 px-4 w-auto"
               onClick={handleSearchButton}
             >
               <Search className="size-5" />
@@ -200,8 +209,7 @@ export default function BatchDetailPage() {
           </div>
 
           {/* Baris kedua di mobile: download dan import sejajar */}
-          <div className="flex gap-2 w-full sm:w-auto">
-            {/* Tombol Download */}
+          {/* <div className="flex gap-2 w-full sm:w-auto">
             <div
               className="tooltip flex-1 sm:flex-none"
               data-tip="Download template Excel"
@@ -216,18 +224,47 @@ export default function BatchDetailPage() {
               </Button>
             </div>
 
-            {/* Tombol Import */}
             <div
               className="tooltip flex-1 sm:flex-none"
               data-tip="Upload File Excel"
             >
               <Button
                 type="button"
-                className="bg-secondary text-accent-content hover:bg-accent-focus rounded-full h-10 flex items-center gap-2 w-full"
+                className="bg-secondary text-accent-content hover:bg-primary-focus rounded-full h-10 flex items-center gap-2 w-full"
                 onClick={() => setOpenModal(true)}
               >
                 <Upload className="size-5" />
                 Import
+              </Button>
+            </div>
+          </div> */}
+          <div className="flex gap-2 w-full sm:w-auto">
+            {/* Tombol Download */}
+            <div
+              className="tooltip flex-1 sm:flex-none"
+              data-tip="Download Template"
+            >
+              <Button
+                type="button"
+                className="bg-primary text-primary-content hover:bg-primary-focus rounded-full h-10 flex items-center justify-center gap-2 w-full sm:w-auto"
+                onClick={handleDownloadTemplate}
+              >
+                <Download className="size-5" />
+                {/* teks muncul di layar >=640px */}
+                <span className="hidden sm:inline">Download</span>
+              </Button>
+            </div>
+
+            {/* Tombol Import */}
+            <div className="tooltip flex-1 sm:flex-none" data-tip="Import File">
+              <Button
+                type="button"
+                className="bg-primary text-primary-content hover:bg-primary-focus rounded-full h-10 flex items-center justify-center gap-2 w-full sm:w-auto"
+                onClick={() => setOpenModal(true)}
+              >
+                <Upload className="size-5" />
+                {/* teks muncul di layar >=640px */}
+                <span className="hidden sm:inline">Import</span>
               </Button>
             </div>
           </div>
@@ -279,7 +316,7 @@ export default function BatchDetailPage() {
         )}
       </div>
 
-      <div className="overflow-x-auto bg-base-100 rounded-bl-lg rounded-br-lg rounded-tr-lg border-l border-r border-b border-gray-300">
+      {/* <div className="overflow-x-auto bg-base-100 rounded-bl-lg rounded-br-lg rounded-tr-lg border-l border-r border-b border-gray-300">
         {exmLoading ? (
           <LoadingIndicator />
         ) : exmError ? (
@@ -345,6 +382,170 @@ export default function BatchDetailPage() {
               ))}
             </tbody>
           </table>
+        )}
+      </div> */}
+      <div className="overflow-x-auto bg-base-100 rounded-bl-lg rounded-br-lg rounded-tr-lg border-l border-r border-b border-gray-300">
+        {exmLoading ? (
+          <LoadingIndicator />
+        ) : exmError ? (
+          <p className="text-error p-4">{exmError}</p>
+        ) : (
+          <>
+            {/* Tabel untuk desktop */}
+            <div className="hidden md:block">
+              <table className="table w-full">
+                <thead className="bg-primary/20 text-base-content">
+                  <tr className="text-center align-middle">
+                    <th>No</th>
+                    <th className="max-w-[200px]">Paket MCU</th>
+                    <th>Nomor Pegawai</th>
+                    <th>NIK</th>
+                    <th>Nama</th>
+                    <th>Gender</th>
+                    <th>Tanggal Lahir</th>
+                    <th>Usia</th>
+                    <th>Kontak</th>
+                  </tr>
+                </thead>
+                <tbody className="align-middle">
+                  {examinations.map((exm, index) => (
+                    <tr key={exm.id} className="hover:bg-base-200">
+                      <td className="text-center">
+                        {index + 1 + (page - 1) * 10}
+                      </td>
+                      <td className="max-w-[200px]">
+                        {exm.mcu_package.name}
+                        {exm.notes && (
+                          <div className="text-xs text-base-content/70 mt-1">
+                            Catatan: {exm.notes}
+                          </div>
+                        )}
+                      </td>
+                      <td className="text-center">
+                        {exm.company_employee_id.employee_number}
+                      </td>
+                      <td className="text-center">
+                        {exm.company_employee_id.nik}
+                      </td>
+                      <td>{exm.company_employee_id.name}</td>
+                      <td className="text-center">
+                        {exm.company_employee_id.gender}
+                      </td>
+                      <td className="text-center">
+                        {getDateIndonesianFormat(exm.company_employee_id.dob)}
+                      </td>
+                      <td className="text-center">
+                        {exm.company_employee_id.age_detail}
+                      </td>
+                      <td>
+                        {exm.company_employee_id.phone_number ? (
+                          <a
+                            href={formatWhatsappLink(
+                              exm.company_employee_id.phone_number
+                            )}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:underline"
+                          >
+                            {exm.company_employee_id.phone_number}
+                          </a>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Card-style untuk mobile */}
+            <div className="block md:hidden space-y-3 p-2">
+              {examinations.map((exm, index) => (
+                <div
+                  key={exm.id}
+                  className="rounded-2xl border border-base-300 shadow-sm bg-base-100 overflow-hidden"
+                >
+                  {/* Header */}
+                  <div className="bg-primary/20 px-3 py-2">
+                    <h2 className="font-semibold text-base text-base-content">
+                      {index + 1 + (page - 1) * 10}.{" "}
+                      {exm.company_employee_id.name}
+                    </h2>
+                    <p className="text-xs text-base-content/70 mt-0.5">
+                      {exm.company_employee_id.gender} •{" "}
+                      {exm.company_employee_id.age_detail}
+                    </p>
+                  </div>
+
+                  {/* Body */}
+                  <div className="p-3 space-y-2 text-sm">
+                    {/* NIK */}
+                    <div className="flex items-center text-base-content">
+                      <Fingerprint size={16} className="mr-2 text-primary" />
+                      <span>NIK: {exm.company_employee_id.nik}</span>
+                    </div>
+
+                    {/* Nomor Pegawai */}
+                    <div className="flex items-center text-base-content">
+                      <IdCard size={16} className="mr-2 text-primary" />
+                      <span>
+                        No Peg: {exm.company_employee_id.employee_number}
+                      </span>
+                    </div>
+
+                    {/* Tanggal Lahir */}
+                    <div className="flex items-center text-base-content">
+                      <Calendar size={16} className="mr-2 text-primary" />
+                      <span>
+                        Lahir:{" "}
+                        {getDateIndonesianFormat(exm.company_employee_id.dob)}
+                      </span>
+                    </div>
+
+                    {/* Kontak */}
+                    <div className="flex items-center text-base-content">
+                      <Phone size={16} className="mr-2 text-primary" />
+                      {exm.company_employee_id.phone_number ? (
+                        <a
+                          href={formatWhatsappLink(
+                            exm.company_employee_id.phone_number
+                          )}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline"
+                        >
+                          {exm.company_employee_id.phone_number}
+                        </a>
+                      ) : (
+                        <span>-</span>
+                      )}
+                    </div>
+
+                    <hr className="border-base-300" />
+
+                    {/* Paket MCU */}
+                    <div className="flex items-start text-base-content">
+                      <HeartPulse
+                        size={16}
+                        className="mr-2 mt-0.5 text-primary flex-shrink-0"
+                      />
+                      <span className="break-words leading-tight">
+                        {exm.mcu_package.name}
+                      </span>
+                    </div>
+
+                    {/* Catatan */}
+                    {exm.notes && (
+                      <p className="text-xs italic text-base-content/70">
+                        Catatan: {exm.notes}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 

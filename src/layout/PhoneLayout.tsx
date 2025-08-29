@@ -5,14 +5,18 @@ import { useViewportHeight } from "@/hooks/use-viewport-height";
 export default function PhoneLayout() {
   useViewportHeight();
   const location = useLocation();
-  const isActive = (path: string) => location.pathname === path;
-
+  // const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => {
+    return (
+      location.pathname === path || location.pathname.startsWith(`${path}/`)
+    );
+  };
   const navItems = [
-    // { path: "/company-profile", icon: Building2, label: "Perusahaan" },
-    // { path: "/registrasi-karyawan", icon: UserPlus, label: "Register" },
     { path: "/hasil-mcu", icon: HeartPulse, label: "MCU" },
     { path: "/dashboard", icon: House, label: "Dashboard" },
     { path: "/profile", icon: User, label: "Profile" },
+    // { path: "/company-profile", icon: Building2, label: "Perusahaan" },
+    // { path: "/registrasi-karyawan", icon: UserPlus, label: "Register" },
     // { path: "/404", icon: CloudAlert, label: "404" },
   ];
 
