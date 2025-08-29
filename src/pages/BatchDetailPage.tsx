@@ -168,7 +168,6 @@ export default function BatchDetailPage() {
       {/* Detail Table */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-stretch m-0 gap-2">
         {/* Teks di kiri */}
-        {/* Teks di kiri */}
         <div className="hidden md:flex flex-1 items-center overflow-hidden bg-primary/20 rounded-t-4xl justify-center border-t border-l border-r border-gray-300">
           <p className="break-words p-4 font-bold text-center sm:text-left">
             Daftar Karyawan
@@ -176,7 +175,7 @@ export default function BatchDetailPage() {
         </div>
 
         {/* Tombol dan search di kanan */}
-        <div className="flex-shrink-0 flex flex-col sm:flex-row gap-2 items-stretch sm:items-center px-2 mb-2 w-full sm:w-auto">
+        <div className="flex-shrink-0 flex flex-col sm:flex-row gap-2 items-stretch sm:items-center mb-2 w-full sm:w-auto">
           {/* Search bar */}
           <div className="flex w-full sm:w-auto">
             <div className="relative flex-1">
@@ -209,35 +208,6 @@ export default function BatchDetailPage() {
           </div>
 
           {/* Baris kedua di mobile: download dan import sejajar */}
-          {/* <div className="flex gap-2 w-full sm:w-auto">
-            <div
-              className="tooltip flex-1 sm:flex-none"
-              data-tip="Download template Excel"
-            >
-              <Button
-                type="button"
-                className="bg-primary text-primary-content hover:bg-primary-focus rounded-full h-10 flex items-center gap-2 w-full"
-                onClick={handleDownloadTemplate}
-              >
-                <Download className="size-5" />
-                Download Template
-              </Button>
-            </div>
-
-            <div
-              className="tooltip flex-1 sm:flex-none"
-              data-tip="Upload File Excel"
-            >
-              <Button
-                type="button"
-                className="bg-secondary text-accent-content hover:bg-primary-focus rounded-full h-10 flex items-center gap-2 w-full"
-                onClick={() => setOpenModal(true)}
-              >
-                <Upload className="size-5" />
-                Import
-              </Button>
-            </div>
-          </div> */}
           <div className="flex gap-2 w-full sm:w-auto">
             {/* Tombol Download */}
             <div
@@ -316,75 +286,7 @@ export default function BatchDetailPage() {
         )}
       </div>
 
-      {/* <div className="overflow-x-auto bg-base-100 rounded-bl-lg rounded-br-lg rounded-tr-lg border-l border-r border-b border-gray-300">
-        {exmLoading ? (
-          <LoadingIndicator />
-        ) : exmError ? (
-          <p className="text-error p-4">{exmError}</p>
-        ) : (
-          <table className="table w-full">
-            <thead className="bg-primary/20 text-base-content">
-              <tr className="text-center align-middle">
-                <th>No</th>
-                <th className="max-w-[200px]">Paket MCU</th>
-                <th>Nomor Pegawai</th>
-                <th>NIK</th>
-                <th>Nama</th>
-                <th>Gender</th>
-                <th>Tanggal Lahir</th>
-                <th>Usia</th>
-                <th>Kontak</th>
-              </tr>
-            </thead>
-            <tbody className="align-middle">
-              {examinations.map((exm, index) => (
-                <tr key={exm.id} className="hover:bg-base-200">
-                  <td className="text-center">{index + 1 + (page - 1) * 10}</td>
-                  <td className="max-w-[200px]">
-                    {exm.mcu_package.name}
-                    {exm.notes && (
-                      <div className="text-xs text-base-content/70 mt-1">
-                        Catatan: {exm.notes}
-                      </div>
-                    )}
-                  </td>
-                  <td className="text-center">
-                    {exm.company_employee_id.employee_number}
-                  </td>
-                  <td className="text-center">{exm.company_employee_id.nik}</td>
-                  <td>{exm.company_employee_id.name}</td>
-                  <td className="text-center">
-                    {exm.company_employee_id.gender}
-                  </td>
-                  <td className="text-center">
-                    {getDateIndonesianFormat(exm.company_employee_id.dob)}
-                  </td>
-                  <td className="text-center">
-                    {exm.company_employee_id.age_detail}
-                  </td>
-                  <td>
-                    {exm.company_employee_id.phone_number ? (
-                      <a
-                        href={formatWhatsappLink(
-                          exm.company_employee_id.phone_number
-                        )}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className=" hover:underline"
-                      >
-                        {exm.company_employee_id.phone_number}
-                      </a>
-                    ) : (
-                      "-"
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div> */}
-      <div className="overflow-x-auto bg-base-100 rounded-bl-lg rounded-br-lg rounded-tr-lg border-l border-r border-b border-gray-300">
+      <div className="overflow-x-auto bg-base-100 rounded-bl-lg rounded-br-lg rounded-tr-lg md:border-l md:border-r md:border-b md:border-gray-300">
         {exmLoading ? (
           <LoadingIndicator />
         ) : exmError ? (
@@ -460,7 +362,7 @@ export default function BatchDetailPage() {
             </div>
 
             {/* Card-style untuk mobile */}
-            <div className="block md:hidden space-y-3 p-2">
+            <div className="block md:hidden space-y-3 py-4">
               {examinations.map((exm, index) => (
                 <div
                   key={exm.id}

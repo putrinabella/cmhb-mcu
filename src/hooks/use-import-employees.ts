@@ -26,6 +26,7 @@ export function useImportEmployees() {
         showSwal({
           icon: "error",
           title: "Gagal",
+          // text: "Company ID tidak ditemukan.",
           text: "Company ID tidak ditemukan di localStorage.",
           confirmButtonText: "Mengerti",
         });
