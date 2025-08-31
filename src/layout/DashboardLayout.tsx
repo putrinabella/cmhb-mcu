@@ -1,32 +1,40 @@
 import { Outlet, NavLink, Link } from "react-router-dom";
 import { useLogout } from "@/hooks/auth/use-logout";
+import { useAuth } from "@/routes/AuthContext";
 import { LogOut, User } from "lucide-react";
 
 export default function DashboardLayout() {
   const { handleLogout } = useLogout();
+  const { user } = useAuth();
+
+  const menuItems = [
+    { to: "/dashboard", label: "Dashboard" },
+    { to: "/hasil-mcu", label: "Hasil MCU" },
+    { to: "/batch", label: "Batch" },
+  ];
+
+  if (user?.role === "PIC") {
+    menuItems.push(
+      { to: "/registrasi-karyawan", label: "Pegawai" },
+      { to: "/company-profile", label: "Perusahaan" }
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col text-base">
       {/* Navbar desktop */}
       <div className="navbar hidden lg:flex sticky top-0 z-50 px-6 py-2 justify-between bg-base-100">
-        {/* Logo di kiri */}
+        {/* Logo */}
         <div className="navbar-start">
           <Link to="/dashboard" className="btn btn-ghost p-0">
             <img src="/images/logo.png" alt="Logo" className="h-[40px]" />
           </Link>
         </div>
 
-        {/* Menu navigasi + user dropdown di kanan */}
+        {/* Menu Navigasi */}
         <div className="flex items-center gap-4 navbar-end">
-          {/* Menu navigasi dengan bg */}
           <div className="flex gap-6 bg-base-100 px-2 py-2 rounded-full shadow-md items-center">
-            {[
-              { to: "/dashboard", label: "Dashboard" },
-              { to: "/hasil-mcu", label: "Hasil MCU" },
-              // { to: "/company-profile", label: "Perusahaan" },
-              // { to: "/batch", label: "Batch" },
-              // { to: "/registrasi-karyawan", label: "Pegawai" },
-            ].map((item) => (
+            {menuItems.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
@@ -50,12 +58,10 @@ export default function DashboardLayout() {
               role="button"
               className="btn btn-ghost btn-circle p-0"
             >
-              {/* Avatar dengan bg mirip navbar menu, sekarang ada px-4 py-2 */}
               <div className="flex items-center justify-center p-4 rounded-full bg-base-100 shadow-md">
                 <User className="w-6 h-6 text-base" />
               </div>
             </div>
-
             <ul
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-xl shadow-md mt-3 w-52 p-2 border border-base-300"
@@ -75,7 +81,6 @@ export default function DashboardLayout() {
                   Profile
                 </NavLink>
               </li>
-
               <li>
                 <button
                   onClick={handleLogout}
@@ -90,7 +95,7 @@ export default function DashboardLayout() {
         </div>
       </div>
 
-      {/* Content area */}
+      {/* Content */}
       <main className="flex-grow p-6">
         <Outlet />
       </main>

@@ -33,7 +33,7 @@ import { useFileDownload } from "@/hooks/use-file-download";
 import { showSwal } from "@/lib/SwalHelper";
 //
 
-export default function BatchDetailPage() {
+export default function BatchDetailLayout() {
   const { id } = useParams<{ id: string }>();
   const [batch, setBatch] = useState<BatchItem | null>(null);
   const [batchLoading, setBatchLoading] = useState(true);

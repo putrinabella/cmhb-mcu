@@ -54,7 +54,7 @@ export default function DashboardPage() {
             Hi {user.name}
           </h1>
           <p className="text-base-content/70 text-sm mt-1">
-            Selamat datang kembali! Lihat daftar batch MCU terbaru di bawah ini.
+            {/* Selamat datang kembali! Lihat daftar batch MCU terbaru di bawah ini. */}
           </p>
         </div>
         <div className="absolute right-4 -top-6 w-20 h-20 sm:right-10 sm:-top-10 sm:w-32 sm:h-32 opacity-60">
@@ -112,7 +112,7 @@ export default function DashboardPage() {
 
       <div className="pt-4">
         <Suspense fallback={<div>Loading PDF Viewer...</div>}>
-          <PdfViewer fileUrl="/docs/testing.pdf" />
+          <PdfViewer fileUrl="/docs/Dummy.pdf" />
         </Suspense>
       </div>
     </div>

@@ -1,1 +1,0 @@
-function s(e){const n=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"],t=typeof e=="string"?new Date(e):e,r=t.getDate(),o=t.getMonth(),a=t.getFullYear();return`${r} ${n[o]} ${a}`}export{s as g};

@@ -19,6 +19,7 @@ export interface UserData {
   position: string;
   department: string;
   phone_number: string;
+  role: string;
   company?: CompanyData | null;
 }
 

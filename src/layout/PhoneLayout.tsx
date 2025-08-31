@@ -1,10 +1,12 @@
-import { HeartPulse, House, User } from "lucide-react";
+import { CloudAlert, HeartPulse, House, User } from "lucide-react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useViewportHeight } from "@/hooks/use-viewport-height";
+import { useAuth } from "@/routes/AuthContext";
 
 export default function PhoneLayout() {
   useViewportHeight();
   const location = useLocation();
+  const { user } = useAuth();
   // const isActive = (path: string) => location.pathname === path;
   const isActive = (path: string) => {
     return (
@@ -15,10 +17,15 @@ export default function PhoneLayout() {
     { path: "/hasil-mcu", icon: HeartPulse, label: "MCU" },
     { path: "/dashboard", icon: House, label: "Dashboard" },
     { path: "/profile", icon: User, label: "Profile" },
-    // { path: "/company-profile", icon: Building2, label: "Perusahaan" },
-    // { path: "/registrasi-karyawan", icon: UserPlus, label: "Register" },
-    // { path: "/404", icon: CloudAlert, label: "404" },
   ];
+
+  if (user?.role === "PIC") {
+    navItems.push(
+      // { path: "/company-profile", icon: Building2, label: "Perusahaan" },
+      // { path: "/registrasi-karyawan", icon: UserPlus, label: "Register" },
+      { path: "/404", icon: CloudAlert, label: "404" }
+    );
+  }
 
   return (
     <div className="h-screen flex flex-col bg-base-100 text-base-content">

@@ -19,7 +19,7 @@ const CompaniesPage = lazy(() => import("@/pages/CompaniesPage"));
 const ProfileLayout = lazy(() => import("@/layout/ProfileLayout"));
 const CompanyDetailPage = lazy(() => import("@/pages/CompanyDetailPage"));
 const BatchPage = lazy(() => import("@/pages/BatchPage"));
-const BatchDetailPage = lazy(() => import("@/pages/BatchDetailPage"));
+const BatchDetailLayout = lazy(() => import("@/layout/BatchDetailLayout"));
 const InputPage = lazy(() => import("@/pages/employee/InputPage"));
 // Helper untuk membungkus lazy component dengan Suspense
 const Loadable = (Component: React.LazyExoticComponent<any>) => (
@@ -58,25 +58,11 @@ const router = createBrowserRouter([
             path: "batch",
             children: [
               { index: true, element: Loadable(BatchPage) },
-              { path: ":id", element: Loadable(BatchDetailPage) },
+              { path: ":id", element: Loadable(BatchDetailLayout) },
             ],
           },
         ],
       },
-
-      // {
-      //   path: "/dashboard",
-      //   element: <ResponsiveLayout />,
-      //   children: [{ index: true, element: Loadable(DashboardPage) }],
-      // },
-      // {
-      //   path: "/batch",
-      //   element: <ResponsiveLayout />,
-      //   children: [
-      //     { index: true, element: Loadable(BatchPage) },
-      //     { path: ":id", element: Loadable(BatchDetailPage) },
-      //   ],
-      // },
       {
         path: "/registrasi-karyawan",
         element: <ResponsiveLayout />,

@@ -1,95 +1,4 @@
 // export default PdfViewer;
-
-// import type { FC } from "react";
-// import { Viewer } from "@react-pdf-viewer/core";
-// import "@react-pdf-viewer/core/lib/styles/index.css";
-// import {
-//   getFilePlugin,
-//   type RenderDownloadProps,
-// } from "@react-pdf-viewer/get-file";
-// import { Download as DownloadIcon } from "lucide-react";
-
-// interface PdfViewerProps {
-//   fileUrl: string;
-// }
-
-// const PdfViewer: FC<PdfViewerProps> = ({ fileUrl }) => {
-//   const getFilePluginInstance = getFilePlugin();
-//   const { Download } = getFilePluginInstance;
-//   return (
-//     <div className="border border-black/30 rounded-lg overflow-hidden">
-//       {/* HEADER */}
-//       <div className="bg-gray-800 text-white px-4 py-[10px] flex justify-between items-center">
-//         <span className="font-bold">PDF Viewer</span>
-
-//         <Download>
-//           {(props: RenderDownloadProps) => (
-//             <button
-//               onClick={props.onClick}
-//               className="bg-primary/80 text-white px-3 py-1.5 flex items-center gap-1.5 rounded cursor-pointer hover:bg-primary transition"
-//             >
-//               <DownloadIcon size={18} />
-//               <span className="text-sm font-medium">Download</span>
-//             </button>
-//           )}
-//         </Download>
-//       </div>
-
-//       {/* VIEWER */}
-//       <div className="h-[700px]">
-//         <Viewer fileUrl={fileUrl} plugins={[getFilePluginInstance]} />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default PdfViewer;
-
-// import type { FC } from "react";
-// import { Viewer } from "@react-pdf-viewer/core";
-// import "@react-pdf-viewer/core/lib/styles/index.css";
-// import {
-//   getFilePlugin,
-//   type RenderDownloadProps,
-// } from "@react-pdf-viewer/get-file";
-// import { Download as DownloadIcon } from "lucide-react";
-
-// interface PdfViewerProps {
-//   fileUrl: string;
-// }
-
-// const PdfViewer: FC<PdfViewerProps> = ({ fileUrl }) => {
-//   const getFilePluginInstance = getFilePlugin();
-//   const { Download } = getFilePluginInstance;
-
-//   return (
-//     <div className="border border-black/30 rounded-lg overflow-hidden">
-//       {/* HEADER */}
-//       <div className="bg-gray-800 text-white px-4 py-[10px] flex justify-between items-center">
-//         <span className="font-bold">PDF Viewer</span>
-
-//         <Download>
-//           {(props: RenderDownloadProps) => (
-//             <button
-//               onClick={props.onClick}
-//               className="bg-primary/80 text-white px-3 py-1.5 flex items-center gap-1.5 rounded cursor-pointer hover:bg-primary transition"
-//             >
-//               <DownloadIcon size={18} />
-//               <span className="text-sm font-medium">Download</span>
-//             </button>
-//           )}
-//         </Download>
-//       </div>
-
-//       {/* VIEWER */}
-//       <div className="h-[700px]">
-//         <Viewer fileUrl={fileUrl} plugins={[getFilePluginInstance]} />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default PdfViewer;
 import type { FC } from "react";
 import { Viewer } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
@@ -114,9 +23,9 @@ const PdfViewer: FC<PdfViewerProps> = ({ fileUrl }) => {
   const { ZoomIn, ZoomOut, CurrentScale } = zoomPluginInstance;
 
   return (
-    <div className="border border-black/30 rounded-lg overflow-hidden">
+    <div className="border border-base-300 rounded-lg overflow-hidden">
       {/* HEADER */}
-      <div className="bg-gray-800 text-white px-4 py-2 flex justify-between items-center">
+      <div className="bg-base-300 text-base-content px-4 py-2 flex justify-between items-center">
         <span className="font-bold">PDF Viewer</span>
 
         <div className="flex items-center gap-2">
@@ -125,7 +34,7 @@ const PdfViewer: FC<PdfViewerProps> = ({ fileUrl }) => {
             {(props) => (
               <button
                 onClick={props.onClick}
-                className="bg-primary/80 hover:bg-primary transition text-white p-2 rounded flex items-center justify-center"
+                className="bg-primary hover:bg-primary/90 transition text-primary-content p-2 rounded flex items-center justify-center"
                 title="Zoom Out"
               >
                 <Minus size={16} />
@@ -145,7 +54,7 @@ const PdfViewer: FC<PdfViewerProps> = ({ fileUrl }) => {
             {(props) => (
               <button
                 onClick={props.onClick}
-                className="bg-primary/80 hover:bg-primary transition text-white p-2 rounded flex items-center justify-center"
+                className="bg-primary hover:bg-primary/90 transition text-primary-content p-2 rounded flex items-center justify-center"
                 title="Zoom In"
               >
                 <Plus size={16} />
@@ -158,7 +67,7 @@ const PdfViewer: FC<PdfViewerProps> = ({ fileUrl }) => {
             {(props: RenderDownloadProps) => (
               <button
                 onClick={props.onClick}
-                className="bg-primary/80 text-white px-3 py-1.5 flex items-center gap-1.5 rounded cursor-pointer hover:bg-primary transition"
+                className="bg-primary hover:bg-primary/90 text-primary-content px-3 py-1.5 flex items-center gap-1.5 rounded transition"
               >
                 <DownloadIcon size={18} />
                 <span className="text-sm font-medium">Download</span>
@@ -169,7 +78,7 @@ const PdfViewer: FC<PdfViewerProps> = ({ fileUrl }) => {
       </div>
 
       {/* VIEWER */}
-      <div className="h-[700px]">
+      <div className="h-[700px] bg-base-100">
         <Viewer
           fileUrl={fileUrl}
           plugins={[getFilePluginInstance, zoomPluginInstance]}
