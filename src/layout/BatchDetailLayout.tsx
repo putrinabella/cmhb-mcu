@@ -256,7 +256,7 @@ export default function BatchDetailLayout() {
               <div className="modal-action flex justify-end gap-2">
                 <Button
                   variant="outline"
-                  className="gap-2 rounded-lg bg-error text-primary hover:opacity-90"
+                  className="gap-2 rounded-lg bg-error/80 hover:bg-error border-0 text-base-content"
                   onClick={() => setOpenModal(false)}
                 >
                   <X className="size-4" />
@@ -265,7 +265,7 @@ export default function BatchDetailLayout() {
 
                 <Button
                   disabled={loadingImport}
-                  className="gap-2 rounded-lg bg-primary/20 text-primary hover:opacity-90"
+                  className="gap-2 rounded-lg bg-primary/20 hover:bg-primary/80 text-base-content"
                   onClick={handleImport}
                 >
                   {loadingImport ? <LoadingIndicator /> : null}

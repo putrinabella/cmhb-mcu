@@ -39,9 +39,9 @@ export default function BatchPage() {
                 key={batch.id}
                 className="group flex flex-col items-center justify-center p-4 rounded-lg cursor-pointer bg-base-100 hover:bg-primary/30 transition-colors tooltip"
                 onClick={() => navigate(`/batch/${batch.id}`)}
-                data-tip={`${getDateIndonesianFormat(
-                  batch.exam_date
-                )} | Lokasi: ${batch.location}`}
+                data-tip={`${getDateIndonesianFormat(batch.exam_date)} | ${
+                  batch.location
+                }`}
               >
                 <Folder className="w-12 h-12 text-yellow-400 group-hover:text-black transition-colors" />
                 <span

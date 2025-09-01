@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { getDateIndonesianFormat } from "@/utils/dateUtils";
 import { List } from "@/components/List";
 import React, { Suspense } from "react";
+import Pagination from "@/components/Pagination";
 
 const PdfViewer = React.lazy(() => import("@/components/PdfViewer"));
 
@@ -17,6 +18,10 @@ export default function DashboardPage() {
     data: batches,
     loading,
     error,
+    page,
+    lastPage,
+    total,
+    handlePageChange,
   } = usePaginatedResource<BatchItem>({
     queryFn: getBatch,
     defaultParams: {},
@@ -82,9 +87,9 @@ export default function DashboardPage() {
                 <div
                   key={batch.id}
                   className="group flex flex-col items-center justify-center p-4 rounded-xl cursor-pointer bg-base-100 hover:bg-primary hover:text-primary-content shadow-sm transition-all duration-200 tooltip tooltip-bottom"
-                  data-tip={`${getDateIndonesianFormat(
-                    batch.exam_date
-                  )} | Lokasi: ${batch.location}`}
+                  data-tip={`${getDateIndonesianFormat(batch.exam_date)} | ${
+                    batch.location
+                  }`}
                   onClick={() => navigate(`/dashboard/batch/${batch.id}`)}
                 >
                   <Folder className="w-12 h-12 text-yellow-400 group-hover:text-yellow-100 transition-colors" />
@@ -98,6 +103,12 @@ export default function DashboardPage() {
               ))}
             </div>
           )}
+          <Pagination
+            page={page}
+            lastPage={lastPage}
+            onPageChange={handlePageChange}
+            total={total}
+          />
         </div>
 
         {/* History List */}
