@@ -115,6 +115,14 @@ export default function DashboardPage() {
         <div className="bg-base-100 border-2 border-dashed border-primary/50 rounded-2xl p-6 shadow-md w-full">
           <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-base-content">
             <Pin className="w-6 h-6 text-primary" />
+            Profil Perusahaan
+          </h2>
+          <List items={historyData} />
+        </div>
+        {/* History List */}
+        <div className="bg-base-100 border-2 border-dashed border-primary/50 rounded-2xl p-6 shadow-md w-full">
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-base-content">
+            <Pin className="w-6 h-6 text-primary" />
             Hasil Medical Check-Up
           </h2>
           <List items={historyData} />
