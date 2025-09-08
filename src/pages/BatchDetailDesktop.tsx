@@ -40,9 +40,9 @@ export default function BatchDetailDesktop({
   }
 
   return (
-    <div className="hidden md:block overflow-x-auto">
+    <div className="hidden md:block max-h-[56vh] overflow-y-auto">
       <table className="table w-full">
-        <thead className="bg-primary/20 text-base-content">
+        <thead className="bg-primary/20 backdrop-blur-3xl text-base-content sticky top-0 z-10">
           <tr className="text-center align-middle">
             <th>No</th>
             <th className="max-w-[200px]">Paket MCU</th>

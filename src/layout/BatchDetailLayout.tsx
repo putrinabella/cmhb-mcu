@@ -9,7 +9,6 @@ import {
 } from "@/services/examinationsApi";
 import { usePaginatedResource } from "@/hooks/use-paginated-resource";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
-import Pagination from "@/components/Pagination";
 import { useNavigate } from "react-router-dom";
 
 //
@@ -77,14 +76,10 @@ export default function BatchDetailLayout() {
   }, [id]);
 
   const {
-    data: examinations,
+    // data: examinations,
     loading: exmLoading,
     error: exmError,
-    page,
-    lastPage,
-    total,
     handleSearch,
-    handlePageChange,
     resetSearch,
     invalidateCache,
   } = usePaginatedResource<ExaminationItem>({
@@ -214,13 +209,6 @@ export default function BatchDetailLayout() {
         ) : exmError ? (
           <p className="text-error p-4">{exmError}</p>
         ) : (
-          // <Suspense fallback={<LoadingIndicator />}>
-          //   {isMobile ? (
-          //     <BatchDetailMobile examinations={examinations} page={page} />
-          //   ) : (
-          //     <BatchDetailDesktop examinations={examinations} page={page} />
-          //   )}
-          // </Suspense>
           <Suspense fallback={<LoadingIndicator />}>
             {isMobile ? (
               <BatchDetailMobile
@@ -236,13 +224,6 @@ export default function BatchDetailLayout() {
           </Suspense>
         )}
       </div>
-
-      {/* <Pagination
-        page={page}
-        lastPage={lastPage}
-        onPageChange={handlePageChange}
-        total={total}
-      /> */}
     </div>
   );
 }

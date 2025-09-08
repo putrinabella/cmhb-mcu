@@ -18,41 +18,38 @@ export default function BatchDetailMobile({ examinations, page }: Props) {
         >
           <div className="bg-primary/20 px-3 py-2">
             <h2 className="font-semibold text-base text-base-content">
-              {index + 1 + (page - 1) * 10}. {exm.company_employee_id.name}
+              {index + 1 + (page - 1) * 10}. {exm.company_employee.name}
             </h2>
             <p className="text-xs text-base-content/70 mt-0.5">
-              {exm.company_employee_id.gender} •{" "}
-              {exm.company_employee_id.age_detail}
+              {exm.company_employee.gender} • {exm.company_employee.age_detail}
             </p>
           </div>
 
           <div className="p-3 space-y-2 text-sm">
             <div className="flex items-center text-base-content">
               <Fingerprint size={16} className="mr-2 text-primary" />
-              <span>NIK: {exm.company_employee_id.nik}</span>
+              <span>NIK: {exm.company_employee.nik}</span>
             </div>
             <div className="flex items-center text-base-content">
               <IdCard size={16} className="mr-2 text-primary" />
-              <span>No Peg: {exm.company_employee_id.employee_number}</span>
+              <span>No Peg: {exm.company_employee.employee_number}</span>
             </div>
             <div className="flex items-center text-base-content">
               <Calendar size={16} className="mr-2 text-primary" />
               <span>
-                Lahir: {getDateIndonesianFormat(exm.company_employee_id.dob)}
+                Lahir: {getDateIndonesianFormat(exm.company_employee.dob)}
               </span>
             </div>
             <div className="flex items-center text-base-content">
               <Phone size={16} className="mr-2 text-primary" />
-              {exm.company_employee_id.phone_number ? (
+              {exm.company_employee.phone_number ? (
                 <a
-                  href={formatWhatsappLink(
-                    exm.company_employee_id.phone_number
-                  )}
+                  href={formatWhatsappLink(exm.company_employee.phone_number)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary hover:underline"
                 >
-                  {exm.company_employee_id.phone_number}
+                  {exm.company_employee.phone_number}
                 </a>
               ) : (
                 <span>-</span>
