@@ -38,18 +38,18 @@ export const updateEmployee = (id: string, data: Partial<EmployeeItem>) =>
   );
 
 export const downloadEmployeeTemplate = () =>
-  apiRequest<Blob>("get", "/company-employees/download", undefined, {
+  apiRequest<Blob>("get", "/examinations/download", undefined, {
     responseType: "blob",
   });
 
-export const importEmployees = (file: File, companyId: string) => {
+export const importEmployees = (file: File, examinationBatchId: string) => {
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("company_id", companyId);
+  formData.append("examination_batch_id", examinationBatchId);
 
   return apiRequest<ApiResponse<any>>(
     "post",
-    "/company-employees/import",
+    "/examinations/import",
     formData,
     {
       headers: { "Content-Type": "multipart/form-data" },

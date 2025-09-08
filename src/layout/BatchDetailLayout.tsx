@@ -16,7 +16,8 @@ import { Button } from "@/components/ui/button";
 import { Download, Search, Upload, UploadCloud, X } from "lucide-react";
 import { FileInput } from "@/components/form/FileInput";
 import { ExcelTable } from "@/components/ExcelTable";
-import { useExcelData, templateHeader } from "@/hooks/use-excel";
+// import { useExcelData, templateHeader } from "@/hooks/use-excel";
+import { useExcelData } from "@/hooks/use-excel";
 import { useImportEmployees } from "@/hooks/use-import-employees";
 import { downloadEmployeeTemplate } from "@/services/employeeAPI";
 import { useFileDownload } from "@/hooks/use-file-download";
@@ -27,6 +28,16 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const BatchDetailDesktop = lazy(() => import("../pages/BatchDetailDesktop"));
 const BatchDetailMobile = lazy(() => import("../pages/BatchDetailMobile"));
 
+const employeeHeaders = [
+  "employee_number",
+  "nik",
+  "name",
+  "phone_number",
+  "gender",
+  "dob",
+  "notes",
+];
+
 export default function BatchDetailLayout() {
   const { id } = useParams<{ id: string }>();
   const [batch, setBatch] = useState<BatchItem | null>(null);
@@ -36,8 +47,19 @@ export default function BatchDetailLayout() {
   // here
   const [searchKey, setSearchKey] = useState("");
   const [openModal, setOpenModal] = useState(false);
-  const { data: excelData, handleFileUpload, resetData } = useExcelData();
-  const { importData, loading: loadingImport } = useImportEmployees();
+  // const { data: excelData, handleFileUpload, resetData } = useExcelData();
+  const {
+    data: excelData,
+    handleFileUpload,
+    resetData,
+  } = useExcelData(employeeHeaders);
+
+  // const { importData, loading: loadingImport } = useImportEmployees();
+  const {
+    importData,
+    loading: loadingImport,
+    errors,
+  } = useImportEmployees(id || "");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const handleSearchButton = () => {
     handleSearch(searchKey);
@@ -76,6 +98,7 @@ export default function BatchDetailLayout() {
     }
 
     const success = await importData(selectedFile);
+
     if (success) {
       setOpenModal(false);
       setSelectedFile(null);
@@ -250,7 +273,11 @@ export default function BatchDetailLayout() {
                   }}
                 />
                 <div className="overflow-x-auto mt-4">
-                  <ExcelTable data={excelData} headers={templateHeader} />
+                  <ExcelTable
+                    data={excelData}
+                    headers={employeeHeaders}
+                    errors={errors}
+                  />
                 </div>
               </div>
               <div className="modal-action flex justify-end gap-2">

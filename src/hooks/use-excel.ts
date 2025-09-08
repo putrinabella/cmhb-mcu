@@ -4,17 +4,7 @@ import * as XLSX from "xlsx";
 
 type ExcelData = (string | number)[][];
 
-// Definisikan di sini supaya jadi single source of truth
-export const templateHeader = [
-  "employee_number",
-  "nik",
-  "name",
-  "phone_number",
-  "gender",
-  "dob",
-];
-
-export function useExcelData() {
+export function useExcelData(templateHeader: string[]) {
   const [data, setData] = useState<ExcelData>([]);
 
   const formatDate = (value: any): string => {
@@ -35,23 +25,14 @@ export function useExcelData() {
     return String(value || "");
   };
 
-  const downloadTemplate = () => {
+  const downloadTemplate = (filename = "template-data.xlsx") => {
     const wb = XLSX.utils.book_new();
-    // 1. Sheet Template
+
+    // Sheet Template
     const wsTemplate = XLSX.utils.aoa_to_sheet([templateHeader]);
     XLSX.utils.book_append_sheet(wb, wsTemplate, "Template");
 
-    // 2. Sheet Contoh
-    const contohIsi = [
-      templateHeader,
-      ["03085459", "John Doe", "08123456789", "L", "1990-01-25"],
-      ["03085460", "Jane Smith", "08234567890", "P", "1992-12-26"],
-      ["03085461", "Michael Lee", "08345678901", "L", "1900-10-30"],
-    ];
-    const wsContoh = XLSX.utils.aoa_to_sheet(contohIsi);
-    XLSX.utils.book_append_sheet(wb, wsContoh, "Contoh");
-
-    XLSX.writeFile(wb, "template-data.xlsx");
+    XLSX.writeFile(wb, filename);
   };
 
   const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
