@@ -10,11 +10,15 @@ import {
 import { usePaginatedResource } from "@/hooks/use-paginated-resource";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import Pagination from "@/components/Pagination";
-import { useNavigate } from "react-router-dom";
 
 //
 import { Button } from "@/components/ui/button";
-import { Download, Search, Upload, X } from "lucide-react";
+import { Download, Search, Upload, UploadCloud, X } from "lucide-react";
+import { FileInput } from "@/components/form/FileInput";
+import { ExcelTable } from "@/components/ExcelTable";
+// import { useExcelData, templateHeader } from "@/hooks/use-excel";
+import { useExcelData } from "@/hooks/use-excel";
+import { useImportEmployees } from "@/hooks/use-import-employees";
 import { downloadEmployeeTemplate } from "@/services/employeeAPI";
 import { useFileDownload } from "@/hooks/use-file-download";
 import { showSwal } from "@/lib/SwalHelper";
@@ -24,6 +28,16 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const BatchDetailDesktop = lazy(() => import("../pages/BatchDetailDesktop"));
 const BatchDetailMobile = lazy(() => import("../pages/BatchDetailMobile"));
 
+const employeeHeaders = [
+  "employee_number",
+  "nik",
+  "name",
+  "phone_number",
+  "gender",
+  "dob",
+  "notes",
+];
+
 export default function BatchDetailLayout() {
   const { id } = useParams<{ id: string }>();
   const [batch, setBatch] = useState<BatchItem | null>(null);
@@ -32,9 +46,21 @@ export default function BatchDetailLayout() {
   const isMobile = useIsMobile();
   // here
   const [searchKey, setSearchKey] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  // const { data: excelData, handleFileUpload, resetData } = useExcelData();
+  const {
+    data: excelData,
+    handleFileUpload,
+    resetData,
+  } = useExcelData(employeeHeaders);
 
-  const navigate = useNavigate();
-
+  // const { importData, loading: loadingImport } = useImportEmployees();
+  const {
+    importData,
+    loading: loadingImport,
+    errors,
+  } = useImportEmployees(id || "");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const handleSearchButton = () => {
     handleSearch(searchKey);
     invalidateCache();
@@ -58,6 +84,25 @@ export default function BatchDetailLayout() {
         text: "Download gagal!",
         confirmButtonText: "Coba lagi",
       });
+    }
+  };
+  const handleImport = async () => {
+    if (!selectedFile) {
+      showSwal({
+        icon: "warning",
+        title: "Tidak ada file",
+        text: "Silakan upload file Excel terlebih dahulu.",
+        confirmButtonText: "Mengerti",
+      });
+      return;
+    }
+
+    const success = await importData(selectedFile);
+    if (success) {
+      setOpenModal(false);
+      setSelectedFile(null);
+      resetData();
+      invalidateCache();
     }
   };
 
@@ -200,7 +245,7 @@ export default function BatchDetailLayout() {
               <Button
                 type="button"
                 className="bg-primary/20 text-base-content hover:bg-primary-focus rounded-full h-10 flex items-center justify-center gap-2 w-full sm:w-auto"
-                onClick={() => navigate(`/dashboard/batch/${id}/import`)}
+                onClick={() => setOpenModal(true)}
               >
                 <Upload className="size-5" />
                 <span>Import</span>
@@ -208,6 +253,55 @@ export default function BatchDetailLayout() {
             </div>
           </div>
         </div>
+
+        {/* Modal */}
+        {openModal && (
+          <div className="modal modal-open">
+            <div className="modal-box w-11/12 max-w-6xl">
+              <div className="py-4">
+                <FileInput
+                  label="Upload File"
+                  infoText="Max size 2MB, format .xlsx/.xls"
+                  accept=".xlsx,.xls"
+                  onChange={(e) => {
+                    handleFileUpload(e);
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setSelectedFile(file);
+                    }
+                  }}
+                />
+                <div className="overflow-x-auto mt-4">
+                  <ExcelTable
+                    data={excelData}
+                    headers={employeeHeaders}
+                    errors={errors}
+                  />
+                </div>
+              </div>
+              <div className="modal-action flex justify-end gap-2">
+                <Button
+                  variant="outline"
+                  className="gap-2 rounded-lg bg-error/80 hover:bg-error border-0 text-base-content"
+                  onClick={() => setOpenModal(false)}
+                >
+                  <X className="size-4" />
+                  Close
+                </Button>
+
+                <Button
+                  disabled={loadingImport}
+                  className="gap-2 rounded-lg bg-primary/20 hover:bg-primary/80 text-base-content"
+                  onClick={handleImport}
+                >
+                  {loadingImport ? <LoadingIndicator /> : null}
+                  <UploadCloud className="size-4" />
+                  Import Data
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="overflow-x-auto bg-base-100 rounded-bl-lg rounded-br-lg rounded-tr-lg md:border-l md:border-r md:border-b md:border-gray-300">

@@ -10,10 +10,17 @@ interface ExcelTableProps {
 }
 
 export function ExcelTable({ data, headers, errors }: ExcelTableProps) {
+  // Debug
+  console.log("ExcelTable data:", data);
+  console.log("ExcelTable errors:", errors);
+
+  // Ubah errors[] jadi object lookup agar gampang
   const errorMap: Record<number, string[]> = {};
   (errors ?? []).forEach((e) => {
     errorMap[e.rowIndex] = e.messages;
   });
+
+  console.log("ErrorMap:", errorMap);
 
   if (!data.length) {
     return (
@@ -21,7 +28,7 @@ export function ExcelTable({ data, headers, errors }: ExcelTableProps) {
     );
   }
 
-  const finalHeaders = ["No", ...headers, "Error"];
+  const finalHeaders = ["number", ...headers, "error"];
 
   return (
     <div className="overflow-x-auto max-h-[60vh] border rounded-md border-base-content/20">
@@ -55,26 +62,22 @@ export function ExcelTable({ data, headers, errors }: ExcelTableProps) {
                 }
               >
                 {finalHeaders.map((header, cellIndex) => {
-                  let cellValue: React.ReactNode = "";
+                  let cellValue: string | number = "";
 
-                  if (header === "No") cellValue = rowIndex + 1;
-                  else if (header === "Error") {
-                    cellValue = hasError ? (
-                      <ul className="list-disc pl-4 space-y-1">
-                        {rowErrors.map((msg, i) => (
-                          <li key={i}>{msg}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      "-"
-                    );
-                  } else cellValue = row[cellIndex - 1] ?? "-";
+                  if (header === "number") {
+                    cellValue = rowIndex + 1;
+                  } else if (header === "error") {
+                    cellValue = hasError ? rowErrors.join(", ") : "-";
+                  } else {
+                    const originalIndex = cellIndex - 1;
+                    cellValue = row[originalIndex] ?? "-";
+                  }
 
                   return (
                     <td
                       key={cellIndex}
                       className={`px-6 py-3 border border-base-content/20 text-sm ${
-                        hasError && header === "Error"
+                        hasError && header === "error"
                           ? "text-error font-semibold"
                           : ""
                       }`}

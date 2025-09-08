@@ -5,7 +5,6 @@ import ProtectedRoute from "./ProtectedRoute";
 import GuestRoute from "./GuestRoute";
 import ResponsiveLayout from "@/layout/ResponsiveLayout";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
-
 // Lazy load halaman
 const WelcomePage = lazy(() => import("@/pages/auth/WelcomePage"));
 const LoginPage = lazy(() => import("@/pages/auth/LoginPage"));
@@ -21,6 +20,7 @@ const CompanyDetailPage = lazy(() => import("@/pages/CompanyDetailPage"));
 const BatchPage = lazy(() => import("@/pages/BatchPage"));
 const BatchDetailLayout = lazy(() => import("@/layout/BatchDetailLayout"));
 const InputPage = lazy(() => import("@/pages/employee/InputPage"));
+const BatchImportPage = lazy(() => import("@/pages/BatchImportPage"));
 // Helper untuk membungkus lazy component dengan Suspense
 const Loadable = (Component: React.LazyExoticComponent<any>) => (
   <Suspense fallback={<LoadingIndicator />}>
@@ -59,6 +59,7 @@ const router = createBrowserRouter([
             children: [
               { index: true, element: Loadable(BatchPage) },
               { path: ":id", element: Loadable(BatchDetailLayout) },
+              { path: ":id/import", element: Loadable(BatchImportPage) },
             ],
           },
         ],
