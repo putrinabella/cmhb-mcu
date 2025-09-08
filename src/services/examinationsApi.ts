@@ -46,10 +46,11 @@ export interface McuPackage {
 export interface ExaminationItem {
   id: string;
   examination_batch_id: ExaminationBatch;
-  company_employee_id: CompanyEmployee;
+  company_employee: CompanyEmployee;
   mcu_package: McuPackage;
   notes: string;
   created_at: string;
+  result?: { id: string; created_at: string } | string;
 }
 
 // Fetch paginated list
@@ -57,11 +58,23 @@ export const getExamination = async (
   params: PaginatedParams
 ): Promise<PaginatedResponse<ExaminationItem>> => {
   const res: ApiResponse<PaginatedResponse<ExaminationItem>> =
-    await getPaginatedResource<ExaminationItem>("/examinations", params);
+    await getPaginatedResource<ExaminationItem>("/examination-batches", params);
 
   return res.data;
 };
 
 // Fetch single detail
 export const getExaminationDetail = (id: string) =>
-  apiRequest<ApiResponse<ExaminationItem>>("get", `/examinations/${id}`);
+  apiRequest<ApiResponse<ExaminationItem>>("get", `/examination-batches/${id}`);
+
+// new
+export const getExaminationsByBatch = async (
+  batchId: string,
+  params: PaginatedParams
+): Promise<PaginatedResponse<ExaminationItem>> => {
+  const res = await getPaginatedResource<ExaminationItem>(
+    `/examination-batches/${batchId}`,
+    params
+  );
+  return res.data;
+};

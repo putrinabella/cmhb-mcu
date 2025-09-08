@@ -4,7 +4,7 @@ import { getBatchDetail, type BatchItem } from "@/services/batchAPI";
 import { FolderOpen, Calendar, MapPin, FileText } from "lucide-react";
 import { getDateIndonesianFormat } from "@/utils/dateUtils";
 import {
-  getExamination,
+  getExaminationsByBatch,
   type ExaminationItem,
 } from "@/services/examinationsApi";
 import { usePaginatedResource } from "@/hooks/use-paginated-resource";
@@ -30,7 +30,6 @@ export default function BatchDetailLayout() {
   const [batchLoading, setBatchLoading] = useState(true);
   const [batchError, setBatchError] = useState<string | null>(null);
   const isMobile = useIsMobile();
-  // here
   const [searchKey, setSearchKey] = useState("");
 
   const navigate = useNavigate();
@@ -68,7 +67,6 @@ export default function BatchDetailLayout() {
   };
 
   const { downloadBlob } = useFileDownload();
-  // end here
   useEffect(() => {
     if (!id) return;
     setBatchLoading(true);
@@ -90,7 +88,7 @@ export default function BatchDetailLayout() {
     resetSearch,
     invalidateCache,
   } = usePaginatedResource<ExaminationItem>({
-    queryFn: getExamination,
+    queryFn: (params) => getExaminationsByBatch(id!, params),
     defaultParams: {},
   });
 
@@ -216,22 +214,35 @@ export default function BatchDetailLayout() {
         ) : exmError ? (
           <p className="text-error p-4">{exmError}</p>
         ) : (
+          // <Suspense fallback={<LoadingIndicator />}>
+          //   {isMobile ? (
+          //     <BatchDetailMobile examinations={examinations} page={page} />
+          //   ) : (
+          //     <BatchDetailDesktop examinations={examinations} page={page} />
+          //   )}
+          // </Suspense>
           <Suspense fallback={<LoadingIndicator />}>
             {isMobile ? (
-              <BatchDetailMobile examinations={examinations} page={page} />
+              <BatchDetailMobile
+                examinations={batch.examinations || []}
+                page={1}
+              />
             ) : (
-              <BatchDetailDesktop examinations={examinations} page={page} />
+              <BatchDetailDesktop
+                examinations={batch.examinations || []}
+                page={1}
+              />
             )}
           </Suspense>
         )}
       </div>
 
-      <Pagination
+      {/* <Pagination
         page={page}
         lastPage={lastPage}
         onPageChange={handlePageChange}
         total={total}
-      />
+      /> */}
     </div>
   );
 }

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { showSwal } from "@/lib/SwalHelper";
 import { UploadCloud, X } from "lucide-react";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
-
+import * as XLSX from "xlsx";
 const employeeHeaders = [
   "employee_number",
   "nik",
@@ -33,6 +33,7 @@ export default function BatchImportPage() {
     importData,
     loading: loadingImport,
     errors,
+    resetErrors,
   } = useImportEmployees(id || "");
 
   const handleImport = async () => {
@@ -45,7 +46,35 @@ export default function BatchImportPage() {
       return;
     }
 
-    const success = await importData(selectedFile);
+    if (!excelData || excelData.length === 0) {
+      showSwal({
+        icon: "warning",
+        title: "Data Kosong",
+        text: "File Excel tidak memiliki data untuk diimport.",
+      });
+      return;
+    }
+    const generateFileForApi = (
+      data: (string | number)[][],
+      headers: string[],
+      filename: string
+    ) => {
+      const wb = XLSX.utils.book_new();
+      const wsData = [headers, ...data];
+      const ws = XLSX.utils.aoa_to_sheet(wsData);
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+      const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+      return new File([wbout], filename, { type: "application/octet-stream" });
+    };
+
+    const fileForApi = generateFileForApi(
+      excelData,
+      employeeHeaders,
+      selectedFile.name
+    );
+
+    const success = await importData(fileForApi);
+    // const success = await importData(selectedFile);
 
     if (success) {
       showSwal({
@@ -56,7 +85,7 @@ export default function BatchImportPage() {
         showConfirmButton: false,
       });
       resetData();
-      navigate(`/batch/${id}`);
+      navigate(`/dashboard/batch/${id}`);
     }
   };
 
@@ -78,9 +107,13 @@ export default function BatchImportPage() {
         infoText="Max size 2MB, format .xlsx/.xls"
         accept=".xlsx,.xls"
         onChange={(e) => {
-          handleFileUpload(e);
+          resetData(); // reset preview Excel
+          resetErrors(); // reset error sebelumnya
           const file = e.target.files?.[0];
-          if (file) setSelectedFile(file);
+          if (file) {
+            setSelectedFile(file);
+            handleFileUpload(e); // parsing file baru
+          }
         }}
       />
 

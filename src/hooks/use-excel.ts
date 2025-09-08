@@ -7,23 +7,45 @@ type ExcelData = (string | number)[][];
 export function useExcelData(templateHeader: string[]) {
   const [data, setData] = useState<ExcelData>([]);
 
-  const formatDate = (value: any): string => {
+  const formatDateForApi = (value: any): string => {
+    if (!value) return "";
+
+    let d: Date;
+
     if (typeof value === "number") {
       const date = XLSX.SSF.parse_date_code(value);
       if (!date) return "";
-      return `${String(date.d).padStart(2, "0")}/${String(date.m).padStart(
-        2,
-        "0"
-      )}/${date.y}`;
+      d = new Date(date.y, date.m - 1, date.d);
+    } else {
+      const parts = String(value).split(/[\/\-\.]/);
+      if (parts.length !== 3) return "";
+      const [day, month, year] = parts.map(Number);
+      d = new Date(year, month - 1, day);
     }
-    const d = new Date(value);
-    if (!isNaN(d.getTime())) {
-      return `${String(d.getDate()).padStart(2, "0")}/${String(
-        d.getMonth() + 1
-      ).padStart(2, "0")}/${d.getFullYear()}`;
-    }
-    return String(value || "");
+
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
+      2,
+      "0"
+    )}-${String(d.getDate()).padStart(2, "0")}`;
   };
+
+  // const formatDate = (value: any): string => {
+  //   if (typeof value === "number") {
+  //     const date = XLSX.SSF.parse_date_code(value);
+  //     if (!date) return "";
+  //     return `${String(date.d).padStart(2, "0")}/${String(date.m).padStart(
+  //       2,
+  //       "0"
+  //     )}/${date.y}`;
+  //   }
+  //   const d = new Date(value);
+  //   if (!isNaN(d.getTime())) {
+  //     return `${String(d.getDate()).padStart(2, "0")}/${String(
+  //       d.getMonth() + 1
+  //     ).padStart(2, "0")}/${d.getFullYear()}`;
+  //   }
+  //   return String(value || "");
+  // };
 
   const downloadTemplate = (filename = "template-data.xlsx") => {
     const wb = XLSX.utils.book_new();
@@ -66,8 +88,13 @@ export function useExcelData(templateHeader: string[]) {
         return;
       }
 
+      // const filteredData = (jsonData.slice(1) as any[][]).map((row) =>
+      //   row.map((cell, idx) => (idx === 1 ? formatDate(cell) : cell || ""))
+      // );
       const filteredData = (jsonData.slice(1) as any[][]).map((row) =>
-        row.map((cell, idx) => (idx === 1 ? formatDate(cell) : cell || ""))
+        row.map(
+          (cell, idx) => (idx === 5 ? formatDateForApi(cell) : cell || "") // kolom DOB
+        )
       );
 
       setData(filteredData);

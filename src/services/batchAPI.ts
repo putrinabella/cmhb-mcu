@@ -7,6 +7,7 @@ import {
 } from "./genericApi";
 
 export interface BatchItem {
+  examinations: never[];
   id: string;
   company_id: string;
   batch_code: string;

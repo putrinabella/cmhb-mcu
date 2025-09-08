@@ -56,3 +56,8 @@ export const importEmployees = (file: File, examinationBatchId: string) => {
     }
   );
 };
+
+export const downloadExaminationResult = (id: string) =>
+  apiRequest<Blob>("get", `/examination-results/${id}/download`, undefined, {
+    responseType: "blob",
+  });

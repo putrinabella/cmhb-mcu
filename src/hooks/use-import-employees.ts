@@ -77,6 +77,7 @@ export function useImportEmployees(examinationBatchId: string) {
       setLoading(false);
     }
   };
+  const resetErrors = () => setErrors([]);
 
-  return { importData, loading, errors };
+  return { importData, loading, errors, resetErrors };
 }
