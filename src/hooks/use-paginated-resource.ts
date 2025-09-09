@@ -30,13 +30,6 @@ export function usePaginatedResource<
     params,
   });
 
-  // const handlePageChange = (newPage: number) => {
-  //   if (newPage >= 1 && newPage <= (response?.last_page ?? 1)) {
-  //     setPage(newPage);
-  //     // refetch dengan page baru
-  //     refetchQuery(true);
-  //   }
-  // };
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= (response?.last_page ?? 1)) {
       setPage(newPage);

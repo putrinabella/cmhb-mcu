@@ -10,7 +10,6 @@ export default function ExaminationDetailPage() {
   useEffect(() => {
     if (!batchId || !exmId) return;
 
-    // Panggil API dengan batchId + exmId
     getExaminationDetail(batchId).then(setExamination);
   }, [batchId, exmId]);
 

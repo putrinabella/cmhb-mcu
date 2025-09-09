@@ -7,15 +7,9 @@ import { CheckCircle, XCircle } from "lucide-react";
 
 interface Props {
   examinations: ExaminationItem[];
-  page: number;
-  perPage?: number;
 }
-
-export default function BatchDetailDesktop({
-  examinations,
-  page,
-  perPage = 10,
-}: Props) {
+export default function BatchDetailDesktop({ examinations }: Props) {
+  console.log("Isi examinations:", examinations);
   const handleViewResult = async (id: string) => {
     try {
       const blob = await downloadExaminationResult(id);
@@ -49,7 +43,6 @@ export default function BatchDetailDesktop({
       <table className="table w-full">
         <thead className="bg-primary/20 backdrop-blur-3xl text-base-content sticky top-0 z-10">
           <tr className="text-center align-middle">
-            <th>No</th>
             <th className="max-w-[200px]">Paket MCU</th>
             <th>Nomor Pegawai</th>
             <th>NIK</th>
@@ -78,9 +71,6 @@ export default function BatchDetailDesktop({
 
             return (
               <tr key={exm.id} className="hover:bg-base-200">
-                <td className="text-center">
-                  {index + 1 + (page - 1) * perPage}
-                </td>
                 <td className="max-w-[200px]">
                   {packageName}
                   {exm.notes && (
