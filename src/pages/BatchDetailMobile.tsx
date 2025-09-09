@@ -12,6 +12,7 @@ import {
   CheckCircle,
   XCircle,
 } from "lucide-react";
+import { showSwal } from "@/lib/SwalHelper";
 
 interface Props {
   examinations: ExaminationItem[];
@@ -34,7 +35,11 @@ export default function BatchDetailMobile({ examinations }: Props) {
       window.open(url, "_blank");
     } catch (err) {
       console.error(err);
-      alert("Gagal memuat hasil pemeriksaan.");
+      showSwal({
+        icon: "error",
+        title: "Gagal Import",
+        text: "Gagal memuat hasil pemeriksaan",
+      });
     }
   };
 
@@ -120,7 +125,7 @@ export default function BatchDetailMobile({ examinations }: Props) {
               </div>
 
               {exm.notes && (
-                <p className="text-xs italic text-base-content/70">
+                <p className="text-xs italic text-base-content/70 ps-6">
                   Catatan: {exm.notes}
                 </p>
               )}
@@ -135,7 +140,9 @@ export default function BatchDetailMobile({ examinations }: Props) {
                     Lihat Hasil
                   </button>
                 ) : (
-                  <span className="text-gray-500">Belum ada hasil</span>
+                  <button className="btn btn-sm w-full rounded-full text-base-content bg-secondary/5">
+                    Belum ada hasil
+                  </button>
                 )}
               </div>
 

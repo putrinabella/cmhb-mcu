@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { getExaminationDetail } from "@/services/examinationsApi";
+import { LoadingIndicator } from "@/components/LoadingIndicator";
 const PdfViewer = lazy(() => import("@/components/PdfViewer"));
 
 export default function ExaminationDetailPage() {
@@ -13,7 +14,7 @@ export default function ExaminationDetailPage() {
     getExaminationDetail(batchId).then(setExamination);
   }, [batchId, exmId]);
 
-  if (!examination) return <div>Loading...</div>;
+  if (!examination) return <LoadingIndicator />;
 
   const employee = examination.company_employee;
   const pdfUrl = examination.result?.file_url || null;

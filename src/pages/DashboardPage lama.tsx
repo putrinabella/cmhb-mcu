@@ -5,6 +5,7 @@ import { usePaginatedResource } from "@/hooks/use-paginated-resource";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { useNavigate } from "react-router-dom";
 import { getDateIndonesianFormat } from "@/utils/dateUtils";
+import { List } from "@/components/List";
 import React, { Suspense } from "react";
 import Pagination from "@/components/Pagination";
 
@@ -24,6 +25,21 @@ export default function DashboardPage() {
   } = usePaginatedResource<BatchItem>({
     queryFn: getBatch,
     defaultParams: {},
+  });
+
+  const historyData = Array.from({ length: 5 }, (_, i) => {
+    const id = i + 1;
+    const day = (i % 28) + 1;
+    const month = "Agustus";
+    const year = 2025;
+    const hour = String((8 + i) % 24).padStart(2, "0");
+    const minute = String((i * 7) % 60).padStart(2, "0");
+
+    return {
+      id,
+      title: `MCU Event ${id}`,
+      timestamp: `${day} ${month} ${year}, ${hour}:${minute}`,
+    };
   });
 
   if (!user) {
@@ -93,6 +109,66 @@ export default function DashboardPage() {
             onPageChange={handlePageChange}
             total={total}
           />
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Batch MCU */}
+        <div className="bg-base-100 border-2 border-dashed border-primary/50 rounded-2xl p-6 shadow-md w-full">
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-base-content">
+            <Pin className="w-6 h-6 text-primary" />
+            Batch MCU
+          </h2>
+
+          {/* Loading / Error States */}
+          {loading && <LoadingIndicator />}
+          {error && <p className="text-error text-center">{error}</p>}
+
+          {/* Grid Data */}
+          {!loading && !error && (
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {batches.map((batch) => (
+                <div
+                  key={batch.id}
+                  className="group flex flex-col items-center justify-center p-4 rounded-xl cursor-pointer bg-base-100 hover:bg-primary hover:text-primary-content shadow-sm transition-all duration-200 tooltip tooltip-bottom"
+                  data-tip={`${getDateIndonesianFormat(batch.exam_date)} | ${
+                    batch.location
+                  }`}
+                  onClick={() => navigate(`/dashboard/batch/${batch.id}`)}
+                >
+                  <Folder className="w-12 h-12 text-yellow-400 group-hover:text-yellow-100 transition-colors" />
+                  <span
+                    className="mt-2 text-sm text-center font-medium truncate w-full transition-colors"
+                    title={batch.batch_code}
+                  >
+                    {batch.batch_code}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+          <Pagination
+            page={page}
+            lastPage={lastPage}
+            onPageChange={handlePageChange}
+            total={total}
+          />
+        </div>
+
+        {/*   Profil Perusahaan */}
+        <div className="bg-base-100 border-2 border-dashed border-primary/50 rounded-2xl p-6 shadow-md w-full">
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-base-content">
+            <Pin className="w-6 h-6 text-primary" />
+            Profil Perusahaan
+          </h2>
+          <List items={historyData} />
+        </div>
+        {/*   Hasil Medical Check-Up */}
+        <div className="bg-base-100 border-2 border-dashed border-primary/50 rounded-2xl p-6 shadow-md w-full">
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-base-content">
+            <Pin className="w-6 h-6 text-primary" />
+            Hasil Medical Check-Up
+          </h2>
+          <List items={historyData} />
         </div>
       </div>
       <div className="pt-4">

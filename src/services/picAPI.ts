@@ -13,6 +13,11 @@ export interface PicProfile {
   phone_number: string;
 }
 
-// Ambil detail profile berdasarkan ID
 export const getPicDetail = (id: string) =>
   apiRequest<ApiResponse<PicProfile>>("get", `/company-pics/${id}`);
+
+// services/employeeAPI.ts atau companyPicAPI.ts
+export const updatePicPassword = (id: string, password: string) =>
+  apiRequest<ApiResponse<null>>("put", `/company-pics/${id}/password`, {
+    password,
+  });

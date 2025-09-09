@@ -1,4 +1,4 @@
-import EditPassword from "@/components/EditPassword";
+// import EditPassword from "@/components/EditPassword";
 import { InfoItem } from "@/components/InfoItem";
 import LogoutButton from "@/components/LogoutButton";
 import Tabs from "@/components/Tabs";
@@ -67,7 +67,7 @@ export default function ProfileMobilePage() {
           />
 
           <div className="divider"></div>
-          <EditPassword />
+          {/* <EditPassword /> */}
           <LogoutButton />
         </div>
       ),

@@ -6,9 +6,15 @@ import { Button } from "@/components/ui/button";
 import { useForm, FormProvider } from "react-hook-form";
 import { PasswordField } from "./form/PasswordField";
 import { Lock } from "lucide-react";
+import { updatePicPassword } from "@/services/picAPI";
 
 export default function EditPassword() {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  // ✅ Ambil userId dari localStorage
+  const storedUser = localStorage.getItem("user");
+  const userId = storedUser ? JSON.parse(storedUser).id : null;
 
   const methods = useForm({
     defaultValues: {
@@ -18,10 +24,7 @@ export default function EditPassword() {
     },
   });
 
-  const { handleSubmit, setError, clearErrors } = methods;
-
-  //   const newPassword = watch("newPassword");
-  //   const confirmPassword = watch("confirmPassword");
+  const { handleSubmit, setError, clearErrors, reset } = methods;
 
   const validatePassword = (pwd: string) => {
     if (pwd.length < 8) return "Minimal 8 karakter";
@@ -33,7 +36,7 @@ export default function EditPassword() {
     return "";
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     const err = validatePassword(data.newPassword);
     if (err) {
       setError("newPassword", { type: "manual", message: err });
@@ -48,8 +51,24 @@ export default function EditPassword() {
     }
 
     clearErrors();
-    console.log("Password berhasil diganti:", data);
-    setOpen(false);
+
+    if (!userId) {
+      alert("User ID tidak ditemukan di localStorage");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await updatePicPassword(userId, data.newPassword); // ✅ hanya kirim password baru
+      console.log("Password berhasil diganti");
+      reset(); // kosongkan form setelah sukses
+      setOpen(false);
+    } catch (error: any) {
+      console.error(error);
+      alert(error?.message || "Gagal mengganti password");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -79,6 +98,7 @@ export default function EditPassword() {
                 onSubmit={handleSubmit(onSubmit)}
                 className="mt-4 space-y-3"
               >
+                {/* Password lama cuma untuk konfirmasi visual, tidak dikirim ke API */}
                 <PasswordField
                   name="currentPassword"
                   label="Password Lama"
@@ -106,8 +126,12 @@ export default function EditPassword() {
                   >
                     Cancel
                   </Button>
-                  <Button type="submit" className="btn btn-primary">
-                    Save
+                  <Button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={loading}
+                  >
+                    {loading ? "Menyimpan..." : "Save"}
                   </Button>
                 </div>
               </form>
