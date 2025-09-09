@@ -43,6 +43,7 @@ export default function BatchDetailDesktop({ examinations }: Props) {
       <table className="table w-full">
         <thead className="bg-primary/20 backdrop-blur-3xl text-base-content sticky top-0 z-10">
           <tr className="text-center align-middle">
+            <th>No</th>
             <th className="max-w-[200px]">Paket MCU</th>
             <th>Nomor Pegawai</th>
             <th>NIK</th>
@@ -55,7 +56,7 @@ export default function BatchDetailDesktop({ examinations }: Props) {
           </tr>
         </thead>
         <tbody className="align-middle">
-          {examinations.map((exm, index) => {
+          {examinations.map((exm, idx) => {
             const employee = exm.company_employee;
             const packageName =
               typeof exm.mcu_package === "string"
@@ -71,6 +72,7 @@ export default function BatchDetailDesktop({ examinations }: Props) {
 
             return (
               <tr key={exm.id} className="hover:bg-base-200">
+                <td className="text-center">{idx + 1}</td>
                 <td className="max-w-[200px]">
                   {packageName}
                   {exm.notes && (

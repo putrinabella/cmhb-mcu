@@ -211,15 +211,9 @@ export default function BatchDetailLayout() {
         ) : (
           <Suspense fallback={<LoadingIndicator />}>
             {isMobile ? (
-              <BatchDetailMobile
-                examinations={batch.examinations || []}
-                page={1}
-              />
+              <BatchDetailMobile examinations={batch.examinations || []} />
             ) : (
-              <BatchDetailDesktop
-                examinations={batch.examinations || []}
-                page={1}
-              />
+              <BatchDetailDesktop examinations={batch.examinations || []} />
             )}
           </Suspense>
         )}

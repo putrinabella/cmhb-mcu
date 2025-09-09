@@ -1,4 +1,4 @@
-import { CloudAlert, HeartPulse, House, User } from "lucide-react";
+import { HeartPulse, House, User } from "lucide-react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useViewportHeight } from "@/hooks/use-viewport-height";
 import { useAuth } from "@/routes/AuthContext";
@@ -14,16 +14,16 @@ export default function PhoneLayout() {
     );
   };
   const navItems = [
-    { path: "/hasil-mcu", icon: HeartPulse, label: "MCU" },
-    { path: "/dashboard", icon: House, label: "Dashboard" },
-    { path: "/profile", icon: User, label: "Profile" },
+    // { path: "/hasil-mcu", icon: HeartPulse, label: "MCU" },
+    // { path: "/dashboard", icon: House, label: "Dashboard" },
+    // { path: "/profile", icon: User, label: "Profile" },
   ];
 
   if (user?.role === "Company PIC") {
     navItems.push(
-      // { path: "/company-profile", icon: Building2, label: "Perusahaan" },
-      // { path: "/registrasi-karyawan", icon: UserPlus, label: "Register" },
-      { path: "/404", icon: CloudAlert, label: "404" }
+      { path: "/hasil-mcu", icon: HeartPulse, label: "MCU" },
+      { path: "/dashboard", icon: House, label: "Dashboard" },
+      { path: "/profile", icon: User, label: "Profile" }
     );
   }
 

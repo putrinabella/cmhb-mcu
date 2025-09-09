@@ -5,10 +5,9 @@ import { Calendar, Fingerprint, IdCard, Phone, HeartPulse } from "lucide-react";
 
 interface Props {
   examinations: ExaminationItem[];
-  page: number;
 }
 
-export default function BatchDetailMobile({ examinations, page }: Props) {
+export default function BatchDetailMobile({ examinations }: Props) {
   return (
     <div className="block md:hidden space-y-3 py-4">
       {examinations.map((exm, index) => (
@@ -18,7 +17,7 @@ export default function BatchDetailMobile({ examinations, page }: Props) {
         >
           <div className="bg-primary/20 px-3 py-2">
             <h2 className="font-semibold text-base text-base-content">
-              {index + 1 + (page - 1) * 10}. {exm.company_employee.name}
+              {index + 1}. {exm.company_employee.name}
             </h2>
             <p className="text-xs text-base-content/70 mt-0.5">
               {exm.company_employee.gender} • {exm.company_employee.age_detail}
@@ -61,10 +60,15 @@ export default function BatchDetailMobile({ examinations, page }: Props) {
                 size={16}
                 className="mr-2 mt-0.5 text-primary flex-shrink-0"
               />
-              <span className="break-words leading-tight">
-                {exm.mcu_package.name}
+              <span
+                className={`break-words leading-tight ${
+                  !exm.mcu_package?.name ? "text-red-600 font-bold" : ""
+                }`}
+              >
+                {exm.mcu_package?.name || "Paket MCU Belum Ditentukan"}
               </span>
             </div>
+
             {exm.notes && (
               <p className="text-xs italic text-base-content/70">
                 Catatan: {exm.notes}
