@@ -20,12 +20,18 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   const currentPath = window.location.pathname;
   // Proteksi registrasi karyawan
-  if (currentPath.startsWith("/registrasi-karyawan") && user?.role !== "PIC") {
+  if (
+    currentPath.startsWith("/registrasi-karyawan") &&
+    user?.role !== "Company PIC"
+  ) {
     return <Navigate to="/dashboard" replace />;
   }
 
   // Proteksi company profile
-  if (currentPath.startsWith("/company-profile") && user?.role !== "PIC") {
+  if (
+    currentPath.startsWith("/company-profile") &&
+    user?.role !== "Company PIC"
+  ) {
     return <Navigate to="/dashboard" replace />;
   }
 

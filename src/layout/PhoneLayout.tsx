@@ -19,7 +19,7 @@ export default function PhoneLayout() {
     { path: "/profile", icon: User, label: "Profile" },
   ];
 
-  if (user?.role === "PIC") {
+  if (user?.role === "Company PIC") {
     navItems.push(
       // { path: "/company-profile", icon: Building2, label: "Perusahaan" },
       // { path: "/registrasi-karyawan", icon: UserPlus, label: "Register" },

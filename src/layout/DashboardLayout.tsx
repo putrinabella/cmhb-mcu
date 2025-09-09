@@ -13,7 +13,7 @@ export default function DashboardLayout() {
     { to: "/batch", label: "Batch" },
   ];
 
-  if (user?.role === "PIC") {
+  if (user?.role === "Company PIC") {
     menuItems.push(
       { to: "/registrasi-karyawan", label: "Pegawai" },
       { to: "/company-profile", label: "Perusahaan" }

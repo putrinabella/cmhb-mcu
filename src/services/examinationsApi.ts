@@ -45,6 +45,7 @@ export interface McuPackage {
 // Main item type
 export interface ExaminationItem {
   id: string;
+  is_visible_to_employee: 0 | 1;
   examination_batch_id: ExaminationBatch;
   company_employee: CompanyEmployee;
   mcu_package: McuPackage;
@@ -77,4 +78,24 @@ export const getExaminationsByBatch = async (
     params
   );
   return res.data;
+};
+
+export const updateExaminationAccess = async (updates: {
+  examinations: { id: string; is_visible_to_employee: 0 | 1 }[];
+}) => {
+  return apiRequest("post", "/examinations/access", updates);
+};
+
+// export const toggleExaminationAccess = (id: string, isVisible: 0 | 1) =>
+//   apiRequest("post", `/examinations/access`, {
+//     examinations: [{ id, is_visible_to_employee: isVisible }],
+//   });
+export const toggleExaminationAccess = (id: string, isVisible: 0 | 1) => {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const companyId = user.company?.id;
+
+  return apiRequest("post", `/examinations/access`, {
+    company_id: companyId, // <-- tambahkan ini
+    examinations: [{ id, is_visible_to_employee: isVisible }],
+  });
 };

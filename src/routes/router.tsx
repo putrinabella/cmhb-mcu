@@ -21,7 +21,10 @@ const BatchPage = lazy(() => import("@/pages/BatchPage"));
 const BatchDetailLayout = lazy(() => import("@/layout/BatchDetailLayout"));
 const InputPage = lazy(() => import("@/pages/employee/InputPage"));
 const BatchImportPage = lazy(() => import("@/pages/BatchImportPage"));
-// Helper untuk membungkus lazy component dengan Suspense
+const ExaminationDetailPage = lazy(
+  () => import("@/pages/ExaminationDetailPage")
+);
+
 const Loadable = (Component: React.LazyExoticComponent<any>) => (
   <Suspense fallback={<LoadingIndicator />}>
     <Component />
@@ -60,6 +63,10 @@ const router = createBrowserRouter([
               { index: true, element: Loadable(BatchPage) },
               { path: ":id", element: Loadable(BatchDetailLayout) },
               { path: ":id/import", element: Loadable(BatchImportPage) },
+              {
+                path: ":id/examination/:exmId",
+                element: Loadable(ExaminationDetailPage),
+              },
             ],
           },
         ],

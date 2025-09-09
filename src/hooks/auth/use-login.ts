@@ -20,7 +20,7 @@ export function useLogin() {
           position: result.user.position,
           department: result.user.department,
           phone_number: result.user.phone_number,
-          role: "PIC",
+          role: "Company PIC",
           company: result.user.company_id
             ? {
                 id: result.user.company_id,
