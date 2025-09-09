@@ -22,7 +22,7 @@ export const getCompanies = async (
   const res: ApiResponse<PaginatedResponse<CompanyItem>> =
     await getPaginatedResource<CompanyItem>("/companies", params);
 
-  return res.data; // ✅ langsung unwrap ke PaginatedResponse
+  return res.data; //
 };
 
 // Ambil detail perusahaan tertentu (endpoint unik)

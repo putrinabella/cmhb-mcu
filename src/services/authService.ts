@@ -18,6 +18,36 @@ export const login = async (email: string, password: string) => {
   };
 };
 
+export const loginEmployee = async (
+  nik: string,
+  dob: string,
+  company_code: string
+) => {
+  const res = await apiRequest("post", "/company-employees/login", {
+    nik,
+    dob,
+    company_code,
+  });
+
+  const data = res.data;
+
+  return {
+    token: data.token,
+    employee: {
+      id: data.employee.id,
+      company_id: data.employee.company_id,
+      company_name: data.employee.company_name,
+      employee_number: data.employee.employee_number,
+      nik: data.employee.nik,
+      name: data.employee.name,
+      gender: data.employee.gender,
+      phone_number: data.employee.phone_number,
+      dob: data.employee.dob,
+      age_detail: data.employee.age_detail,
+    },
+    batches: data.batches ?? [],
+  };
+};
 export const logout = () => apiRequest("post", "/logout");
 
 export const register = (data: {
