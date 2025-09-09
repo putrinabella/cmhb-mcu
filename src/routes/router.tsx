@@ -12,14 +12,12 @@ const LoginEmployeePage = lazy(() => import("@/pages/auth/LoginEmployeePage"));
 const RegisterPage = lazy(() => import("@/pages/auth/RegisterPage"));
 const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
 const McuPage = lazy(() => import("@/pages/McuPage"));
-const EmployeeRegisterPage = lazy(() => import("@/pages/EmployeeRegisterPage"));
 const NotFoundPage = lazy(() => import("@/pages/error/NotFoundPage"));
 const CompaniesPage = lazy(() => import("@/pages/CompaniesPage"));
 const ProfileLayout = lazy(() => import("@/layout/ProfileLayout"));
 const CompanyDetailPage = lazy(() => import("@/pages/CompanyDetailPage"));
 const BatchPage = lazy(() => import("@/pages/BatchPage"));
 const BatchDetailLayout = lazy(() => import("@/layout/BatchDetailLayout"));
-const InputPage = lazy(() => import("@/pages/employee/InputPage"));
 const BatchImportPage = lazy(() => import("@/pages/BatchImportPage"));
 const ExaminationDetailPage = lazy(
   () => import("@/pages/ExaminationDetailPage")
@@ -69,14 +67,6 @@ const router = createBrowserRouter([
               },
             ],
           },
-        ],
-      },
-      {
-        path: "/registrasi-karyawan",
-        element: <ResponsiveLayout />,
-        children: [
-          { index: true, element: Loadable(EmployeeRegisterPage) },
-          { path: "input", element: Loadable(InputPage) },
         ],
       },
       {

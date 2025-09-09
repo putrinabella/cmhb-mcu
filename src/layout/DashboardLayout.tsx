@@ -8,15 +8,16 @@ export default function DashboardLayout() {
   const { user } = useAuth();
 
   const menuItems = [
-    { to: "/dashboard", label: "Dashboard" },
-    { to: "/hasil-mcu", label: "Hasil MCU" },
-    { to: "/batch", label: "Batch" },
+    // { to: "/hasil-mcu", label: "Hasil MCU" },
+    // { to: "/profile", label: "Profil" },
   ];
 
   if (user?.role === "Company PIC") {
     menuItems.push(
-      { to: "/registrasi-karyawan", label: "Pegawai" },
-      { to: "/company-profile", label: "Perusahaan" }
+      { to: "/dashboard", label: "Dashboard" },
+      { to: "/profile", label: "Profil" }
+      // { to: "/registrasi-karyawan", label: "Pegawai" },
+      // { to: "/company-profile", label: "Perusahaan" }
     );
   }
 
@@ -66,7 +67,7 @@ export default function DashboardLayout() {
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-xl shadow-md mt-3 w-52 p-2 border border-base-300"
             >
-              <li>
+              {/* <li>
                 <NavLink
                   to="/profile"
                   className={({ isActive }) =>
@@ -80,7 +81,7 @@ export default function DashboardLayout() {
                   <User className="w-4 h-4" />
                   Profile
                 </NavLink>
-              </li>
+              </li> */}
               <li>
                 <button
                   onClick={handleLogout}

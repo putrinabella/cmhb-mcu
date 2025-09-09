@@ -1,0 +1,1 @@
+import{j as a}from"./index-DBCl1piy.js";import{F as e}from"./PasswordField-DwSObI-P.js";import{M as m}from"./mail-BWWQdC_H.js";function o({control:i}){return a.jsx(e,{control:i,name:"email",label:"Email",placeholder:"Masukkan email",type:"email",rules:{required:"Email wajib diisi"},leftIcon:a.jsx(m,{className:"w-5 h-5"})})}export{o as E};

@@ -3,6 +3,7 @@ import { getDateIndonesianFormat } from "@/utils/dateUtils";
 import type { ExaminationItem } from "@/services/examinationsApi";
 import { downloadExaminationResult } from "@/services/employeeAPI";
 import { useToggleExaminationAccess } from "@/hooks/use-examination-access";
+import { CheckCircle, XCircle } from "lucide-react";
 
 interface Props {
   examinations: ExaminationItem[];
@@ -116,7 +117,7 @@ export default function BatchDetailDesktop({
                 <td className="text-center">
                   {resultObj ? (
                     <button
-                      className="btn btn-sm btn-primary"
+                      className="btn btn-sm rounded-full w-full text-base-content bg-primary/20"
                       onClick={() => handleViewResult(resultObj.id)}
                     >
                       Lihat Hasil
@@ -127,13 +128,21 @@ export default function BatchDetailDesktop({
                 </td>
                 <td className="text-center">
                   <button
-                    className={`btn btn-sm ${
-                      accessState[exm.id] ? "btn-success" : "btn-error"
+                    className={`btn btn-sm flex items-center gap-2 rounded-full w-full text-base-content ${
+                      accessState[exm.id] ? "bg-primary/20" : "bg-secondary/5"
                     }`}
                     disabled={loadingIds.has(exm.id)}
                     onClick={() => toggleAccess(exm.id)}
                   >
-                    {accessState[exm.id] ? "ON" : "OFF"}
+                    {accessState[exm.id] ? (
+                      <>
+                        <CheckCircle size={16} /> Aktif
+                      </>
+                    ) : (
+                      <>
+                        <XCircle size={16} /> Nonaktif
+                      </>
+                    )}
                   </button>
                 </td>
               </tr>

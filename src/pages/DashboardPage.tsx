@@ -68,6 +68,49 @@ export default function DashboardPage() {
       </div>
 
       {/* Batch Section */}
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
+        {/* Batch MCU */}
+        <div className="bg-base-100 border-2 border-dashed border-primary/50 rounded-2xl p-6 shadow-md w-full">
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-base-content">
+            <Pin className="w-6 h-6 text-primary" />
+            Batch MCU
+          </h2>
+
+          {/* Loading / Error States */}
+          {loading && <LoadingIndicator />}
+          {error && <p className="text-error text-center">{error}</p>}
+
+          {/* Grid Data */}
+          {!loading && !error && (
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {batches.map((batch) => (
+                <div
+                  key={batch.id}
+                  className="group flex flex-col items-center justify-center p-4 rounded-xl cursor-pointer bg-base-100 hover:bg-primary hover:text-primary-content shadow-sm transition-all duration-200 tooltip tooltip-bottom"
+                  data-tip={`${getDateIndonesianFormat(batch.exam_date)} | ${
+                    batch.location
+                  }`}
+                  onClick={() => navigate(`/dashboard/batch/${batch.id}`)}
+                >
+                  <Folder className="w-12 h-12 text-yellow-400 group-hover:text-yellow-100 transition-colors" />
+                  <span
+                    className="mt-2 text-sm text-center font-medium truncate w-full transition-colors"
+                    title={batch.batch_code}
+                  >
+                    {batch.batch_code}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+          <Pagination
+            page={page}
+            lastPage={lastPage}
+            onPageChange={handlePageChange}
+            total={total}
+          />
+        </div>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Batch MCU */}
         <div className="bg-base-100 border-2 border-dashed border-primary/50 rounded-2xl p-6 shadow-md w-full">
@@ -111,7 +154,7 @@ export default function DashboardPage() {
           />
         </div>
 
-        {/* History List */}
+        {/*   Profil Perusahaan */}
         <div className="bg-base-100 border-2 border-dashed border-primary/50 rounded-2xl p-6 shadow-md w-full">
           <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-base-content">
             <Pin className="w-6 h-6 text-primary" />
@@ -119,7 +162,7 @@ export default function DashboardPage() {
           </h2>
           <List items={historyData} />
         </div>
-        {/* History List */}
+        {/*   Hasil Medical Check-Up */}
         <div className="bg-base-100 border-2 border-dashed border-primary/50 rounded-2xl p-6 shadow-md w-full">
           <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-base-content">
             <Pin className="w-6 h-6 text-primary" />
@@ -128,7 +171,6 @@ export default function DashboardPage() {
           <List items={historyData} />
         </div>
       </div>
-
       <div className="pt-4">
         <Suspense fallback={<div>Loading PDF Viewer...</div>}>
           <PdfViewer fileUrl="/docs/Dummy.pdf" />
