@@ -1,26 +1,31 @@
-// export default PdfViewer;
 import type { FC } from "react";
 import { Viewer } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
-import {
-  getFilePlugin,
-  type RenderDownloadProps,
-} from "@react-pdf-viewer/get-file";
 import { zoomPlugin } from "@react-pdf-viewer/zoom";
 import "@react-pdf-viewer/zoom/lib/styles/index.css";
-import { Download as DownloadIcon } from "lucide-react";
-import { Plus, Minus } from "lucide-react";
+import { Download as DownloadIcon, Plus, Minus } from "lucide-react";
 
 interface PdfViewerProps {
-  fileUrl: string;
+  fileUrl: string; // object URL dari Blob
+  fileBlob: Blob; // blob hasil fetch
+  fileName: string; // custom nama file (ex: "123456 - John Doe.pdf")
 }
 
-const PdfViewer: FC<PdfViewerProps> = ({ fileUrl }) => {
-  const getFilePluginInstance = getFilePlugin();
-  const { Download } = getFilePluginInstance;
-
+const PdfViewer: FC<PdfViewerProps> = ({ fileUrl, fileBlob, fileName }) => {
   const zoomPluginInstance = zoomPlugin();
   const { ZoomIn, ZoomOut, CurrentScale } = zoomPluginInstance;
+
+  const handleDownload = () => {
+    const url = URL.createObjectURL(fileBlob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div className="border border-base-300 rounded-lg overflow-hidden">
@@ -62,27 +67,20 @@ const PdfViewer: FC<PdfViewerProps> = ({ fileUrl }) => {
             )}
           </ZoomIn>
 
-          {/* Download button */}
-          <Download>
-            {(props: RenderDownloadProps) => (
-              <button
-                onClick={props.onClick}
-                className="bg-primary hover:bg-primary/90 text-primary-content px-3 py-1.5 flex items-center gap-1.5 rounded transition"
-              >
-                <DownloadIcon size={18} />
-                <span className="text-sm font-medium">Download</span>
-              </button>
-            )}
-          </Download>
+          {/* Custom Download button */}
+          <button
+            onClick={handleDownload}
+            className="bg-primary hover:bg-primary/90 text-primary-content px-3 py-1.5 flex items-center gap-1.5 rounded transition"
+          >
+            <DownloadIcon size={18} />
+            <span className="text-sm font-medium">Download</span>
+          </button>
         </div>
       </div>
 
       {/* VIEWER */}
       <div className="h-[700px] bg-base-100">
-        <Viewer
-          fileUrl={fileUrl}
-          plugins={[getFilePluginInstance, zoomPluginInstance]}
-        />
+        <Viewer fileUrl={fileUrl} plugins={[zoomPluginInstance]} />
       </div>
     </div>
   );

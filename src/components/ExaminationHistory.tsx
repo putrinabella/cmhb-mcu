@@ -1,40 +1,39 @@
 import { HeartPlus } from "lucide-react";
-import { getMyEmployee, type Batch } from "@/services/employeesAccessApi";
+import {
+  getMyEmployee,
+  isValidResultId,
+  type Batch,
+  type ExaminationDetail,
+} from "@/services/employeesAccessApi";
 import HistoryList from "./HistoryList";
 import type { HistoryItem } from "@/types/history";
 import { useNavigate } from "react-router-dom";
 import { formatTanggalHari } from "@/utils/dateUtils";
+
 export default function ExaminationHistory() {
   const navigate = useNavigate();
 
   const fetchExaminationHistory = async (): Promise<HistoryItem[]> => {
     const res = await getMyEmployee();
     const batches: Batch[] = res.data.batches;
-
+    console.log(batches);
     return batches
       .filter((batch) => typeof batch.examination === "object")
       .map((batch) => {
-        const exam = batch.examination as {
-          id: string;
-          mcu_package: string;
-          notes: string;
-          result: string;
-        };
+        const exam = batch.examination as ExaminationDetail;
 
         return {
           id: exam.id,
           title: exam.mcu_package || "MCU Event",
-          // description: exam.notes,
           timestamp: formatTanggalHari(batch.exam_date),
           icon: <HeartPlus size={20} />,
           titleClassName:
             exam.mcu_package === "Paket Belum Ditentukan" ? "text-red-500" : "",
-          badge:
-            exam.result && exam.result !== "Hasil Belum Bisa Diakses" ? (
-              <span className="badge bg-primary/20 text-base-content text-xs p-0">
-                Hasil tersedia
-              </span>
-            ) : undefined,
+          badge: isValidResultId(exam.result) ? (
+            <span className="badge bg-primary/20 text-base-content text-xs p-0">
+              Hasil tersedia
+            </span>
+          ) : undefined,
         };
       });
   };

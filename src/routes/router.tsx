@@ -19,7 +19,9 @@ const CompanyDetailPage = lazy(() => import("@/pages/CompanyDetailPage"));
 const BatchPage = lazy(() => import("@/pages/BatchPage"));
 const BatchDetailLayout = lazy(() => import("@/layout/BatchDetailLayout"));
 const BatchImportPage = lazy(() => import("@/pages/BatchImportPage"));
-
+const ExaminationResultPage = lazy(
+  () => import("@/pages/ExaminationPublicDetailPage")
+);
 const ExaminationDetailPage = lazy(
   () => import("@/pages/ExaminationDetailPage")
 );
@@ -71,9 +73,9 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "/hasil-mcu",
+        path: "/examinations/:examId",
         element: <ResponsiveLayout />,
-        children: [{ index: true, element: Loadable(McuPage) }],
+        children: [{ index: true, element: Loadable(ExaminationResultPage) }],
       },
       {
         path: "/profile",
@@ -84,6 +86,11 @@ const router = createBrowserRouter([
         path: "/404",
         element: <ResponsiveLayout />,
         children: [{ index: true, element: Loadable(NotFoundPage) }],
+      },
+      {
+        path: "/hasil-mcu",
+        element: <ResponsiveLayout />,
+        children: [{ index: true, element: Loadable(McuPage) }],
       },
     ],
   },
