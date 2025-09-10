@@ -4,6 +4,7 @@ import type { ExaminationItem } from "@/services/examinationsApi";
 import { downloadExaminationResult } from "@/services/employeeAPI";
 import { useToggleExaminationAccess } from "@/hooks/use-examination-access";
 import { CheckCircle, XCircle } from "lucide-react";
+import { showSwal } from "@/lib/SwalHelper";
 
 interface Props {
   examinations: ExaminationItem[];
@@ -16,8 +17,11 @@ export default function BatchDetailDesktop({ examinations }: Props) {
       const url = window.URL.createObjectURL(blob);
       window.open(url, "_blank"); // buka di tab baru
     } catch (err) {
-      console.error(err);
-      alert("Gagal memuat hasil pemeriksaan.");
+      showSwal({
+        title: "Gagal",
+        text: "Gagal memuat hasil pemeriksaan.",
+        icon: "error",
+      });
     }
   };
 

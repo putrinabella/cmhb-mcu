@@ -7,10 +7,7 @@ export default function DashboardLayout() {
   const { handleLogout } = useLogout();
   const { user } = useAuth();
 
-  const menuItems = [
-    // { to: "/hasil-mcu", label: "Hasil MCU" },
-    // { to: "/profile", label: "Profil" },
-  ];
+  const menuItems = [];
 
   if (user?.role === "Company PIC") {
     menuItems.push(
@@ -18,6 +15,13 @@ export default function DashboardLayout() {
       { to: "/profile", label: "Profil" }
       // { to: "/registrasi-karyawan", label: "Pegawai" },
       // { to: "/company-profile", label: "Perusahaan" }
+    );
+  }
+
+  if (user?.role === "Employee") {
+    menuItems.push(
+      { to: "/dashboard", label: "Dashboard" },
+      { to: "/profile", label: "Profil" }
     );
   }
 

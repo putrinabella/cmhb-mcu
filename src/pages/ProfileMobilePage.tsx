@@ -1,5 +1,6 @@
 // import EditPassword from "@/components/EditPassword";
 import { InfoItem } from "@/components/InfoItem";
+import { LoadingIndicator } from "@/components/LoadingIndicator";
 import LogoutButton from "@/components/LogoutButton";
 import Tabs from "@/components/Tabs";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -18,12 +19,40 @@ export default function ProfileMobilePage() {
 
   // Tampilkan loading jika user belum siap
   if (!user) {
-    return (
-      <div className="h-full flex items-center justify-center text-base-content">
-        <p className="text-lg">Memuat profil...</p>
-      </div>
-    );
+    return <LoadingIndicator />;
   }
+  const userFields = [
+    {
+      icon: <User size={18} className="text-primary" />,
+      label: "Nama",
+      value: user.name,
+    },
+    {
+      icon: <Building2 size={18} className="text-primary" />,
+      label: "Perusahaan",
+      value: user.company?.name,
+    },
+    {
+      icon: <Component size={18} className="text-primary" />,
+      label: "Posisi",
+      value: user.position,
+    },
+    {
+      icon: <Briefcase size={18} className="text-primary" />,
+      label: "Departemen",
+      value: user.department,
+    },
+    {
+      icon: <Phone size={18} className="text-primary" />,
+      label: "Nomor Telepon",
+      value: user.phone_number,
+    },
+    {
+      icon: <Mail size={18} className="text-primary" />,
+      label: "Email",
+      value: user.email,
+    },
+  ];
 
   const tabData = [
     {
@@ -32,39 +61,17 @@ export default function ProfileMobilePage() {
         <div className="space-y-4">
           <div className="divider"></div>
 
-          <InfoItem
-            icon={<User size={18} className="text-primary" />}
-            label="Nama"
-            value={user.name || "-"}
-          />
-          <InfoItem
-            icon={<Building2 size={18} className="text-primary" />}
-            label="Perusahaan"
-            value={user.company?.name || "-"}
-          />
-
-          <InfoItem
-            icon={<Component size={18} className="text-primary" />}
-            label="Posisi"
-            value={user.position || "-"}
-          />
-          <InfoItem
-            icon={<Briefcase size={18} className="text-primary" />}
-            label="Departemen"
-            value={user.department || "-"}
-          />
-          <div className="divider"></div>
-
-          <InfoItem
-            icon={<Phone size={18} className="text-primary" />}
-            label="Nomor Telepon"
-            value={user.phone_number || "-"}
-          />
-          <InfoItem
-            icon={<Mail size={18} className="text-primary" />}
-            label="Email"
-            value={user.email || "-"}
-          />
+          {userFields.map(
+            (item, index) =>
+              item.value && (
+                <InfoItem
+                  key={index}
+                  icon={item.icon}
+                  label={item.label}
+                  value={item.value}
+                />
+              )
+          )}
 
           <div className="divider"></div>
           {/* <EditPassword /> */}

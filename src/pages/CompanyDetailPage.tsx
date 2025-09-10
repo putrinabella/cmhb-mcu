@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCompanyDetail, type CompanyItem } from "@/services/companiesAPI";
+import { LoadingIndicator } from "@/components/LoadingIndicator";
 
 export default function CompanyDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -17,7 +18,7 @@ export default function CompanyDetailPage() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  if (loading) return <p>Memuat detail perusahaan...</p>;
+  if (loading) return <LoadingIndicator />;
   if (error) return <p className="text-red-500">{error}</p>;
   if (!company) return <p>Perusahaan tidak ditemukan.</p>;
 

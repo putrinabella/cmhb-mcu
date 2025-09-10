@@ -7,6 +7,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { PasswordField } from "./form/PasswordField";
 import { Lock } from "lucide-react";
 import { updatePicPassword } from "@/services/picAPI";
+import { showSwal } from "@/lib/SwalHelper";
 
 export default function EditPassword() {
   const [open, setOpen] = useState(false);
@@ -53,19 +54,27 @@ export default function EditPassword() {
     clearErrors();
 
     if (!userId) {
-      alert("User ID tidak ditemukan di localStorage");
+      showSwal({
+        title: "Gagal",
+        text: "User ID tidak ditemukan di localStorage",
+        icon: "error",
+      });
       return;
     }
 
     try {
       setLoading(true);
-      await updatePicPassword(userId, data.newPassword); // ✅ hanya kirim password baru
+      await updatePicPassword(userId, data.newPassword);
       console.log("Password berhasil diganti");
       reset(); // kosongkan form setelah sukses
       setOpen(false);
     } catch (error: any) {
       console.error(error);
-      alert(error?.message || "Gagal mengganti password");
+      showSwal({
+        title: "Gagal",
+        text: error?.message || "Gagal mengganti password",
+        icon: "error",
+      });
     } finally {
       setLoading(false);
     }

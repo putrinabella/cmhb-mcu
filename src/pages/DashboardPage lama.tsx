@@ -43,11 +43,7 @@ export default function DashboardPage() {
   });
 
   if (!user) {
-    return (
-      <div className="h-full flex items-center justify-center text-base-content">
-        <p className="text-lg">Memuat profil...</p>
-      </div>
-    );
+    return <LoadingIndicator />;
   }
 
   return (

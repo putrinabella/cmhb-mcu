@@ -6,8 +6,8 @@ import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { useNavigate } from "react-router-dom";
 import { getDateIndonesianFormat } from "@/utils/dateUtils";
 import Pagination from "@/components/Pagination";
-import ExaminationHistory from "@/components/ExaminationHistory";
-export default function DashboardPage() {
+
+export default function DashboardEmployeePage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const {
@@ -86,14 +86,6 @@ export default function DashboardPage() {
             onPageChange={handlePageChange}
             total={total}
           />
-        </div>
-
-        <div className="bg-base-100 border-2 border-dashed border-primary/50 rounded-2xl p-6 shadow-md w-full">
-          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-base-content">
-            <Pin className="w-6 h-6 text-primary" />
-            Hasil Medical Check-Up
-          </h2>
-          <ExaminationHistory />
         </div>
       </div>
     </div>

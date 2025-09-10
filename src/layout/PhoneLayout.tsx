@@ -13,13 +13,16 @@ export default function PhoneLayout() {
       location.pathname === path || location.pathname.startsWith(`${path}/`)
     );
   };
-  const navItems = [
-    // { path: "/hasil-mcu", icon: HeartPulse, label: "MCU" },
-    // { path: "/dashboard", icon: House, label: "Dashboard" },
-    // { path: "/profile", icon: User, label: "Profile" },
-  ];
+  const navItems = [];
 
   if (user?.role === "Company PIC") {
+    navItems.push(
+      { path: "/hasil-mcu", icon: HeartPulse, label: "MCU" },
+      { path: "/dashboard", icon: House, label: "Dashboard" },
+      { path: "/profile", icon: User, label: "Profile" }
+    );
+  }
+  if (user?.role === "Employee") {
     navItems.push(
       { path: "/hasil-mcu", icon: HeartPulse, label: "MCU" },
       { path: "/dashboard", icon: House, label: "Dashboard" },

@@ -19,6 +19,7 @@ const CompanyDetailPage = lazy(() => import("@/pages/CompanyDetailPage"));
 const BatchPage = lazy(() => import("@/pages/BatchPage"));
 const BatchDetailLayout = lazy(() => import("@/layout/BatchDetailLayout"));
 const BatchImportPage = lazy(() => import("@/pages/BatchImportPage"));
+
 const ExaminationDetailPage = lazy(
   () => import("@/pages/ExaminationDetailPage")
 );
