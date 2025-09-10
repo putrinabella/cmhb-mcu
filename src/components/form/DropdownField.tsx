@@ -52,10 +52,12 @@ export function CompanyField({
           {showDropdown && search && (
             <div className="absolute z-10 mt-1 w-full bg-white border rounded shadow max-h-40 overflow-auto">
               {loading && (
-                <div className="p-2 text-sm text-gray-500">Memuat...</div>
+                <div className="p-2 text-sm text-base-content">Memuat...</div>
               )}
               {!loading && companies && companies.length === 0 && (
-                <div className="p-2 text-sm text-gray-500">Tidak ada hasil</div>
+                <div className="p-2 text-sm text-base-content">
+                  Tidak ada hasil
+                </div>
               )}
               {companies &&
                 companies.map((c) => (
@@ -107,10 +109,10 @@ export function CompanyField({
 //           {search && (
 //             <div className="absolute z-10 mt-1 w-full bg-white border rounded shadow max-h-40 overflow-auto">
 //               {loading && (
-//                 <div className="p-2 text-sm text-gray-500">Memuat...</div>
+//                 <div className="p-2 text-sm text-base-content">Memuat...</div>
 //               )}
 //               {!loading && companies && companies.length === 0 && (
-//                 <div className="p-2 text-sm text-gray-500">Tidak ada hasil</div>
+//                 <div className="p-2 text-sm text-base-content">Tidak ada hasil</div>
 //               )}
 //               {companies &&
 //                 companies.map((c) => (

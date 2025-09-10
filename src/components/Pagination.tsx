@@ -29,7 +29,7 @@ type PaginationProps = {
 //   return (
 //     <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-6">
 //       {/* Info teks */}
-//       <p className="text-sm text-gray-500">
+//       <p className="text-sm text-base-content">
 //         {total === 0 ? (
 //           <>Menampilkan 0 data</>
 //         ) : (
@@ -99,7 +99,7 @@ export default function Pagination({
 }: PaginationProps) {
   if (lastPage <= 1) {
     // kalau cuma ada 1 halaman, jangan tampilkan pagination sama sekali
-    return <p className="text-sm text-gray-500 mt-6"></p>;
+    return <p className="text-sm text-base-content mt-6"></p>;
   }
 
   const from = total === 0 ? 0 : (page - 1) * perPage + 1;
@@ -118,7 +118,7 @@ export default function Pagination({
   return (
     <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-6">
       {/* Info teks */}
-      <p className="text-sm text-gray-500">
+      <p className="text-sm text-base-content">
         {total === 0 ? (
           <>Menampilkan 0 data</>
         ) : (

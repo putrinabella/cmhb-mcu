@@ -36,7 +36,7 @@ export default function BatchDetailDesktop({ examinations }: Props) {
 
   if (!examinations || examinations.length === 0) {
     return (
-      <p className="p-4 text-center text-gray-500">
+      <p className="p-4 text-center text-base-content">
         Tidak ada data pemeriksaan.
       </p>
     );
@@ -119,7 +119,7 @@ export default function BatchDetailDesktop({ examinations }: Props) {
                       Lihat Hasil
                     </button>
                   ) : (
-                    <span className="text-gray-500">Belum ada hasil</span>
+                    <span className="text-base-content">Belum ada hasil</span>
                   )}
                 </td>
                 <td className="text-center">
@@ -196,7 +196,7 @@ export default function BatchDetailDesktop({ examinations }: Props) {
 
 //   if (!examinations || examinations.length === 0) {
 //     return (
-//       <p className="p-4 text-center text-gray-500">
+//       <p className="p-4 text-center text-base-content">
 //         Tidak ada data pemeriksaan.
 //       </p>
 //     );
@@ -288,7 +288,7 @@ export default function BatchDetailDesktop({ examinations }: Props) {
 //                       Lihat Hasil
 //                     </button>
 //                   ) : (
-//                     <span className="text-gray-500">Belum ada hasil</span>
+//                     <span className="text-base-content">Belum ada hasil</span>
 //                   )}
 //                 </td>
 //               </tr>

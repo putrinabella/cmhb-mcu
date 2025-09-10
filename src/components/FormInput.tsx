@@ -47,14 +47,14 @@
 //         <FormItem>
 //           <FormLabel
 //             htmlFor={inputId}
-//             className="text-sm font-medium text-gray-700 dark:text-gray-200"
+//             className="text-sm font-medium text-base-content dark:text-base-content"
 //           >
 //             {label}
 //           </FormLabel>
 
 //           <div className="relative">
 //             {leftIcon && (
-//               <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
+//               <div className="absolute left-3 top-1/2 -translate-y-1/2 text-base-content pointer-events-none">
 //                 {leftIcon}
 //               </div>
 //             )}
@@ -82,7 +82,7 @@
 //               <button
 //                 type="button"
 //                 onClick={onToggle}
-//                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+//                 className="absolute right-3 top-1/2 -translate-y-1/2 text-base-content"
 //               >
 //                 {icon}
 //               </button>

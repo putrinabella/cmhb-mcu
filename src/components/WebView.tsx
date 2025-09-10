@@ -5,7 +5,7 @@ export default function SafeWebView({ url }: { url: string }) {
         <p className="text-lg font-medium">
           Website ini tidak bisa ditampilkan langsung.
         </p>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-base-content">
           Klik tombol di bawah untuk membuka di tab baru.
         </p>
       </div>

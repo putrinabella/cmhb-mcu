@@ -17,14 +17,14 @@ export default function PhoneLayout() {
 
   if (user?.role === "Company PIC") {
     navItems.push(
-      { path: "/ciputramitrahospital", icon: HeartPulse, label: "Web Profile" },
+      { path: "/ciputramitrahospital", icon: HeartPulse, label: "CMHealth" },
       { path: "/dashboard", icon: House, label: "Dashboard" },
       { path: "/profile", icon: User, label: "Profile" }
     );
   }
   if (user?.role === "Employee") {
     navItems.push(
-      { path: "/ciputramitrahospital", icon: Hospital, label: "Web Profile" },
+      { path: "/ciputramitrahospital", icon: Hospital, label: "CMHealth" },
       { path: "/dashboard", icon: House, label: "Dashboard" },
       { path: "/profile", icon: User, label: "Profile" }
     );

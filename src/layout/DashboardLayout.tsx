@@ -12,7 +12,7 @@ export default function DashboardLayout() {
   if (user?.role === "Company PIC") {
     menuItems.push(
       { to: "/dashboard", label: "Dashboard" },
-      { to: "/ciputramitrahospital", label: "Web Profil" },
+      { to: "/ciputramitrahospital", label: "CMHealth" },
       { to: "/profile", label: "Profil" }
       // { to: "/registrasi-karyawan", label: "Pegawai" },
       // { to: "/company-profile", label: "Perusahaan" }
@@ -22,7 +22,7 @@ export default function DashboardLayout() {
   if (user?.role === "Employee") {
     menuItems.push(
       { to: "/dashboard", label: "Dashboard" },
-      { to: "/ciputramitrahospital", label: "Web Profil" },
+      { to: "/ciputramitrahospital", label: "CMHealth" },
       { to: "/profile", label: "Profil" }
     );
   }

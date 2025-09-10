@@ -19,7 +19,7 @@ export function FileInput({
 }: FileInputProps) {
   return (
     <fieldset className="fieldset mb-8 border border-gray-300 rounded-md p-4">
-      <legend className="fieldset-legend text-sm font-semibold text-gray-700">
+      <legend className="fieldset-legend text-sm font-semibold text-base-content">
         {label}
       </legend>
 
@@ -29,7 +29,7 @@ export function FileInput({
         accept={accept}
         multiple={multiple}
         onChange={onChange}
-        className="file-input block w-full text-gray-600
+        className="file-input block w-full text-base-content
                    file:mr-4 file:py-3 file:px-5
                    file:rounded-md file:border-0
                    file:text-sm file:font-semibold
@@ -38,7 +38,10 @@ export function FileInput({
       />
 
       {infoText && (
-        <label htmlFor={id} className="label text-xs text-gray-500 mt-1 block">
+        <label
+          htmlFor={id}
+          className="label text-xs text-base-content mt-1 block"
+        >
           {infoText}
         </label>
       )}

@@ -154,7 +154,7 @@ export default function BatchDetailLayout() {
                 <button
                   type="button"
                   onClick={handleResetSearch}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-red-500"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-base-content hover:text-red-500"
                   title="Reset"
                 >
                   <X className="w-4 h-4" />

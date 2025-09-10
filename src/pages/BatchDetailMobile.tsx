@@ -45,7 +45,7 @@ export default function BatchDetailMobile({ examinations }: Props) {
 
   if (!examinations || examinations.length === 0) {
     return (
-      <p className="p-4 text-center text-gray-500">
+      <p className="p-4 text-center text-base-content">
         Tidak ada data pemeriksaan.
       </p>
     );

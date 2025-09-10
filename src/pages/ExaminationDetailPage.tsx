@@ -56,7 +56,7 @@
 //           <PdfViewer fileUrl={pdfUrl} />
 //         </Suspense>
 //       ) : (
-//         <p className="text-gray-500">Belum ada hasil</p>
+//         <p className="text-base-content">Belum ada hasil</p>
 //       )}
 //     </div>
 //   );
@@ -133,7 +133,7 @@ export default function ExaminationDetailPage() {
           />
         </Suspense>
       ) : (
-        <p className="text-gray-500">Belum ada hasil</p>
+        <p className="text-base-content">Belum ada hasil</p>
       )}
     </div>
   );

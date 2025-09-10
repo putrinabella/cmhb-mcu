@@ -1,0 +1,1 @@
+import{j as i}from"./index-IQ2tqIO1.js";import{b as n}from"./FormInput-BfPccwuq.js";function a({control:t,name:r,label:o,placeholder:e,rules:m,leftIcon:s,type:x="text"}){return i.jsx(n,{control:t,name:r,label:o,placeholder:e,rules:m,leftIcon:s,type:x})}export{a as T};
