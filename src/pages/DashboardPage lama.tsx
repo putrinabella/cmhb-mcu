@@ -6,10 +6,8 @@ import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { useNavigate } from "react-router-dom";
 import { getDateIndonesianFormat } from "@/utils/dateUtils";
 import { List } from "@/components/List";
-import React, { Suspense } from "react";
-import Pagination from "@/components/Pagination";
 
-const PdfViewer = React.lazy(() => import("@/components/PdfViewer"));
+import Pagination from "@/components/Pagination";
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -166,11 +164,6 @@ export default function DashboardPage() {
           </h2>
           <List items={historyData} />
         </div>
-      </div>
-      <div className="pt-4">
-        <Suspense fallback={<div>Loading PDF Viewer...</div>}>
-          <PdfViewer fileUrl="/docs/Dummy.pdf" />
-        </Suspense>
       </div>
     </div>
   );

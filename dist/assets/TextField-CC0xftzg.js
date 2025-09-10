@@ -1,0 +1,1 @@
+import{j as i}from"./index-qf8s-zRF.js";import{b as n}from"./FormInput-DJa-sUSO.js";function a({control:t,name:r,label:o,placeholder:e,rules:m,leftIcon:s,type:x="text"}){return i.jsx(n,{control:t,name:r,label:o,placeholder:e,rules:m,leftIcon:s,type:x})}export{a as T};

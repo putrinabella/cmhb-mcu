@@ -1,4 +1,4 @@
-import { HeartPulse, House, User } from "lucide-react";
+import { HeartPulse, Hospital, House, User } from "lucide-react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useViewportHeight } from "@/hooks/use-viewport-height";
 import { useAuth } from "@/routes/AuthContext";
@@ -17,14 +17,14 @@ export default function PhoneLayout() {
 
   if (user?.role === "Company PIC") {
     navItems.push(
-      { path: "/hasil-mcu", icon: HeartPulse, label: "MCU" },
+      { path: "/ciputramitrahospital", icon: HeartPulse, label: "Web Profile" },
       { path: "/dashboard", icon: House, label: "Dashboard" },
       { path: "/profile", icon: User, label: "Profile" }
     );
   }
   if (user?.role === "Employee") {
     navItems.push(
-      { path: "/hasil-mcu", icon: HeartPulse, label: "MCU" },
+      { path: "/ciputramitrahospital", icon: Hospital, label: "Web Profile" },
       { path: "/dashboard", icon: House, label: "Dashboard" },
       { path: "/profile", icon: User, label: "Profile" }
     );

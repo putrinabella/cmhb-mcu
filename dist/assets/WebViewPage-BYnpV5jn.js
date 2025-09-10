@@ -1,0 +1,1 @@
+import{j as t}from"./index-qf8s-zRF.js";import"./pdfjs-BzSgQdvw.js";function r(){return t.jsx("div",{children:t.jsx("iframe",{src:"https://www.ciputramitrahospital.id/",className:"w-full h-[90vh]",title:"External Web"})})}export{r as default};

@@ -18,6 +18,7 @@ const ProfileLayout = lazy(() => import("@/layout/ProfileLayout"));
 const CompanyDetailPage = lazy(() => import("@/pages/CompanyDetailPage"));
 const BatchPage = lazy(() => import("@/pages/BatchPage"));
 const BatchDetailLayout = lazy(() => import("@/layout/BatchDetailLayout"));
+const WebViewPage = lazy(() => import("@/pages/WebViewPage"));
 const BatchImportPage = lazy(() => import("@/pages/BatchImportPage"));
 const ExaminationResultPage = lazy(
   () => import("@/pages/ExaminationPublicDetailPage")
@@ -81,6 +82,11 @@ const router = createBrowserRouter([
         path: "/profile",
         element: <ResponsiveLayout />,
         children: [{ index: true, element: Loadable(ProfileLayout) }],
+      },
+      {
+        path: "/ciputramitrahospital",
+        element: <ResponsiveLayout />,
+        children: [{ index: true, element: Loadable(WebViewPage) }],
       },
       {
         path: "/404",

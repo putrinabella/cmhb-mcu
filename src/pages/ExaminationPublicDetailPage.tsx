@@ -7,6 +7,9 @@ import {
   isExaminationResultObject,
   type ExaminationDetail,
 } from "@/services/employeesAccessApi";
+import { HeartPlus, Pin } from "lucide-react";
+import { LoadingIndicator } from "@/components/LoadingIndicator";
+import { Header } from "@/components/Header";
 
 export default function ExaminationResultPage() {
   const { examId } = useParams<{ examId: string }>();
@@ -79,61 +82,26 @@ export default function ExaminationResultPage() {
     };
   }, []);
 
-  if (loading) return <div className="p-6">Loading...</div>;
+  if (loading) return <LoadingIndicator />;
   if (error) return <div className="p-6 text-error">{error}</div>;
   if (!exam) return <div className="p-6 text-error">Data tidak ditemukan</div>;
 
   const fileName = `${exam.company_employee.nik} - ${exam.company_employee.name}.pdf`;
 
   return (
-    <div className="p-6 space-y-4">
-      {/* Identitas Pegawai */}
-      <div className="card bg-base-100 shadow p-4">
-        <h2 className="font-semibold text-lg mb-2">Identitas Pegawai</h2>
-        <p>
-          <strong>Nama:</strong> {exam.company_employee.name}
-        </p>
-        <p>
-          <strong>NIK:</strong> {exam.company_employee.nik}
-        </p>
-        <p>
-          <strong>Nomor Pegawai:</strong>{" "}
-          {exam.company_employee.employee_number}
-        </p>
-        <p>
-          <strong>Jenis Kelamin:</strong> {exam.company_employee.gender}
-        </p>
-        <p>
-          <strong>Tanggal Lahir:</strong> {exam.company_employee.dob} (
-          {exam.company_employee.age_detail})
-        </p>
-        <p>
-          <strong>Perusahaan:</strong> {exam.company_employee.company_name}
-        </p>
-        <p>
-          <strong>Paket MCU:</strong> {exam.mcu_package}
-        </p>
-        <p>
-          <strong>Catatan:</strong> {exam.notes || "-"}
-        </p>
-      </div>
+    <div className="bg-base-100 text-base-content p-6 space-y-6">
+      <Header greeting="Hasil MCU" name={exam.mcu_package} icon={HeartPlus} />
 
-      {/* Hasil MCU */}
-      <div className="card bg-base-100 shadow p-4">
-        <h2 className="font-semibold text-lg mb-2">Hasil MCU</h2>
-
-        {fileUrl && fileBlob ? (
-          <PdfViewer
-            fileUrl={fileUrl}
-            fileBlob={fileBlob}
-            fileName={fileName}
-          />
-        ) : (
-          <div className="text-gray-500">
+      {fileUrl && fileBlob ? (
+        <PdfViewer fileUrl={fileUrl} fileBlob={fileBlob} fileName={fileName} />
+      ) : (
+        <div className="bg-base-100 border-2 border-dashed border-primary/50 rounded-2xl p-6 shadow-md w-full">
+          <h2 className="text-2xl font-bold flex items-center gap-2 text-base-content">
+            <Pin className="w-6 h-6 text-primary" />
             {typeof exam.result === "string" ? exam.result : "Belum ada hasil"}
-          </div>
-        )}
-      </div>
+          </h2>
+        </div>
+      )}
     </div>
   );
 }

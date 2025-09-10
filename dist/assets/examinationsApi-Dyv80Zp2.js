@@ -1,0 +1,1 @@
+import{a as t}from"./apiClient-BmXS3_vS.js";const s=a=>t("get",`/examination-batches/${a}`),o=(a,e)=>t("post","/examinations/access",{examinations:[{id:a,is_visible_to_employee:e}]});export{s as g,o as t};
