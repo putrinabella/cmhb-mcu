@@ -57,7 +57,7 @@
 //     </div>
 //   );
 // }
-import { Hospital, Smartphone } from "lucide-react";
+import { Link, MessageCircle, Smartphone } from "lucide-react";
 
 export default function WebViewPage() {
   return (
@@ -85,41 +85,34 @@ export default function WebViewPage() {
             terbaru, atau kunjungi website resmi kami.
           </p>
 
-          <div className="flex flex-col md:flex-row gap-4 justify-center lg:justify-start">
-            {/* Play Store */}
+          <div className="flex flex-col md:flex-row gap-4 justify-center lg:justify-start mt-6">
             <a
               href="https://play.google.com/store/apps/details?id=com.ciputramitra.consultation&pcampaignid=web_share"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-primary btn-lg gap-2 rounded-full"
+              className="btn btn-lg gap-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-xl backdrop-blur-md hover:scale-105 transform transition duration-300 hover:shadow-2xl"
             >
-              <Smartphone size={20} />
+              <Smartphone className="w-5 h-5" />
               Play Store
             </a>
 
-            {/* Website */}
             <a
               href="https://www.ciputramitrahospital.id/"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-secondary btn-lg gap-2 rounded-full"
+              className="btn btn-lg gap-2 rounded-full bg-gradient-to-r from-gray-500 to-gray-700 text-white shadow-xl backdrop-blur-md hover:scale-105 transform transition duration-300 hover:shadow-2xl"
             >
-              <Hospital size={20} />
+              <Link className="w-5 h-5" />
               Website
             </a>
 
-            {/* WhatsApp */}
             <a
               href="https://wa.me/6280332160308"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-success btn-lg gap-2 rounded-full"
+              className="btn btn-lg gap-2 rounded-full bg-gradient-to-r from-green-400 to-green-600 text-white shadow-xl backdrop-blur-md hover:scale-105 transform transition duration-300 hover:shadow-2xl"
             >
-              <img
-                src="/images/whatsapp-icon.svg"
-                alt="WhatsApp"
-                className="w-5 h-5"
-              />
+              <MessageCircle className="w-5 h-5" />
               WhatsApp
             </a>
           </div>
