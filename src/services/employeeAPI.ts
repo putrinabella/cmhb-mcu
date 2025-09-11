@@ -38,7 +38,7 @@ export const updateEmployee = (id: string, data: Partial<EmployeeItem>) =>
   );
 
 export const downloadEmployeeTemplate = () =>
-  apiRequest<Blob>("get", "/examinations/download", undefined, {
+  apiRequest<Blob>("get", "/examinations/download-format", undefined, {
     responseType: "blob",
   });
 
