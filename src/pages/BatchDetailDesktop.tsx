@@ -119,7 +119,9 @@ export default function BatchDetailDesktop({ examinations }: Props) {
                       Lihat Hasil
                     </button>
                   ) : (
-                    <span className="text-base-content">Belum ada hasil</span>
+                    <button className="btn btn-sm rounded-full w-full text-base-content bg-secondary/5">
+                      Belum ada hasil
+                    </button>
                   )}
                 </td>
                 <td className="text-center">

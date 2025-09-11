@@ -10,6 +10,7 @@ import {
   Search,
   Upload,
   X,
+  FolderCog,
 } from "lucide-react";
 import { getDateIndonesianFormat } from "@/utils/dateUtils";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
@@ -19,6 +20,7 @@ import { downloadEmployeeTemplate } from "@/services/employeeAPI";
 import { useFileDownload } from "@/hooks/use-file-download";
 import { showSwal } from "@/lib/SwalHelper";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { capitalizeEachWord } from "@/utils/stringUtils";
 
 const BatchDetailDesktop = lazy(() => import("../pages/BatchDetailDesktop"));
 const BatchDetailMobile = lazy(() => import("../pages/BatchDetailMobile"));
@@ -108,7 +110,7 @@ export default function BatchDetailLayout() {
       </div>
 
       {/* Info Card */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="flex items-center gap-3 bg-base-100 p-4 rounded-lg shadow-sm border border-base-200">
           <Calendar className="w-6 h-6 text-primary" />
           <span className="font-medium text-base-content">
@@ -120,6 +122,13 @@ export default function BatchDetailLayout() {
           <MapPin className="w-6 h-6 text-primary" />
           <span className="font-medium text-base-content">
             {batch.location}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-3 bg-base-100 p-4 rounded-lg shadow-sm border border-base-200">
+          <FolderCog className="w-6 h-6 text-primary" />
+          <span className="font-medium text-base-content">
+            {capitalizeEachWord(batch.status) || "-"}
           </span>
         </div>
 

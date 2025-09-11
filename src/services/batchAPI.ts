@@ -14,6 +14,7 @@ export interface BatchItem {
   exam_date: string;
   location: string;
   notes: string;
+  status: string;
 }
 
 export const getBatch = async (
