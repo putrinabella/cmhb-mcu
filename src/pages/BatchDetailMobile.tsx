@@ -2,7 +2,7 @@ import { formatWhatsappLink } from "@/utils/whatsappUtils";
 import { getDateIndonesianFormat } from "@/utils/dateUtils";
 import type { ExaminationItem } from "@/services/examinationsApi";
 import { useToggleExaminationAccess } from "@/hooks/use-examination-access";
-import { downloadExaminationResult } from "@/services/employeeAPI";
+// import { downloadExaminationResult } from "@/services/employeeAPI";
 import {
   Calendar,
   Fingerprint,
@@ -13,12 +13,13 @@ import {
   XCircle,
 } from "lucide-react";
 import { showSwal } from "@/lib/SwalHelper";
-
+import { useParams } from "react-router-dom";
 interface Props {
   examinations: ExaminationItem[];
 }
 
 export default function BatchDetailMobile({ examinations }: Props) {
+  const { id: batchId } = useParams<{ id: string }>();
   const initialAccess = examinations.map((ex: any) => ({
     id: ex.id,
     isVisibleToEmployee:
@@ -28,21 +29,32 @@ export default function BatchDetailMobile({ examinations }: Props) {
   const { accessState, toggleAccess, loadingIds } =
     useToggleExaminationAccess(initialAccess);
 
-  const handleViewResult = async (id: string) => {
-    try {
-      const blob = await downloadExaminationResult(id);
-      const url = window.URL.createObjectURL(blob);
-      window.open(url, "_blank");
-    } catch (err) {
-      console.error(err);
+  // const handleViewResult = async (id: string) => {
+  //   try {
+  //     const blob = await downloadExaminationResult(id);
+  //     const url = window.URL.createObjectURL(blob);
+  //     window.open(url, "_blank");
+  //   } catch (err) {
+  //     console.error(err);
+  //     showSwal({
+  //       icon: "error",
+  //       title: "Gagal Import",
+  //       text: "Gagal memuat hasil pemeriksaan",
+  //     });
+  //   }
+  // };
+  const handleViewResult = (exmId: string) => {
+    if (!batchId) {
       showSwal({
         icon: "error",
-        title: "Gagal Import",
-        text: "Gagal memuat hasil pemeriksaan",
+        title: "Error",
+        text: "Batch ID tidak ditemukan",
       });
+      return;
     }
+    const url = `/dashboard/batch/${batchId}/examination/${exmId}`;
+    window.open(url, "_blank"); // ✅ buka tab baru
   };
-
   if (!examinations || examinations.length === 0) {
     return (
       <p className="p-4 text-center text-base-content">
@@ -135,7 +147,7 @@ export default function BatchDetailMobile({ examinations }: Props) {
                 {resultObj ? (
                   <button
                     className="btn btn-sm w-full rounded-full text-base-content bg-primary/20"
-                    onClick={() => handleViewResult(resultObj.id)}
+                    onClick={() => handleViewResult(exm.id)}
                   >
                     Lihat Hasil
                   </button>

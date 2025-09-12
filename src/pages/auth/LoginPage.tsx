@@ -25,8 +25,8 @@ export default function LoginPage() {
     >
       <FormWrapper<LoginFormValues>
         defaultValues={{
-          email: "testingpic@gmail.com",
-          password: "Testingpic@12",
+          email: "nurcholis@gmail.com",
+          password: "Nurcholis@12",
         }}
         onSubmit={handleLoginSubmit}
       >

@@ -29,9 +29,9 @@ export default function LoginPage() {
     >
       <FormWrapper<LoginFormValues>
         defaultValues={{
-          nik: "3171012300050000",
-          dob: "1987-09-10",
-          company_code: "NA730",
+          nik: "3175098773",
+          dob: "1995-06-25",
+          company_code: "",
         }}
         onSubmit={handleLoginSubmit}
       >

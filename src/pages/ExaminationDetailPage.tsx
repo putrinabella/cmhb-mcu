@@ -1,139 +1,186 @@
-// import { useParams } from "react-router-dom";
-// import { lazy, Suspense, useEffect, useState } from "react";
-// import { getExaminationDetail } from "@/services/examinationsApi";
-// import { LoadingIndicator } from "@/components/LoadingIndicator";
-// const PdfViewer = lazy(() => import("@/components/PdfViewer"));
-
-// export default function ExaminationDetailPage() {
-//   const { id: batchId, exmId } = useParams<{ id: string; exmId: string }>();
-//   const [examination, setExamination] = useState<any>(null);
-
-//   useEffect(() => {
-//     if (!batchId || !exmId) return;
-
-//     getExaminationDetail(batchId).then(setExamination);
-//   }, [batchId, exmId]);
-
-//   if (!examination) return <LoadingIndicator />;
-
-//   const employee = examination.company_employee;
-//   const pdfUrl = examination.result?.file_url || null;
-
-//   return (
-//     <div className="p-4">
-//       <h1 className="text-xl font-bold mb-4">Detail Pemeriksaan</h1>
-//       <div className="mb-6 space-y-1">
-//         <p>
-//           <strong>Nama:</strong> {employee?.name || "-"}
-//         </p>
-//         <p>
-//           <strong>NIK:</strong> {employee?.nik || "-"}
-//         </p>
-//         <p>
-//           <strong>Nomor Pegawai:</strong> {employee?.employee_number || "-"}
-//         </p>
-//         <p>
-//           <strong>Gender:</strong> {employee?.gender || "-"}
-//         </p>
-//         <p>
-//           <strong>Tanggal Lahir:</strong> {employee?.dob}
-//         </p>
-//         <p>
-//           <strong>Paket MCU:</strong>{" "}
-//           {typeof examination.mcu_package === "string"
-//             ? examination.mcu_package
-//             : examination.mcu_package?.name}
-//         </p>
-//         {examination.notes && (
-//           <p>
-//             <strong>Catatan:</strong> {examination.notes}
-//           </p>
-//         )}
-//       </div>
-
-//       {pdfUrl ? (
-//         <Suspense fallback={<div>Loading PDF Viewer...</div>}>
-//           <PdfViewer fileUrl={pdfUrl} />
-//         </Suspense>
-//       ) : (
-//         <p className="text-base-content">Belum ada hasil</p>
-//       )}
-//     </div>
-//   );
-// }
 import { useParams } from "react-router-dom";
-import { lazy, Suspense, useEffect, useState } from "react";
-import { getExaminationDetail } from "@/services/examinationsApi";
+import { useEffect, useRef, useState } from "react";
+import PdfViewer from "@/components/PdfViewer";
+import {
+  getExaminationDetail,
+  downloadExaminationResult,
+  isExaminationResultObject,
+  type ExaminationDetail,
+} from "@/services/employeesAccessApi";
+import {
+  CalendarDays,
+  Fingerprint,
+  HeartPlus,
+  IdCard,
+  Mars,
+  Pin,
+  User,
+  Venus,
+} from "lucide-react";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
-const PdfViewer = lazy(() => import("@/components/PdfViewer"));
+import { Header } from "@/components/Header";
+import { getDateIndonesianFormat } from "@/utils/dateUtils";
 
-export default function ExaminationDetailPage() {
-  const { id: batchId, exmId } = useParams<{ id: string; exmId: string }>();
-  const [examination, setExamination] = useState<any>(null);
+export default function ExaminationResultPage() {
+  const { exmId } = useParams<{ exmId: string }>();
+  const [exam, setExam] = useState<ExaminationDetail | null>(null);
   const [fileBlob, setFileBlob] = useState<Blob | null>(null);
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const fileUrlRef = useRef<string | null>(null); // simpan supaya bisa direvoke di unmount
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!batchId || !exmId) return;
-    getExaminationDetail(batchId).then(setExamination);
-  }, [batchId, exmId]);
+    if (!exmId) {
+      setError("ID pemeriksaan tidak ditemukan");
+      setLoading(false);
+      return;
+    }
 
-  const pdfUrl = examination?.result?.file_url || null;
+    console.log(exmId);
+    let mounted = true;
 
-  // fetch blob dari pdfUrl
+    const fetchData = async () => {
+      try {
+        const res = await getExaminationDetail(exmId);
+        if (!mounted) return;
+
+        setExam(res.data);
+
+        // cek apakah result adalah object (dengan id)
+        if (isExaminationResultObject(res.data.result)) {
+          const blob = await downloadExaminationResult(res.data.result.id);
+          if (!mounted) {
+            // kalau sudah unmounted, revoke blob url dan return
+            const tmpUrl = URL.createObjectURL(blob);
+            URL.revokeObjectURL(tmpUrl);
+            return;
+          }
+
+          setFileBlob(blob);
+
+          // buat object URL satu kali untuk viewer
+          const url = URL.createObjectURL(blob);
+          fileUrlRef.current = url;
+          setFileUrl(url);
+        }
+      } catch (err) {
+        console.error(err);
+        if (mounted) setError("Gagal mengambil detail pemeriksaan");
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      mounted = false;
+    };
+  }, [exmId]);
+
+  // revoke object URL hanya saat unmount komponen
   useEffect(() => {
-    if (!pdfUrl) return;
-    fetch(pdfUrl)
-      .then((res) => res.blob())
-      .then(setFileBlob)
-      .catch(() => setFileBlob(null));
-  }, [pdfUrl]);
+    return () => {
+      if (fileUrlRef.current) {
+        try {
+          URL.revokeObjectURL(fileUrlRef.current);
+        } catch (e) {
+          // ignore
+        }
+        fileUrlRef.current = null;
+      }
+    };
+  }, []);
 
-  if (!examination) return <LoadingIndicator />;
-
-  const employee = examination.company_employee;
+  if (loading) return <LoadingIndicator />;
+  if (error) return <div className="p-6 text-error">{error}</div>;
+  if (!exam) return <div className="p-6 text-error">Data tidak ditemukan</div>;
+  console.log(exam);
+  const fileName = `${exam.company_employee.nik} - ${exam.company_employee.name}.pdf`;
 
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-bold mb-4">Detail Pemeriksaan</h1>
-      <div className="mb-6 space-y-1">
-        <p>
-          <strong>Nama:</strong> {employee?.name || "-"}
-        </p>
-        <p>
-          <strong>NIK:</strong> {employee?.nik || "-"}
-        </p>
-        <p>
-          <strong>Nomor Pegawai:</strong> {employee?.employee_number || "-"}
-        </p>
-        <p>
-          <strong>Gender:</strong> {employee?.gender || "-"}
-        </p>
-        <p>
-          <strong>Tanggal Lahir:</strong> {employee?.dob || "-"}
-        </p>
-        <p>
-          <strong>Paket MCU:</strong>{" "}
-          {typeof examination.mcu_package === "string"
-            ? examination.mcu_package
-            : examination.mcu_package?.name}
-        </p>
-        {examination.notes && (
-          <p>
-            <strong>Catatan:</strong> {examination.notes}
-          </p>
-        )}
+    <div className="bg-base-100 text-base-content p-6 space-y-6">
+      <Header
+        greeting="Hasil MCU"
+        name={
+          typeof exam.mcu_package === "string"
+            ? exam.mcu_package
+            : exam.mcu_package.name
+        }
+        icon={HeartPlus}
+      />
+      {/* Info Card */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {/* Nama */}
+        <div className="order-1 flex items-center gap-3 bg-base-100 p-4 rounded-lg shadow-sm border border-base-200">
+          <User className="w-6 h-6 text-primary" />
+          <span className="font-medium text-base-content">
+            {exam.company_employee.name}
+          </span>
+        </div>
+
+        {/* NIK */}
+        <div className="order-2 flex items-center gap-3 bg-base-100 p-4 rounded-lg shadow-sm border border-base-200">
+          <IdCard className="w-6 h-6 text-primary" />
+          <span className="font-medium text-base-content">
+            {exam.company_employee.nik}
+          </span>
+        </div>
+
+        {/* Nomor Pegawai */}
+        <div className="order-3 flex items-center gap-3 bg-base-100 p-4 rounded-lg shadow-sm border border-base-200">
+          <Fingerprint className="w-6 h-6 text-primary" />
+          <span className="font-medium text-base-content">
+            {exam.company_employee.employee_number}
+          </span>
+        </div>
+
+        {/* Notes (posisi terakhir di mobile, row-span-2 di desktop) */}
+        <div className="order-6 md:order-4 flex items-start gap-3 bg-base-100 p-4 rounded-lg shadow-sm border border-base-200 md:row-span-2">
+          <Pin className="w-6 h-6 text-primary mt-1" />
+          <div>
+            <p className="text-sm text-base-content/60">Catatan MCU</p>
+            <p className="font-medium text-base-content">
+              {exam.notes ?? "Tidak ada catatan"}
+            </p>
+          </div>
+        </div>
+
+        {/* Tanggal Lahir + Umur */}
+        <div className="order-4 md:order-5 flex items-center gap-3 bg-base-100 p-4 rounded-lg shadow-sm border border-base-200 md:col-span-2">
+          <CalendarDays className="w-6 h-6 text-primary" />
+          <span className="font-medium text-base-content whitespace-pre-line md:whitespace-normal">
+            {getDateIndonesianFormat(exam.company_employee.dob)}
+            {"\n"}
+            <span className="block md:inline text-sm md:text-base">
+              ({exam.company_employee.age_detail})
+            </span>
+          </span>
+        </div>
+
+        {/* Gender */}
+        <div className="order-5 md:order-6 flex items-center gap-3 bg-base-100 p-4 rounded-lg shadow-sm border border-base-200">
+          {exam.company_employee.gender === "Perempuan" ? (
+            <Venus className="w-6 h-6 text-primary" />
+          ) : (
+            <Mars className="w-6 h-6 text-primary" />
+          )}
+          <span className="font-medium text-base-content">
+            {exam.company_employee.gender}
+          </span>
+        </div>
       </div>
 
-      {pdfUrl && fileBlob ? (
-        <Suspense fallback={<LoadingIndicator />}>
-          <PdfViewer
-            fileUrl={URL.createObjectURL(fileBlob)}
-            fileBlob={fileBlob}
-            fileName={`${employee?.employee_number} - ${employee?.name}.pdf`}
-          />
-        </Suspense>
+      {fileUrl && fileBlob ? (
+        <PdfViewer fileUrl={fileUrl} fileBlob={fileBlob} fileName={fileName} />
       ) : (
-        <p className="text-base-content">Belum ada hasil</p>
+        <div className="bg-base-100 border-2 border-dashed border-primary/50 rounded-2xl p-6 shadow-md w-full">
+          <h2 className="text-2xl font-bold flex items-center gap-2 text-base-content">
+            <Pin className="w-6 h-6 text-primary" />
+            {typeof exam.result === "string" ? exam.result : "Belum ada hasil"}
+          </h2>
+        </div>
       )}
     </div>
   );

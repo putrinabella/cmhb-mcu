@@ -66,8 +66,9 @@ const router = createBrowserRouter([
               { path: ":id", element: Loadable(BatchDetailLayout) },
               { path: ":id/import", element: Loadable(BatchImportPage) },
               {
-                path: ":id/examination/:exmId",
-                element: Loadable(ExaminationDetailPage),
+                path: ":id/examination/:examId",
+                element: Loadable(ExaminationResultPage),
+                // element: Loadable(ExaminationDetailPage),
               },
             ],
           },

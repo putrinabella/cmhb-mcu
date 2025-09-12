@@ -16,12 +16,12 @@ export default function ExaminationHistory() {
   const fetchExaminationHistory = async (): Promise<HistoryItem[]> => {
     const res = await getMyEmployee();
 
-    // const rawBatches = res.data.batches;
-    // const batches: Batch[] = Array.isArray(rawBatches)
-    //   ? rawBatches
-    //   : Object.values(rawBatches);
+    const rawBatches = res.data.batches;
+    const batches: Batch[] = Array.isArray(rawBatches)
+      ? rawBatches
+      : Object.values(rawBatches);
 
-    const batches: Batch[] = res.data.batches;
+    // const batches: Batch[] = res.data.batches;
     console.log(batches);
     return batches
       .filter((batch) => typeof batch.examination === "object")

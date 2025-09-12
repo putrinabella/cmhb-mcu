@@ -1,28 +1,28 @@
 import { formatWhatsappLink } from "@/utils/whatsappUtils";
 import { getDateIndonesianFormat } from "@/utils/dateUtils";
 import type { ExaminationItem } from "@/services/examinationsApi";
+import { downloadExaminationResult } from "@/services/employeeAPI";
 import { useToggleExaminationAccess } from "@/hooks/use-examination-access";
 import { CheckCircle, XCircle } from "lucide-react";
 import { showSwal } from "@/lib/SwalHelper";
-import { useParams } from "react-router-dom";
 
 interface Props {
   examinations: ExaminationItem[];
 }
 export default function BatchDetailDesktop({ examinations }: Props) {
-  const { id: batchId } = useParams<{ id: string }>();
-
-  const handleViewResult = (exmId: string) => {
-    if (!batchId) {
+  console.log("Isi examinations:", examinations);
+  const handleViewResult = async (id: string) => {
+    try {
+      const blob = await downloadExaminationResult(id);
+      const url = window.URL.createObjectURL(blob);
+      window.open(url, "_blank"); // buka di tab baru
+    } catch (err) {
       showSwal({
-        title: "Error",
-        text: "Batch ID tidak ditemukan.",
+        title: "Gagal",
+        text: "Gagal memuat hasil pemeriksaan.",
         icon: "error",
       });
-      return;
     }
-    const url = `/dashboard/batch/${batchId}/examination/${exmId}`;
-    window.open(url, "_blank"); // ✅ buka tab baru
   };
 
   const initialAccess = examinations.map((ex: any) => ({
@@ -114,8 +114,7 @@ export default function BatchDetailDesktop({ examinations }: Props) {
                   {resultObj ? (
                     <button
                       className="btn btn-sm rounded-full w-full text-base-content bg-primary/20"
-                      // onClick={() => handleViewResult(resultObj.id)}
-                      onClick={() => handleViewResult(exm.id)}
+                      onClick={() => handleViewResult(resultObj.id)}
                     >
                       Lihat Hasil
                     </button>
