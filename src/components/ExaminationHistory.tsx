@@ -15,6 +15,12 @@ export default function ExaminationHistory() {
 
   const fetchExaminationHistory = async (): Promise<HistoryItem[]> => {
     const res = await getMyEmployee();
+
+    // const rawBatches = res.data.batches;
+    // const batches: Batch[] = Array.isArray(rawBatches)
+    //   ? rawBatches
+    //   : Object.values(rawBatches);
+
     const batches: Batch[] = res.data.batches;
     console.log(batches);
     return batches
@@ -24,11 +30,17 @@ export default function ExaminationHistory() {
 
         return {
           id: exam.id,
-          title: exam.mcu_package || "MCU Event",
+          title:
+            typeof exam.mcu_package === "string"
+              ? exam.mcu_package
+              : exam.mcu_package.name || "MCU Event",
           timestamp: formatTanggalHari(batch.exam_date),
           icon: <HeartPlus size={20} />,
           titleClassName:
-            exam.mcu_package === "Paket Belum Ditentukan" ? "text-red-500" : "",
+            typeof exam.mcu_package === "string" &&
+            exam.mcu_package === "Paket Belum Ditentukan"
+              ? "text-red-500"
+              : "",
           badge: isValidResultId(exam.result) ? (
             <span className="badge bg-primary/20 text-base-content text-xs p-0">
               Hasil tersedia

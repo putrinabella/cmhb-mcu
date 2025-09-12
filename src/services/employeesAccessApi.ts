@@ -30,7 +30,7 @@ export interface ExaminationDetail {
   id: string;
   examination_batch_id: string;
   company_employee: Employee;
-  mcu_package: string;
+  mcu_package: string | McuPackage;
   notes: string;
   created_at: string;
   isVisibleToEmployee: number;
@@ -47,6 +47,17 @@ export interface Batch {
   examination: ExaminationFromBatch;
 }
 
+export interface McuPackage {
+  id: string;
+  code: string;
+  name: string;
+  description: string;
+  price: string;
+  publish_start: string;
+  publish_end: string;
+  is_active: number;
+  created_at: string;
+}
 export interface MyEmployeeResponse {
   employee: Employee;
   batches: Batch[];

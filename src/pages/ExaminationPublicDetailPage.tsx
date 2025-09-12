@@ -85,12 +85,20 @@ export default function ExaminationResultPage() {
   if (loading) return <LoadingIndicator />;
   if (error) return <div className="p-6 text-error">{error}</div>;
   if (!exam) return <div className="p-6 text-error">Data tidak ditemukan</div>;
-
+  console.log(exam);
   const fileName = `${exam.company_employee.nik} - ${exam.company_employee.name}.pdf`;
 
   return (
     <div className="bg-base-100 text-base-content p-6 space-y-6">
-      <Header greeting="Hasil MCU" name={exam.mcu_package} icon={HeartPlus} />
+      <Header
+        greeting="Hasil MCU"
+        name={
+          typeof exam.mcu_package === "string"
+            ? exam.mcu_package
+            : exam.mcu_package.name
+        }
+        icon={HeartPlus}
+      />
 
       {fileUrl && fileBlob ? (
         <PdfViewer fileUrl={fileUrl} fileBlob={fileBlob} fileName={fileName} />
