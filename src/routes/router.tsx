@@ -23,9 +23,9 @@ const BatchImportPage = lazy(() => import("@/pages/BatchImportPage"));
 const ExaminationResultPage = lazy(
   () => import("@/pages/ExaminationPublicDetailPage")
 );
-const ExaminationDetailPage = lazy(
-  () => import("@/pages/ExaminationDetailPage")
-);
+// const ExaminationDetailPage = lazy(
+//   () => import("@/pages/ExaminationDetailPage")
+// );
 
 const Loadable = (Component: React.LazyExoticComponent<any>) => (
   <Suspense fallback={<LoadingIndicator />}>
