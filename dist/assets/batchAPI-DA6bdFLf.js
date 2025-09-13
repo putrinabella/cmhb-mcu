@@ -1,0 +1,1 @@
+import{a as t}from"./apiClient-C4E4e5VJ.js";import{g as e}from"./genericApi-Cv9PbjaR.js";const n=async a=>(await e("/examination-batches",a)).data,r=a=>t("get",`/examination-batches/${a}`);export{r as a,n as g};

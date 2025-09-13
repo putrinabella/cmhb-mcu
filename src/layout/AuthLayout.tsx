@@ -10,12 +10,12 @@ export default function AuthLayout({
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 bg-base-100 text-base-content">
       {/* Left - Logo or Illustration */}
-      <div className="hidden md:flex items-center justify-center bg-base-200 relative">
-        <div className="text-center px-8">
+      <div className="hidden md:flex items-center justify-center bg-base-200 relative w-full h-full">
+        <div className="text-center w-full h-full">
           <img
-            src="/images/logo.png"
+            src="/images/mcu-icon.png"
             alt="Ciputra Mitra Hospital"
-            className="w-full max-w-xs md:max-w-lg h-auto object-contain mx-auto"
+            className="w-full h-full object-cover"
           />
         </div>
       </div>
